@@ -1,0 +1,17 @@
+.back-button {
+  position: absolute;
+  left: 10px;
+  padding: 0.5rem;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.back-arrow {
+  font-size: 1.5rem;   
+  font-weight: bold;  
+  line-height: 1;      
+}
