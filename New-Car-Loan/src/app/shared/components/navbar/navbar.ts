@@ -24,7 +24,6 @@ export class Navbar implements OnInit {
   }
 
   showBackButton(): boolean {
-    // Hide back button on root and home routes
     return this.currentUrl !== '/' && this.currentUrl !== '' && this.currentUrl !== '/home';
   }
 
