@@ -1,0 +1,152 @@
+/* Input with magnifying glass icon */
+/* Input with magnifying glass icon inside the input box */
+.input-with-icon .input-icon-wrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+
+.input-with-icon .search-icon {
+	position: absolute;
+	left: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	pointer-events: none;
+	z-index: 2;
+	width: 24px;
+	height: 24px;
+}
+
+.input-with-icon input {
+	width: 100%;
+	padding-left: 40px;
+	padding-right: 12px;
+	box-sizing: border-box;
+	vertical-align: middle;
+}
+
+/* Container styling */
+
+.vehicle-details-container {
+	max-width: 500px;
+	margin: 32px auto;
+	padding: 0 16px;
+	font-family: 'Rubik', Arial, sans-serif;
+}
+
+.vehicle-details-container h2 {
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin-bottom: 8px;
+	color: #1A1A1A;
+}
+
+.subtitle {
+	font-size: 1rem;
+	color: #666;
+	margin-bottom: 24px;
+}
+
+.vehicle-form {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.form-group label {
+	font-size: 0.95rem;
+	color: #333;
+	font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+	padding: 10px 12px;
+	border: 1px solid #E0E0E0;
+	border-radius: 6px;
+	font-size: 1rem;
+	background: #FAFAFA;
+	outline: none;
+	transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+	border-color: #FF9800;
+}
+
+.note {
+	display: flex;
+	align-items: flex-start;
+	background: #F5F7FB;
+	border-left: 3px solid #FF9800;
+	padding: 10px 12px;
+	border-radius: 6px;
+	font-size: 0.95rem;
+	color: #333;
+	margin-top: 8px;
+}
+
+.note .icon {
+	font-size: 1.2rem;
+	color: #FF9800;
+	margin-right: 8px;
+	margin-top: 2px;
+}
+
+.form-actions {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 24px;
+}
+
+.save-btn {
+	background: #fff;
+	color: #FF9800;
+	border: 2px solid #FF9800;
+	border-radius: 24px;
+	padding: 10px 24px;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+
+.save-btn:hover {
+	background: #FF9800;
+	color: #fff;
+}
+
+.continue-btn {
+	background: #FF9800;
+	color: #fff;
+	border: none;
+	border-radius: 24px;
+	padding: 10px 24px;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 0 2px 4px rgba(255,152,0,0.12);
+	transition: background 0.2s;
+}
+
+.continue-btn:hover {
+	background: #e68900;
+}
+
+/* Placeholders for navbar and tracker */
+.navbar-placeholder,
+.tracker-placeholder {
+	height: 48px;
+	margin-bottom: 16px;
+}

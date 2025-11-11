@@ -1,0 +1,54 @@
+
+<!-- Space reserved for Navbar -->
+<div class="navbar-placeholder"></div>
+
+<!-- Space reserved for Step Tracker -->
+<div class="tracker-placeholder"></div>
+
+<div class="vehicle-details-container">
+    <h2>Vehicle details</h2>
+    <p class="subtitle">Enter your vehicle details and proceed with your loan application.</p>
+    <form class="vehicle-form">
+                <div class="form-group input-with-icon">
+                        <label for="brand">Brand</label>
+                                    <div class="input-icon-wrapper">
+                                        <span class="search-icon" aria-label="search">
+                                            <!-- Magnifying glass SVG -->
+                                            <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2"/>
+                                                <line x1="13.3536" y1="13.3536" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <input type="text" id="brand" name="brand" placeholder="Enter brand name" />
+                                    </div>
+                </div>
+                <div class="form-group input-with-icon">
+                        <label for="model">Model</label>
+                                    <div class="input-icon-wrapper">
+                                        <span class="search-icon" aria-label="search">
+                                            <!-- Magnifying glass SVG -->
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2"/>
+                                                <line x1="13.3536" y1="13.3536" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <input type="text" id="model" name="model" placeholder="Enter model name" />
+                                    </div>
+                </div>
+        <div class="form-group">
+            <label for="dealer">Dealer</label>
+            <select id="dealer" name="dealer">
+                <option value="" disabled selected>Select dealer</option>
+                <!-- Dealer options to be populated dynamically -->
+            </select>
+        </div>
+        <div class="note">
+            <span class="icon">&#9432;</span>
+            <span>Please note:<br />The dealer list is populated as per the Pincode and brand you have entered.</span>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="save-btn">Save to Cart</button>
+            <button type="submit" class="continue-btn">Continue</button>
+        </div>
+    </form>
+</div>
