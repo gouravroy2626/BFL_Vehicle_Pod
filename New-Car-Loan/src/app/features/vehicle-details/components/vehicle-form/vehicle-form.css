@@ -1,146 +1,670 @@
-/* Error message styling */
-.error-message {
-  color: #E74C3C;
-  font-size: 0.85rem;
-  margin-top: 4px;
-  display: block;
+/* Note box styling to match screenshot */
+.note-block.note-box {
+    background: #F5F7FB;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 539px;
+    min-height: 48px;
+    padding: 8px 12px 8px 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 4px;
+    opacity: 1;
+    box-sizing: border-box;
 }
+
+.note-icon {
+    margin-right: 8px;
+    color: #2196F3;
+    display: flex;
+    align-items: flex-start;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
+}
+
+/* Dealer input and dropdown unified control */
+.dealer-controls {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 4px;
+}
+
+.allLabel {
+    margin-bottom: 12px;
+    font-weight: 500;
+    font-family: 14px;
+    line-height: 18px;
+    letter-spacing: 0px;
+    vertical-align: middle;
+}
+
+.dealer-input {
+    flex: 1;
+    border: 1px solid #C7C7C7;
+    border-radius: 8px 0 0 8px;
+    padding: 10px 14px;
+    font-size: 16px;
+    background: #fff;
+    color: #222;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    height: 42px;
+    box-sizing: border-box;
+}
+
+.dealer-input:focus {
+    border-color: #2196F3;
+}
+
+.dealer-input::placeholder {
+    color: #BDBDBD;
+    font-size: 16px;
+}
+
+.dealer-dropdown-btn {
+    border: 1px solid #C7C7C7;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    background: #fff;
+    padding: 0 14px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.dealer-dropdown-btn:focus {
+    border-color: #2196F3;
+}
+
+.dealer-dropdown-btn svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.autocomplete-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete-list li.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.autocomplete-list li:hover {
+    background: #F5F5F5;
+    color: #FF9800;
+}
+
+/* Error message styling */
+.error {
+    font-family: 'Rubik', sans-serif;
+    color: #B40000;
+    font-size: 12px;
+    margin-top: 4px;
+    line-height: 1.4;
+    font-weight: 400;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.error-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: inline-flex;
+}
+
+.error-icon svg,
+.error-icon img {
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+
 .input-with-icon input.ng-invalid.ng-touched,
 .form-group select.ng-invalid.ng-touched {
-  border-color: #E74C3C;
+    border-color: #E74C3C;
 }
+
 .required-mark {
-  color: #E74C3C;
-  margin-left: 2px;
-  font-weight: bold;
+    font-weight: 500;
+    size: 14px;
+    line-height: 14px;
+    letter-spacing: 0px;
+    vertical-align: top;
+    color: #E74C3C;
+    margin-left: -1.5px;
+    font-weight: bold;
 }
+
+
+.field-with-icon {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.field-with-icon .suggestions-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-top: 2px;
+    z-index: 10;
+}
+
+.field-with-icon .no-results-message {
+    padding: 10px 12px;
+    color: #757575;
+    cursor: default;
+    pointer-events: none;
+}
+
+.filled-input {
+    background: #FFF5DA !important;
+}
+
+.dealer-dropdown-btn {
+    color: #333;
+    transition: color 0.2s ease;
+}
+
+.dealer-dropdown-btn svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0 auto;
+    color: inherit;
+}
+
+.dealer-dropdown-btn svg path {
+    stroke: currentColor;
+    transition: stroke 0.2s ease;
+}
+
+.dealer-dropdown-btn.filled {
+    color: #FF9800;
+}
+
+.field-with-icon .icon-search {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.field-with-icon input {
+    padding-left: 16px;
+}
+
+
 .input-with-icon .input-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
+
 .input-with-icon .search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-  z-index: 2;
-  width: 24px;
-  height: 24px;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
 }
+
 .input-with-icon input {
-  width: 100%;
-  padding-left: 50px !important;
-  padding-right: 12px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  box-sizing: border-box;
-  vertical-align: middle;
+    width: 100%;
+    padding-left: 50px !important;
+    padding-right: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+    vertical-align: middle;
 }
+
 .vehicle-details-container {
-  max-width: 500px;
-  margin: 32px auto;
-  padding: 0 16px;
-  font-family: 'Rubik', Arial, sans-serif;
+    width: 571px;
+    height: 645px;
+    padding: 12px 16px 12px 16px;
+    gap: 2px;
+    /* Increased space for navbar/tracker */
 }
+
+.big-box {
+    width: 853px;
+    height: 727px;
+    padding: 0px 141px 141px 141px;
+    gap: 2px;
+}
+
 .vehicle-details-container h2 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: #1A1A1A;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #1A1A1A;
 }
+
 .subtitle {
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 24px;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 24px;
 }
+
 .vehicle-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
+
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
 }
+
 .form-group label {
-  font-size: 0.95rem;
-  color: #333;
-  font-weight: 500;
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 500;
 }
+
 .form-group input,
 .form-group select {
-  padding: 10px 12px;
-  border: 1px solid #E0E0E0;
-  border-radius: 6px;
-  font-size: 1rem;
-  background: #FAFAFA;
-  outline: none;
-  transition: border-color 0.2s;
+    padding: 10px 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #FAFAFA;
+    outline: none;
+    transition: border-color 0.2s;
 }
+
 .form-group input:focus,
 .form-group select:focus {
-  border-color: #FF9800;
+    border-color: #FF9800;
 }
+
 .note {
-  display: flex;
-  align-items: flex-start;
-  background: #F5F7FB;
-  border-left: 3px solid #FF9800;
-  padding: 10px 12px;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  color: #333;
-  margin-top: 8px;
+    display: flex;
+    align-items: flex-start;
+    background: #F5F7FB;
+    border-left: 3px solid #FF9800;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #333;
+    margin-top: 8px;
 }
-.note .icon {
-  font-size: 1.2rem;
-  color: #FF9800;
-  margin-right: 8px;
-  margin-top: 2px;
+
+.note-icon {
+    margin-right: 4px;
+    color: #2196F3;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
 }
+
 .form-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 242px;
+    width: 100%;
+    flex-wrap: nowrap;
 }
-.save-btn {
-  background: #fff;
-  color: #FF9800;
-  border: 2px solid #FF9800;
-  border-radius: 24px;
-  padding: 10px 24px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.save-btn:hover {
-  background: #FF9800;
-  color: #fff;
-}
+
+.save-btn,
 .continue-btn {
-  background: #FF9800;
-  color: #fff;
-  border: none;
-  border-radius: 24px;
-  padding: 10px 24px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(255,152,0,0.12);
-  transition: background 0.2s;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 260px;
+    height: 44px;
+    padding: 12px 24px;
+    border-radius: 200px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
 }
+
+.save-btn {
+    min-width: 0;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: #FF9800;
+    background: #fff;
+    color: #FF9800;
+    box-shadow: none;
+}
+
+.save-btn:hover {
+    background: #FF9800;
+    color: #fff;
+}
+
+.continue-btn {
+    border: none;
+    background: linear-gradient(90deg, #FF9800 0%, #FF6D00 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.12);
+}
+
 .continue-btn:hover {
-  background: #e68900;
+    background: linear-gradient(90deg, #FF6D00 0%, #FF9800 100%);
 }
+
+@media (max-width: 600px) {
+    .form-actions {
+        gap: 10px;
+        padding: 0 8px;
+    }
+
+    .save-btn,
+    .continue-btn {
+        height: 42px;
+        padding: 12px 16px;
+        max-width: none;
+    }
+}
+
 .navbar-placeholder,
 .tracker-placeholder {
-  height: 48px;
-  margin-bottom: 16px;
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+.suggestions-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    max-height: 220px;
+    overflow: auto;
+    z-index: 1200;
+    margin-top: 6px;
+    padding: 0;
+    list-style: none;
+}
+
+.suggestions-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.suggestions-list li.focused,
+.suggestions-list li:hover {
+    background: #f4f4f4;
+}
+
+.dealer-row {
+    display: block;
+    margin-bottom: 0;
+}
+
+/* dealer control rendered as a single input with a right-side caret button */
+.dealer-controls {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.dealer-input {
+    flex: 1 1 auto;
+    display: inline-flex;
+    align-items: center;
+    height: 44px;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    min-width: 0;
+}
+
+.dealer-input::placeholder {
+    size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #666666;
+
+}
+
+.dealer-input:focus {
+    outline: none;
+    box-shadow: none;
+
+}
+
+.dealer-dropdown-btn {
+    width: 44px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-left: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.dealer-dropdown-btn:hover {
+    background: #f4f6f8;
+}
+
+.dealer-dropdown-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #333;
+}
+
+.dealer-dropdown-btn.filled {
+    background: transparent;
+    color: #FF9800;
+}
+
+.dealer-dropdown-btn.filled svg {
+    stroke: currentColor;
+}
+
+.dealer-controls.filled {
+    background: #FFF5DA;
+}
+
+.dealer-controls.filled .dealer-dropdown-btn {
+    background: transparent;
+}
+
+.dealer-controls.filled .dealer-dropdown-btn:hover {
+    background: transparent;
+}
+
+.dealer-modal-dialog {
+    margin: 1.75rem auto;
+    max-width: 420px;
+}
+
+.dealer-modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 16px 40px rgba(16, 24, 40, 0.18);
+    overflow: hidden;
+}
+
+.dealer-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: #f4f4f4;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.dealer-modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f1f1f;
+}
+
+.dealer-modal-close {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 22px;
+    line-height: 1;
+    color: #1f1f1f;
+    cursor: pointer;
+}
+
+.dealer-modal-body {
+    padding: 0;
+    background: #ffffff;
+}
+
+.dealer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.dealer-list-item {
+    padding: 16px 24px;
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 16px;
+    color: #1f1f1f;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dealer-list-item:last-child {
+    border-bottom: none;
+}
+
+.dealer-list-item:hover,
+.dealer-list-item:focus,
+.dealer-list-item.focused {
+    background: #f7f7f7;
+}
+
+.dealer-empty {
+    padding: 32px 24px;
+    text-align: center;
+    color: #7a7a7a;
+    font-size: 14px;
+}
+
+.note-block {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 539px;
+    min-height: 48px;
+    padding: 8px 12px;
+    gap: 4px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+
+.note-text {
+    font-family: 'Rubik', Arial, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #333;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Ensure the second line starts below the P */
+.note-text span {
+    display: block;
+}
+
+/* duplicate form-actions and button rules removed above */
+
+.navbar-placeholder,
+.tracker-placeholder {
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+.suggestions-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    max-height: 220px;
+    overflow: auto;
+    z-index: 1200;
+    margin-top: 6px;
+    padding: 0;
+    list-style: none;
+}
+
+.suggestions-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.suggestions-list li.focused,
+.suggestions-list li:hover {
+    background: #f4f4f4;
+}
+
+.dealer-row {
+    display: block;
+    margin-bottom: 0;
+}
+
+#brand {
+    width: 539px;
+    height: 44px;
+}
+
+#model {
+    width: 539px;
+    height: 44px;
 }
