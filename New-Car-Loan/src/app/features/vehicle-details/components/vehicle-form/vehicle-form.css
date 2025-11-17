@@ -1,30 +1,105 @@
-/* Note box styling to match screenshot */
+/* Layout scaffolding */
+.vehicle-details-page {
+    min-height: 100vh;
+    background: #fff;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.vehicle-details-banner {
+    width: 100%;
+    max-width: 1040px;
+    background: #E3E7F8;
+    color: #1F2937;
+    border-radius: 16px;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.2px;
+}
+
+.vehicle-details-shell {
+    width: 100%;
+    max-width: 1040px;
+    display: flex;
+    justify-content: center;
+}
+
+.app-reserved-shell {
+    width: 100%;
+    max-width: 1040px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.app-reserved-block {
+    position: relative;
+    border-radius: 18px;
+    border: 1px dashed rgba(255, 255, 255, 0.28);
+    background: rgba(15, 23, 42, 0.2);
+    min-height: 56px;
+}
+
+.app-reserved-block::after {
+    content: attr(data-placeholder-label);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    letter-spacing: 0.28px;
+    text-transform: uppercase;
+}
+
+.app-reserved-block--tracker {
+    min-height: 72px;
+}
+
+.loan-card {
+    /* Neutralized per request: remove shadow & rounded white card look */
+    width: 100%;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+}
+
+.loan-card__body {
+    /* Remove internal white panel background */
+    padding: 0;
+    background: transparent;
+}
+
 .note-block.note-box {
+    width: 100%;
     background: #F5F7FB;
     border: 1px solid #E0E0E0;
-    border-radius: 6px;
-    width: 100%;
-    max-width: 539px;
-    min-height: 48px;
-    padding: 8px 12px 8px 12px;
+    border-radius: 16px;
+    padding: 16px 20px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    gap: 4px;
-    opacity: 1;
+    gap: 12px;
     box-sizing: border-box;
 }
 
 .note-icon {
-    margin-right: 8px;
-    color: #2196F3;
     display: flex;
-    align-items: flex-start;
-    vertical-align: middle;
-    width: 16px;
-    height: 16px;
-    min-width: 16px;
-    min-height: 16px;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    color: #1778EB;
 }
 
 /* Dealer input and dropdown unified control */
@@ -32,62 +107,157 @@
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 4px;
+    border: 1.5px solid #C7C7C7;
+    border-radius: 12px;
+    background: #FFFFFF;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .allLabel {
-    margin-bottom: 12px;
+    font-size: 14px;
     font-weight: 500;
-    font-family: 14px;
-    line-height: 18px;
-    letter-spacing: 0px;
-    vertical-align: middle;
+    color: #333;
+}
+
+.dealer-controls:focus-within {
+    border-color: #FF9800;
+    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+}
+
+.dealer-controls.filled {
+    border-color: #FF9800;
+    background: #FFF5DA;
 }
 
 .dealer-input {
     flex: 1;
-    border: 1px solid #C7C7C7;
-    border-radius: 8px 0 0 8px;
-    padding: 10px 14px;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
     font-size: 16px;
-    background: #fff;
-    color: #222;
+    color: #2E2E2E;
     outline: none;
     cursor: pointer;
-    transition: border-color 0.2s;
-    height: 42px;
     box-sizing: border-box;
-}
-
-.dealer-input:focus {
-    border-color: #2196F3;
 }
 
 .dealer-input::placeholder {
     color: #BDBDBD;
-    font-size: 16px;
+}
+
+.dealer-input:focus {
+    outline: none;
 }
 
 .dealer-dropdown-btn {
-    border: 1px solid #C7C7C7;
-    border-left: none;
-    border-radius: 0 8px 8px 0;
-    background: #fff;
-    padding: 0 14px;
-    height: 42px;
+    width: 56px;
+    height: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
+    border: none;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    background: transparent;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dealer-dropdown-btn:focus {
-    border-color: #2196F3;
+    outline: none;
+    background: #F4F6F8;
+}
+
+.dealer-dropdown-btn:hover {
+    background: #F4F6F8;
 }
 
 .dealer-dropdown-btn svg {
     display: block;
-    margin: 0 auto;
+    width: 20px;
+    height: 20px;
+    color: inherit;
+}
+
+.dealer-dropdown-btn.filled {
+    color: #FF9800;
+}
+
+.dealer-dropdown-btn.filled svg path {
+    stroke: currentColor;
+}
+
+@media (max-width: 960px) {
+    .loan-card__body {
+        padding: 40px 32px 48px;
+    }
+
+    .loan-progress {
+        padding: 24px 32px;
+    }
+}
+
+@media (max-width: 720px) {
+    .vehicle-details-page {
+        padding: 32px 16px 56px;
+    }
+
+    .app-reserved-shell {
+        gap: 10px;
+    }
+
+    .app-reserved-block {
+        min-height: 48px;
+    }
+
+    .app-reserved-block--tracker {
+        min-height: 60px;
+    }
+
+    .vehicle-details-banner {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .loan-card__header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        padding: 24px 24px 28px;
+    }
+
+    .header-left {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .header-actions {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .header-badge {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .loan-card__title {
+        font-size: 22px;
+    }
+
+    .loan-card__body {
+        padding: 32px 20px 40px;
+    }
 }
 
 .autocomplete-list li {
@@ -134,7 +304,7 @@
 }
 
 .input-with-icon input.ng-invalid.ng-touched,
-.form-group select.ng-invalid.ng-touched {
+.form-row select.ng-invalid.ng-touched {
     border-color: #E74C3C;
 }
 
@@ -154,6 +324,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .field-with-icon .suggestions-list {
@@ -176,31 +347,9 @@
     background: #FFF5DA !important;
 }
 
-.dealer-dropdown-btn {
-    color: #333;
-    transition: color 0.2s ease;
-}
-
-.dealer-dropdown-btn svg {
-    width: 20px;
-    height: 20px;
-    display: block;
-    margin: 0 auto;
-    color: inherit;
-}
-
-.dealer-dropdown-btn svg path {
-    stroke: currentColor;
-    transition: stroke 0.2s ease;
-}
-
-.dealer-dropdown-btn.filled {
-    color: #FF9800;
-}
-
 .field-with-icon .icon-search {
     position: absolute;
-    left: 12px;
+    left: 18px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -208,9 +357,11 @@
     justify-content: center;
     pointer-events: none;
     z-index: 2;
+    color: #BDBDBD;
 }
 
 .field-with-icon input {
+    width: 100%;
     padding-left: 16px;
 }
 
@@ -245,66 +396,73 @@
 }
 
 .vehicle-details-container {
-    width: 571px;
-    height: 645px;
-    padding: 12px 16px 12px 16px;
-    gap: 2px;
-    /* Increased space for navbar/tracker */
-}
-
-.big-box {
-    width: 853px;
-    height: 727px;
-    padding: 0px 141px 141px 141px;
-    gap: 2px;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .vehicle-details-container h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
     color: #1A1A1A;
 }
 
 .subtitle {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 24px;
+    font-size: 16px;
+    color: #6B7280;
+    margin: 4px 0 24px;
 }
 
 .vehicle-form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 32px;
+    width: 571px;
+    height: 645px;
+    min-height: 499px;
+    padding: 12px 16px 12px 16px;
+    opacity: 1;
+    margin: 0 auto;
 }
 
-.form-group {
+.form-row {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     position: relative;
 }
 
-.form-group label {
-    font-size: 0.95rem;
+.form-row label {
+    font-size: 14px;
     color: #333;
     font-weight: 500;
+    letter-spacing: 0.15px;
 }
 
-.form-group input,
-.form-group select {
-    padding: 10px 12px;
-    border: 1px solid #E0E0E0;
-    border-radius: 6px;
-    font-size: 1rem;
-    background: #FAFAFA;
+.form-row input,
+.form-row select {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 16px;
+    border: 1.5px solid #C7C7C7;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 22px;
+    background: #FFFFFF;
+    color: #2E2E2E;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.form-row input:focus,
+.form-row select:focus {
     border-color: #FF9800;
+    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
 }
 
 .note {
@@ -319,22 +477,14 @@
     margin-top: 8px;
 }
 
-.note-icon {
-    margin-right: 4px;
-    color: #2196F3;
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-}
-
 .form-actions {
     display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 12px;
-    margin-top: 242px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
     width: 100%;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 
 .save-btn,
@@ -425,90 +575,58 @@
     background: #f4f4f4;
 }
 
-.dealer-row {
-    display: block;
-    margin-bottom: 0;
-}
-
-/* dealer control rendered as a single input with a right-side caret button */
 .dealer-controls {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+    transition: none;
+    position: relative;
 }
 
 .dealer-input {
-    flex: 1 1 auto;
-    display: inline-flex;
-    align-items: center;
-    height: 44px;
-    padding: 8px 12px;
-    border: none;
-    background: transparent;
+    flex: 1;
+    padding: 12px 44px 12px 16px;
+    border: 1.5px solid #C7C7C7;
+    border-radius: 12px;
+    background: #FFFFFF;
+    font-size: 16px;
+    color: #2E2E2E;
+    outline: none;
     cursor: pointer;
-    min-width: 0;
-}
-
-.dealer-input::placeholder {
-    size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    color: #666666;
-
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .dealer-input:focus {
-    outline: none;
-    box-shadow: none;
+    border-color: #FF9800;
+    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+}
 
+.dealer-input::placeholder {
+    color: #BDBDBD;
+}
+
+.icon-dropdown {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #BDBDBD;
 }
 
 .dealer-dropdown-btn {
-    width: 44px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    border-left: 1px solid transparent;
-    background: transparent;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    display: none;
 }
 
-.dealer-dropdown-btn:hover {
-    background: #f4f6f8;
-}
-
-.dealer-dropdown-btn svg {
-    width: 16px;
-    height: 16px;
-    stroke: #333;
-}
-
-.dealer-dropdown-btn.filled {
-    background: transparent;
-    color: #FF9800;
-}
-
-.dealer-dropdown-btn.filled svg {
-    stroke: currentColor;
-}
-
-.dealer-controls.filled {
-    background: #FFF5DA;
-}
-
-.dealer-controls.filled .dealer-dropdown-btn {
-    background: transparent;
-}
-
-.dealer-controls.filled .dealer-dropdown-btn:hover {
-    background: transparent;
+/* Dealer styles start */
+.dealer-row {
+    display: block;
+    margin-bottom: 0;
 }
 
 .dealer-modal-dialog {
@@ -517,7 +635,7 @@
 }
 
 .dealer-modal-content {
-    border-radius: 12px;
+    border-radius: 4px;
     border: none;
     box-shadow: 0 16px 40px rgba(16, 24, 40, 0.18);
     overflow: hidden;
@@ -589,82 +707,54 @@
     font-size: 14px;
 }
 
-.note-block {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+/* Dealer styles end */
+
+
+#brand,
+#model {
     width: 100%;
-    max-width: 539px;
-    min-height: 48px;
-    padding: 8px 12px;
-    gap: 4px;
-    color: #333;
-    box-sizing: border-box;
+
 }
 
-
-.note-text {
-    font-family: 'Rubik', Arial, sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: 0px;
-    color: #333;
-    margin: 0;
+/* New styles for reference layout */
+.global-offsets {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    width: 100%;
 }
 
-/* Ensure the second line starts below the P */
-.note-text span {
-    display: block;
+.global-offsets__navbar {
+    height: 64px;
 }
 
-/* duplicate form-actions and button rules removed above */
-
-.navbar-placeholder,
-.tracker-placeholder {
-    height: 48px;
-    margin-bottom: 16px;
+.global-offsets__tracker {
+    height: 104px;
 }
 
-.suggestions-list {
-    position: absolute;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    max-height: 220px;
-    overflow: auto;
-    z-index: 1200;
-    margin-top: 6px;
+.vehicle-details-content {
+    background: transparent;
     padding: 0;
-    list-style: none;
+    border-radius: 0;
+    width: 100%;
 }
 
-.suggestions-list li {
-    padding: 8px 12px;
-    cursor: pointer;
+.vehicle-details-content__header {
+    margin-bottom: 24px;
+    width: 571px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
 }
 
-.suggestions-list li.focused,
-.suggestions-list li:hover {
-    background: #f4f4f4;
+.vehicle-details-content__header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 8px 15px;
 }
 
-.dealer-row {
-    display: block;
-    margin-bottom: 0;
-}
-
-#brand {
-    width: 539px;
-    height: 44px;
-}
-
-#model {
-    width: 539px;
-    height: 44px;
+.vehicle-details-content__subtitle {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0 0 0 15px;
 }

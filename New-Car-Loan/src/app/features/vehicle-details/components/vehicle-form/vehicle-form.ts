@@ -5,6 +5,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
 import { VehicleFormLoader } from '../vehicle-form-loader/vehicle-form-loader';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -360,6 +361,11 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     this.filteredDealers = allDealers;
     this.dealerHighlightIndex = allDealers.findIndex(d => d === dealer);
     console.log('Dealer selected:', dealer);
+    // Ensure modal closes
+    if (this.dealerModalElement) {
+      const modal = Modal.getInstance(this.dealerModalElement.nativeElement);
+      modal?.hide();
+    }
   }
 
   handleDealerControlTrigger(toggleButton: HTMLButtonElement, event: Event): void {
