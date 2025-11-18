@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './shared/components/navbar/navbar';
-import { VehicleForm } from './features/vehicle-details/components/vehicle-form/vehicle-form';
 
 // @Component({
 //   selector: 'app-root',
@@ -10,7 +9,7 @@ import { VehicleForm } from './features/vehicle-details/components/vehicle-form/
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, VehicleForm, Navbar],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

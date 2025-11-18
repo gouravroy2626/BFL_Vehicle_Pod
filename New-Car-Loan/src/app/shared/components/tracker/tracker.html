@@ -2,16 +2,11 @@
   @for (step of steps; track step; let i = $index) {
     <div [class]="getStepClass(i)">
       <div class="circle">
-        @if (currentStep === i) {
-          <span>&#9679;</span>
-        }
-        @if (currentStep !== i) {
-          <span>&#9675;</span>
-        }
+        <img [src]="getStepIcon(i)" [alt]="getStepIconAlt(i)" class="status-icon" />
       </div>
       <div class="label">{{ step }}</div>
       @if (i < steps.length - 1) {
-        <div class="line"></div>
+        <div class="line" [class.line-active]="i < currentStep"></div>
       }
     </div>
   }

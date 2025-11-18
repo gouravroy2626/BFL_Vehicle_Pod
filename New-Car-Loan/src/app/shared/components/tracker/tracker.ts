@@ -12,6 +12,10 @@ export class Tracker implements OnInit {
   steps = ['Personal details', 'Vehicle details', 'Income verification'];
   currentStep = 0;
 
+  private readonly completedIcon = '/Path 3.svg'; // tick
+  private readonly activeIcon = '/Ellipse 22.svg'; // dot
+  private readonly lockedIcon = '/aaa.svg'; // lock
+
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -33,5 +37,17 @@ export class Tracker implements OnInit {
     if (index === this.currentStep) return 'step active';
     if (index < this.currentStep) return 'step completed';
     return 'step locked';
+  }
+
+  getStepIcon(index: number): string {
+    if (index === this.currentStep) return this.activeIcon;
+    if (index < this.currentStep) return this.completedIcon;
+    return this.lockedIcon;
+  }
+
+  getStepIconAlt(index: number): string {
+    if (index === this.currentStep) return 'Current step';
+    if (index < this.currentStep) return 'Completed step';
+    return 'Locked upcoming step';
   }
 }

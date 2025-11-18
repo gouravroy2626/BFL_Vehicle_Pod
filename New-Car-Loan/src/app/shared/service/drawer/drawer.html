@@ -1,0 +1,123 @@
+@if (isOpen) {
+<div class="drawer-backdrop" (click)="onBackdropClick()"></div>
+<div class="drawer" [class.expanded]="isContentVisible" [class.has-error]="showError && !selectedOption">
+  <!-- Row 1: Close button -->
+  <div class="drawer-row-1">
+    <span class="close-button" (click)="onCloseClick()">&times;</span>
+  </div>
+
+  <!-- Row 2: Title -->
+  <div class="drawer-row-2">
+    <p class="drawer-title">Select an option to begin</p>
+  </div>
+
+  <!-- Row 3: Auto-fill details -->
+  <div class="drawer-row-3" [class.selected]="selectedOption === 'auto'">
+    <div class="row3-layout">
+      <!-- Column 1: Radio button -->
+      <div class="radio-column">
+        <input type="radio" name="fillOption" value="auto" [checked]="selectedOption === 'auto'"
+          (change)="onOptionChange('auto')" class="radio-input">
+      </div>
+
+      <!-- Column 2: Content -->
+      <div class="content-column">
+        <!-- First line: Label and badge -->
+        <div class="label-row">
+          <span class="label-text">Auto-fill details</span>
+          <span class="faster-badge">
+            <img src="/Rectangle 33091.svg" alt="Faster badge" width="8" height="10">
+            Faster
+          </span>
+        </div>
+
+        <!-- Description text -->
+        <p class="description-text">
+          Authorize Bajaj Finance Ltd. to use your contact details from TransUnion to Pre-Fill your
+          information. It's quick and won't affect your credit score.
+        </p>
+        
+        <!-- Full Name field (only when auto is selected) -->
+        @if (selectedOption === 'auto') {
+        <div class="full-name-section">
+          <label class="full-name-label">Full Name<span class="required">*</span></label>
+          <input type="text" class="full-name-input" [class.error]="showNameError"
+            placeholder="Enter full name as per PAN card" [(ngModel)]="fullName">
+          @if (showNameError) {
+          <div class="name-error-message">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="7" fill="#B40000" />
+              <path d="M8 4V9M8 11V12" stroke="white" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <span>Please enter your full name</span>
+          </div>
+          }
+        </div>
+        }
+        <!-- Show More button -->
+        @if (!isContentVisible) {
+        <button class="show-more-btn" (click)="onToggleText()">
+          Show more<svg class="arrow-down" width="14" height="14" viewBox="0 0 14 14" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 5L7 10L12 5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        }
+
+        <!-- Expanded content -->
+        @if (isContentVisible) {
+        <div class="expanded-content">
+          <div class="info-section">
+            <p class="info-title">How do we fetch your information?</p>
+            <p class="info-text">
+              We match your mobile number with credit Bureau database to automatically fill in your
+              application details.
+            </p>
+          </div>
+
+          <div class="security-box">
+            <img src="/Vector.svg" alt="Logo" class="brand-logo" width="13.33" height="16">
+            <p class="security-text">
+              We guarantee your privacy by storing your information on secure servers for a maximum of
+              30 days.
+            </p>
+          </div>
+
+          <button class="show-more-btn" (click)="onToggleText()">
+            Show less<svg class="arrow-down arrow-up" width="14" height="14" viewBox="0 0 14 14" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 9L7 4L2 9" stroke="#FF6600" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 4: Manual option -->
+  <div class="drawer-row-4" [class.selected]="selectedOption === 'manual'">
+    <label class="radio-label">
+      <input type="radio" name="fillOption" value="manual" [checked]="selectedOption === 'manual'"
+        (change)="onOptionChange('manual')" class="radio-input">
+      <span class="label-text">Fill details manually</span>
+    </label>
+  </div>
+
+  <!-- Error message -->
+  @if (showError && !selectedOption) {
+  <div class="error-message">
+    <img src="/Frame 1707485144.svg" alt="Error icon" class="error-icon" width="16" height="16">
+    <span>Please select an option to continue</span>
+  </div>
+  }
+
+  <!-- Row 5: Continue button -->
+  <div class="drawer-row-5">
+    <button class="btn-continue" (click)="onContinueClick()">
+      CONTINUE
+    </button>
+  </div>
+</div>
+}

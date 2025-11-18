@@ -1,55 +1,94 @@
 <app-tracker></app-tracker>
+<!-- Drawer overlay displayed initially -->
+<app-drawer
+    [isOpen]="isDrawerOpen"
+    [selectedOption]="selectedOption"
+    [showError]="showError"
+    [isContentVisible]="isContentVisible"
+    (close)="onDrawerClose()"
+    (continue)="onDrawerContinue($event)"
+    (toggleContent)="onDrawerToggleContent()"
+    (optionChange)="onDrawerOptionChange($event)">
+</app-drawer>
 
 
 
-<div class="form-container">
-    <h2>Personal Details</h2>
-    <p>Enter your personal details and start with your loan application</p>
+<div class="form-container" [class.blurred]="isDrawerOpen">
+    <h2>Personal details</h2>
+    <p>Enter your personal details and start with your loan application.</p>
 
     <div>
-        <label for="">Enter Full Name</label>
+    <label for="">Full Name on PAN Card <span class="required">*</span></label>
         <br>
-        <input type="text" class="form-control" id="" placeholder="Enter your full name">
+        <input type="text" class="form-control" id="" placeholder="Enter full name as per PAN card" [(ngModel)]="fullName" [disabled]="!!fullNameFromDrawer">
+        @if (showErrors && !fullName.trim()) {
+            <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your full name</span></div>
+        }
         <br>
-        <label>Select Gender</label>
+    <label>Select Gender <span class="required">*</span></label>
         <br>
         <div class="gender-selector">
             <label>
-                <input type="radio" name="gender" value="male">
+                <input type="radio" name="gender" value="male" class="gender-radio" [(ngModel)]="gender">
                 Male
             </label>
 
             <label>
-                <input type="radio" name="gender" value="female">
+                <input type="radio" name="gender" value="female" class="gender-radio" [(ngModel)]="gender">
                 Female
             </label>
 
             <label>
-                <input type="radio" name="gender" value="third">
+                <input type="radio" name="gender" value="third" class="gender-radio" [(ngModel)]="gender">
                 Third Gender
             </label>
         </div>
         <br>
-        <label for="">Date of birth(DD/MM/YYYY) on PAN</label>
+
+    <label for="">Mobile Number <span class="required">*</span></label>
         <br>
-        <input type="date" class="form-control" id="" placeholder="Enter date of birth">
+                <input type="tel" class="form-control" id="" placeholder="Enter 10-digit mobile number" [(ngModel)]="mobile" maxlength="10">
+                @if (showErrors && mobile.length !== 10) {
+                    <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter valid 10-digit mobile number</span></div>
+                }
         <br>
-        <label for="">Pan card Number</label>
+    <label for="">Email Address</label>
         <br>
-        <input type="text" class="form-control" id="" placeholder="Enter 10-character Alphanumeric PAN">
+    <input type="email" class="form-control" id="" placeholder="Enter your email address" [(ngModel)]="email">
+        <br>
+        <label for="">Address</label>
+        <br>
+    <input type="text" class="form-control" id="" placeholder="Enter your address" [(ngModel)]="address">
+        <br>
+    <label for="">Date of Birth (DD/MM/YYYY) on PAN <span class="required">*</span></label>
+        <br>
+                <input type="date" class="form-control" id="" placeholder="Enter date of birth" [(ngModel)]="dob">
+                @if (showErrors && !dob) {
+                    <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your date of birth</span></div>
+                }
+        <br>
+    <label for="">PAN Card Number <span class="required">*</span> <img src="/Vector copy.svg" alt="PAN info" class="pan-info-icon" /></label>
+        <br>
+                <input type="text" class="form-control" id="" placeholder="Enter 10-character alphanumeric PAN" [(ngModel)]="pan" maxlength="10">
+                @if (showErrors && pan.trim().length !== 10) {
+                    <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your PAN card number</span></div>
+                }
 
         <br>
-        <label for="">Employment Type (Salaried or Self Employed)</label>
+    <label for="">Employment Type (Salaried and Self-employed) <span class="required">*</span></label>
         <br>
-        <select name="" id="">
+    <select name="" id="" [(ngModel)]="employmentType">
             <option value="" disabled selected>Select Employment Type</option>
             <option value="salaried">Salaried</option>
             <option value="self-employed">Self Employed</option>
         </select>
         <br>
-        <label for="">Current Residential PinCode</label>
+    <label for="">Current Residential PIN Code <span class="required">*</span></label>
         <br>
-        <input type="text" class="form-control" id="" placeholder="Enter 6 digit Current Residential PinCode">
+                <input type="text" class="form-control" id="" placeholder="Enter 6-digit current residential PIN code" [(ngModel)]="pincode" maxlength="6">
+                @if (showErrors && pincode.length !== 6) {
+                    <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your current residential PIN code</span></div>
+                }
         <br>
         <!-- after entering pincode and hit enter it should display city by default city should be Pune if pincode is 6 digit entered and if pincode is below 6 digit it should not display city field -->
         @if (isPincodeValid()) {
@@ -60,6 +99,29 @@
             <br>
         </div>
         }
-        <button type="submit" class="btn btn-primary" (click)="vehicleDetails()">Submit</button>
+                        <div class="consent-group">
+                    <label class="consent-item">
+                        <input type="checkbox" [(ngModel)]="tncAccepted" />
+                        <span>I have read, understood, and hereby accept the product <a href="#" class="link">Terms and Conditions.</a></span>
+                    </label>
+                            @if (showErrors && !tncAccepted) {<div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please accept Terms and Conditions</span></div>}
+                    <label class="consent-item">
+                        <input type="checkbox" [(ngModel)]="creditConsent" />
+                        <span>I hereby consent to receiving my credit information offered by TransUnion CIBIL Limited (TU CIBIL) ("Product") through Bajaj Finance Limited (referred to as the "Agent").</span>
+                    </label>
+                            @if (showErrors && !creditConsent) {<div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please provide credit information consent</span></div>}
+                    <label class="consent-item optional">
+                        <input type="checkbox" [(ngModel)]="marketingOptIn" />
+                        <span>I hereby expressly authorize BFL, its group companies, affiliates and/or business associates and their respective representatives to send me information about its/their promotional communications regarding fixed deposit, loans, insurance and their respective products and/or services ("Products/Services") by telephone calls / SMSs / emails / WhatsApp / bitly/ Chatbots/ In-App Notifications or any other electronic modes. <em>(Optional)</em></span>
+                    </label>
+                </div>
+                <div class="error-summary" *ngIf="showErrors && hasAnyErrors()">
+                    <img src="/Frame 1707485144.svg" alt="Error" class="error-icon" />
+                    <span>There are multiple errors on this screen</span>
+                </div>
+                <div class="button-row">
+                    <button type="button" class="btn-outline" (click)="saveToCart()">SAVE TO CART</button>
+                    <button type="button" class="btn-primary" (click)="onContinue()">CONTINUE</button>
+                </div>
 
     </div>
