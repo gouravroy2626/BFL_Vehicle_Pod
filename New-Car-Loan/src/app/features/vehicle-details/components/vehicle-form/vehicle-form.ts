@@ -59,6 +59,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
       target?.click();
     }
   }
+  highlightAllFilled = false;
   selectingBrand = false;
   selectingModel = false;
   private readonly formBuilder = inject(FormBuilder);
@@ -177,6 +178,13 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
       }
       this.modelFieldFocused = true;
       this.modelQuery$.next(nextValue);
+    });
+
+    this.form.statusChanges.subscribe(status => {
+      if (status === 'VALID') {
+        this.highlightAllFilled = true;
+        setTimeout(() => this.highlightAllFilled = false, 3000);
+      }
     });
 
     // Initialize dealer list for modal
@@ -553,12 +561,12 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
 
   get showBrandSearchIcon(): boolean {
     const value = (this.form.get('brand')?.value ?? '').trim();
-    return this.brandFieldFocused || value.length === 0;
+    return value.length === 0;
   }
 
   get showModelSearchIcon(): boolean {
     const value = (this.form.get('model')?.value ?? '').trim();
-    return this.modelFieldFocused || value.length === 0;
+    return value.length === 0;
   }
 
   get brandInputPaddingLeft(): number {

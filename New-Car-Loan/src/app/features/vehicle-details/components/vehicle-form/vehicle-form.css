@@ -108,7 +108,7 @@
     align-items: center;
     width: 100%;
     border: 1.5px solid #C7C7C7;
-    border-radius: 12px;
+    border-radius: 4px;
     background: #FFFFFF;
     overflow: hidden;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -120,14 +120,17 @@
     color: #333;
 }
 
+.dealer-row .allLabel {
+    margin-bottom: 12px;
+}
+
 .dealer-controls:focus-within {
     border-color: #FF9800;
-    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+    box-shadow: none;
 }
 
 .dealer-controls.filled {
     border-color: #FF9800;
-    background: #FFF5DA;
 }
 
 .dealer-input {
@@ -343,9 +346,7 @@
     pointer-events: none;
 }
 
-.filled-input {
-    background: #FFF5DA !important;
-}
+
 
 .field-with-icon .icon-search {
     position: absolute;
@@ -443,6 +444,7 @@
     letter-spacing: 0.15px;
 }
 
+/* Default input background color */
 .form-row input,
 .form-row select {
     width: 100%;
@@ -453,16 +455,18 @@
     font-size: 16px;
     line-height: 22px;
     background: #FFFFFF;
+    /* Default white background */
     color: #2E2E2E;
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     box-sizing: border-box;
 }
 
+/* Focus background color for inputs */
 .form-row input:focus,
 .form-row select:focus {
-    border-color: #FF9800;
-    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+    background: #e5f1fa;
+    /* Light blue during focus */
 }
 
 .note {
@@ -580,30 +584,36 @@
     align-items: center;
     width: 100%;
     border: none;
-    border-radius: 0;
-    background: transparent;
-    overflow: visible;
-    transition: none;
+    border-radius: 4px;
+    background: #FFFFFF;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     position: relative;
 }
 
+/* Dealer input default background */
 .dealer-input {
     flex: 1;
-    padding: 12px 44px 12px 16px;
+    padding: 12px 50px 12px 16px;
     border: 1.5px solid #C7C7C7;
-    border-radius: 12px;
+    border-radius: 4px;
     background: #FFFFFF;
+    /* Default white background */
     font-size: 16px;
     color: #2E2E2E;
     outline: none;
     cursor: pointer;
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
 }
 
+/* Dealer input focus background */
 .dealer-input:focus {
     border-color: #FF9800;
     box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+    background: #AEDDFF;
+    /* Light blue during focus */
 }
 
 .dealer-input::placeholder {
@@ -619,8 +629,13 @@
     color: #BDBDBD;
 }
 
-.dealer-dropdown-btn {
-    display: none;
+/* Highlight background when all fields filled */
+.vehicle-form.highlight-all-filled .form-row input:not(:focus),
+.vehicle-form.highlight-all-filled .dealer-input:not(:focus) {
+    background: #FFF5DA;
+    /* Light orange for 3s when all filled */
+    border: none;
+    box-shadow: none;
 }
 
 /* Dealer styles start */
