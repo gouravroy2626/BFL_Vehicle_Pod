@@ -359,7 +359,8 @@
 }
 
 .radio-input {
-  margin: 0;
+  
+  margin-left: -4px;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
@@ -396,6 +397,7 @@
 }
 
 .label-text {
+  padding-left:4px;
   font-family: Rubik;
   font-weight: 500;
   font-style: Medium;

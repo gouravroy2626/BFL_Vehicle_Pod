@@ -28,6 +28,9 @@ export class PersonalForm {
   pan: string = '';
   employmentType: string = '';
   pincode: string = '';
+  monthlySalary: string = '';
+  autoFetchFailed: boolean = false; // banner when auto-fill failed
+  employmentModalOpen = false; // controls bootstrap-style modal
 
   // Consents
   tncAccepted = false;
@@ -76,7 +79,29 @@ export class PersonalForm {
     if (payload.fullName) {
       this.fullName = payload.fullName;
     }
+    if (payload.option === 'auto' && !payload.fullName) {
+      // treat missing full name as auto-fetch failure
+      this.autoFetchFailed = true;
+    }
     this.isDrawerOpen = false; // close drawer after selection
+  }
+
+  // Employment modal controls
+  openEmploymentModal() {
+    this.employmentModalOpen = true;
+  }
+
+  closeEmploymentModal() {
+    this.employmentModalOpen = false;
+  }
+
+  selectEmploymentType(type: string) {
+    this.employmentType = type;
+    // Reset salary field when switching type
+    if (type !== 'salaried') {
+      this.monthlySalary = '';
+    }
+    this.closeEmploymentModal();
   }
 
   // Validation helpers
@@ -85,17 +110,92 @@ export class PersonalForm {
   }
 
   hasAnyErrors(): boolean {
-    return !(
-      this.isRequiredFilled(this.fullName) &&
-      this.gender &&
-      this.isRequiredFilled(this.dob) &&
-      this.isRequiredFilled(this.pan) &&
-      this.employmentType &&
-      this.isRequiredFilled(this.pincode) &&
-      this.tncAccepted &&
-      this.creditConsent &&
-      this.mobile.length === 10
-    );
+    if (!this.isRequiredFilled(this.fullName)) return true;
+    if (!this.gender) return true;
+    if (!this.isRequiredFilled(this.dob)) return true;
+    if (!this.isAgeValid()) return true;
+    if (!this.isPanValid()) return true;
+    if (!this.employmentType) return true;
+    if (!this.isPincodeValidLocal()) return true;
+    if (this.employmentType === 'salaried' && !this.isSalaryValid()) return true;
+    if (!this.tncAccepted) return true;
+    if (!this.creditConsent) return true;
+    // mobile not described in new requirements but keep previous rule if provided
+    if (this.mobile && this.mobile.length !== 10) return true;
+    return false;
+  }
+
+  // Validation detail methods
+  isPanValid(): boolean {
+    const pan = this.pan.trim().toUpperCase();
+    // PAN: 10-character alphanumeric, typically 5 letters + 4 digits + 1 letter, but accept generic pattern
+    const panRegex = /^[A-Z0-9]{10}$/;
+    return panRegex.test(pan);
+  }
+
+  isPincodeValidLocal(): boolean {
+    return /^[0-9]{6}$/.test(this.pincode.trim());
+  }
+
+  isSalaryValid(): boolean {
+    if (!this.monthlySalary) return false;
+    const value = parseInt(this.monthlySalary, 10);
+    if (isNaN(value)) return false;
+    return value >= 15000 && value <= 75000;
+  }
+
+  isAgeValid(): boolean {
+    if (!this.dob) return true; // age error only if DOB filled
+    const age = this.calculateAge(this.dob);
+    return age >= 18 && age <= 65;
+  }
+
+  calculateAge(dateStr: string): number {
+    const dobDate = new Date(dateStr);
+    if (isNaN(dobDate.getTime())) return 0;
+    const diff = Date.now() - dobDate.getTime();
+    const ageDate = new Date(diff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+
+  // Input handlers to enforce constraints
+  onFullNameInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    const sanitized = input.value.replace(/[^A-Za-z ]+/g, '');
+    if (sanitized !== input.value) input.value = sanitized;
+    this.fullName = sanitized;
+  }
+
+  onPanInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    let val = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (val.length > 10) val = val.slice(0, 10);
+    input.value = val;
+    this.pan = val;
+  }
+
+  onPincodeInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    let val = input.value.replace(/[^0-9]/g, '');
+    if (val.length > 6) val = val.slice(0, 6);
+    input.value = val;
+    this.pincode = val;
+  }
+
+  onSalaryInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    let val = input.value.replace(/[^0-9]/g, '');
+    if (val.length > 6) val = val.slice(0, 6); // arbitrary max length
+    input.value = val;
+    this.monthlySalary = val;
+  }
+
+  // Re-evaluate errors when consent toggled so border warning disappears immediately
+  onConsentChange() {
+    // If both consents fixed, keep showErrors true only if other errors remain
+    if (this.showErrors) {
+      this.showErrors = this.hasAnyErrors();
+    }
   }
 
   saveToCart() {

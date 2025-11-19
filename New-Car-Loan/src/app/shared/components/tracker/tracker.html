@@ -2,7 +2,8 @@
   @for (step of steps; track step; let i = $index) {
     <div [class]="getStepClass(i)">
       <div class="circle">
-        <img [src]="getStepIcon(i)" [alt]="getStepIconAlt(i)" class="status-icon" />
+        <img [src]="getStepIcon(i)" [alt]="getStepIconAlt(i)" class="status-icon"
+             [style.width.px]="getIconWidth(i)" [style.height.px]="getIconHeight(i)" />
       </div>
       <div class="label">{{ step }}</div>
       @if (i < steps.length - 1) {
