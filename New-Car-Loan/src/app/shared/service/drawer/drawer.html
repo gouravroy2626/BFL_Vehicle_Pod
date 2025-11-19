@@ -43,6 +43,12 @@
           <label class="full-name-label">Full Name<span class="required">*</span></label>
           <input type="text" class="full-name-input" style="padding-left: 15px; padding-top: 10px;"
             placeholder="Enter full name as per PAN card" [(ngModel)]="fullName" (input)="onFullNameInput($event)" pattern="[A-Za-z ]+">
+          @if (showNameError) {
+            <div class="name-error-message">
+              <img src="/Frame 1707485144.svg" alt="Error" width="16" height="16">
+              <span>Please enter your full name to auto-fill details</span>
+            </div>
+          }
         </div>
         }
         <!-- Show More button -->

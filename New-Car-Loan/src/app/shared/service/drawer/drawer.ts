@@ -1,12 +1,12 @@
 // drawer.component.ts
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-drawer',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './drawer.html',
   styleUrls: ['./drawer.css']
 })
@@ -22,6 +22,7 @@ export class DrawerComponent {
   @Output() optionChange = new EventEmitter<string>();
 
   fullName: string = '';
+  showNameError: boolean = false; // flag when auto selected and name missing on continue
   // Full name should accept alphabets and spaces only; no error messages shown.
   private namePattern: RegExp = /^[A-Za-z ]+$/; // letters + space
    
@@ -36,8 +37,12 @@ export class DrawerComponent {
   onContinueClick() {
     if (this.selectedOption === 'auto') {
       const value = this.fullName.trim();
-      if (value.length === 0) { return; } // silently block if empty
+      if (value.length === 0) {
+        this.showNameError = true; // trigger visible warning
+        return;
+      }
     }
+    this.showNameError = false;
     this.continue.emit({ option: this.selectedOption, fullName: this.fullName });
   }
   
@@ -47,6 +52,7 @@ export class DrawerComponent {
   
   onOptionChange(value: string) {
     this.fullName = '';
+    this.showNameError = false;
     this.optionChange.emit(value);
   }
 
@@ -60,6 +66,9 @@ export class DrawerComponent {
       target.value = sanitized;
     }
     this.fullName = sanitized;
+    if (this.showNameError && this.fullName.trim().length > 0) {
+      this.showNameError = false; // clear error as user types
+    }
   }
 }
 
