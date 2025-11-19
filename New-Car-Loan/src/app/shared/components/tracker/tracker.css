@@ -37,51 +37,15 @@
 }
 
 .circle {
-<<<<<<< HEAD
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  border: 2px solid #dee2e6;
-  font-size: 16px;
-  line-height: 26px;
-  text-align: center;
-  transition: all 0.3s ease;
-=======
   width: 24px;
   height:24px;
   border-radius: 50%;
   background-color: #ffffff;
   border: 2px solid #dee2e6;
->>>>>>> origin/main
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-<<<<<<< HEAD
-  z-index: 1;
-}
-
-.step.active .circle {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-  color: #ffffff;
-  transform: scale(1.15);
-  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
-}
-
-.step.completed .circle {
-  background-color: #28a745;
-  border-color: #28a745;
-  color: #ffffff;
-}
-
-.step.locked .circle {
-  background-color: #ffffff;
-  border-color: #e9ecef;
-  color: #999;
-}
-=======
   transition: all 0.3s ease;
   z-index: 1;
 }
@@ -101,7 +65,6 @@
 }
 .step.completed .circle { border-color: #28a745; /* no shadow */ }
 .step.locked .circle { border-color: #e9ecef; opacity: 0.7; /* no shadow */ }
->>>>>>> origin/main
 
 .label {
   margin-top: 8px;
@@ -112,22 +75,6 @@
 
 .line {
   position: absolute;
-<<<<<<< HEAD
-  top: 15px;
-  left: 50%;
-  width: 100%;
-  height: 3px;
-  background-color: #dee2e6;
-  z-index: 0;
-  transition: all 0.3s ease;
-}
-
-.step.active .line,
-.step.completed .line {
-  background-color: #0d6efd;
-  height: 3px;
-}
-=======
   top: 12px; /* center for 24px circle */
   left: calc(50% + 15px); /* radius (12) + gap (3) */
   width: calc(100% - 30px); /* subtract (radius + gap) both ends */
@@ -137,7 +84,6 @@
   transition: all 0.3s ease;
 }
 .line.line-active { background-color:#0d6efd; }
->>>>>>> origin/main
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -145,26 +91,8 @@
     padding: 0.75rem 1rem;
   }
   
-<<<<<<< HEAD
-  .circle {
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    line-height: 20px;
-  }
-  
-  .label {
-    font-size: 0.75rem;
-    margin-top: 6px;
-  }
-  
-  .line {
-    top: 12px;
-  }
-=======
   .circle { width: 20px; height: 20px; }
   .step.active .circle::after { width: 10px; height: 10px; }
   .label { font-size: 0.7rem; margin-top: 4px; }
   .line { top: 10px; left: calc(50% + 13px); width: calc(100% - 26px); }
->>>>>>> origin/main
 }
