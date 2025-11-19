@@ -1,11 +1,15 @@
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid d-flex align-items-center position-relative">
-     <button type="button" class="back-button" (click)="goBack()" [style.display]="showBackButton() ? 'block' : 'none'">
-      &#8592;
-    </button>
-
-    <span class="navbar-brand">New Car Loan</span>
-
-    <div class="spacer" [style.display]="showBackButton() ? 'block' : 'none'"></div>
+    @if (showBackButton()) {
+      <button type="button" class="back-button" (click)="goBack()">
+        <img src="Path 4.svg" alt="Back" style="width:11.67px;height:21px;" />
+      </button>
+    }
+    <span class="navbar-brand">
+      New Car Loan
+    </span>
+    @if (showBackButton()) {
+      <div class="spacer"></div>
+    }
   </div>
 </nav>

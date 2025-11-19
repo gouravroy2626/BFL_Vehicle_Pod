@@ -37,6 +37,7 @@
 }
 
 .circle {
+<<<<<<< HEAD
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -46,10 +47,18 @@
   line-height: 26px;
   text-align: center;
   transition: all 0.3s ease;
+=======
+  width: 24px;
+  height:24px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #dee2e6;
+>>>>>>> origin/main
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+<<<<<<< HEAD
   z-index: 1;
 }
 
@@ -72,6 +81,27 @@
   border-color: #e9ecef;
   color: #999;
 }
+=======
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+.status-icon { width:14px; height:14px; display:block; }
+.step.active .status-icon { display:none; }
+.step.active .circle { border-color: #0d6efd; }
+.step.active .circle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #0d6efd;
+}
+.step.completed .circle { border-color: #28a745; /* no shadow */ }
+.step.locked .circle { border-color: #e9ecef; opacity: 0.7; /* no shadow */ }
+>>>>>>> origin/main
 
 .label {
   margin-top: 8px;
@@ -82,6 +112,7 @@
 
 .line {
   position: absolute;
+<<<<<<< HEAD
   top: 15px;
   left: 50%;
   width: 100%;
@@ -96,6 +127,17 @@
   background-color: #0d6efd;
   height: 3px;
 }
+=======
+  top: 12px; /* center for 24px circle */
+  left: calc(50% + 15px); /* radius (12) + gap (3) */
+  width: calc(100% - 30px); /* subtract (radius + gap) both ends */
+  height: 2px;
+  background-color:#dee2e6;
+  z-index: 0;
+  transition: all 0.3s ease;
+}
+.line.line-active { background-color:#0d6efd; }
+>>>>>>> origin/main
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -103,6 +145,7 @@
     padding: 0.75rem 1rem;
   }
   
+<<<<<<< HEAD
   .circle {
     width: 24px;
     height: 24px;
@@ -118,4 +161,10 @@
   .line {
     top: 12px;
   }
+=======
+  .circle { width: 20px; height: 20px; }
+  .step.active .circle::after { width: 10px; height: 10px; }
+  .label { font-size: 0.7rem; margin-top: 4px; }
+  .line { top: 10px; left: calc(50% + 13px); width: calc(100% - 26px); }
+>>>>>>> origin/main
 }

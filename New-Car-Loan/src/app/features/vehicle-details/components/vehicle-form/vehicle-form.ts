@@ -3,7 +3,6 @@ import { Tracker } from '../../../../shared/components/tracker/tracker';
 
 @Component({
   selector: 'app-vehicle-form',
-  standalone: true,
   imports: [Tracker],
   templateUrl: './vehicle-form.html',
   styleUrls: ['./vehicle-form.css'],

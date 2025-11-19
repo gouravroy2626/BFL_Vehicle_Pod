@@ -25,7 +25,11 @@
               }
             ],
             "styles": [
+              "bootswatch/dist/flatly/bootstrap.min.css",
               "src/styles.css"
+            ],
+            "scripts": [
+              "bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {
