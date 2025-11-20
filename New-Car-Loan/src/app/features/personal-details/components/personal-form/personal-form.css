@@ -345,10 +345,7 @@ label {
 .error-summary {
   display: flex;
   align-content:center;
-  
   gap: 8px;
-  /* background: #FFF4F4; */
-  /* border: 1px solid #F8D0D0; */
   padding: 8px 12px;
   /* border-radius: 6px; */
   margin-top: 8px; /* tighter spacing above separator */
