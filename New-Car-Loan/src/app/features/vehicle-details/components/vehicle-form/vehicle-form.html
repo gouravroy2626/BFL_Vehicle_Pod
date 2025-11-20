@@ -1,11 +1,6 @@
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading" class="page-container">
     <app-tracker></app-tracker>
     <div class="vehicle-details-page">
-        <!-- Dedicated vertical space for the global navbar & journey tracker (kept empty intentionally) -->
-        <div class="global-offsets" aria-hidden="true">
-            <div class="global-offsets__navbar"></div>
-            <div class="global-offsets__tracker"></div>
-        </div>
         <div class="vehicle-details-content" aria-labelledby="vehicle-details-heading">
             <header class="vehicle-details-content__header">
                 <h2 id="vehicle-details-heading">Vehicle details</h2>
