@@ -15,6 +15,10 @@ import { FormsModule } from '@angular/forms';
 export class PersonalForm {
   // Drawer state and UI flags
   isDrawerOpen = true;
+  // Debug log for initial state
+  constructor(private router: Router) {
+    console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
+  }
   selectedOption: string = '';
   showError: boolean = false;
   isContentVisible: boolean = false;
@@ -50,27 +54,34 @@ export class PersonalForm {
   }
 
 
-  constructor(private router: Router) {}
+  // ...existing code...
 
   vehicleDetails() {
+    this.isDrawerOpen = false; // Ensure drawer closes before navigation
+    console.log('PersonalForm vehicleDetails: isDrawerOpen set to', this.isDrawerOpen);
     this.router.navigate(['/vehicle-details']);
   }
 
   // Drawer event handlers
   onDrawerClose() {
     this.isDrawerOpen = false;
+    document.body.style.overflow = 'auto';
+    console.log('PersonalForm onDrawerClose: isDrawerOpen set to', this.isDrawerOpen);
   }
 
   onDrawerOptionChange(option: string) {
     this.selectedOption = option;
     this.showError = false;
+    console.log('PersonalForm onDrawerOptionChange: selectedOption set to', this.selectedOption);
   }
 
   onDrawerToggleContent() {
     this.isContentVisible = !this.isContentVisible;
+    console.log('PersonalForm onDrawerToggleContent: isContentVisible set to', this.isContentVisible);
   }
 
   onDrawerContinue(payload: { option: string; fullName?: string }) {
+    console.log('PersonalForm onDrawerContinue: payload', payload);
     if (!payload.option) {
       this.showError = true;
       return;
@@ -84,15 +95,28 @@ export class PersonalForm {
       this.autoFetchFailed = true;
     }
     this.isDrawerOpen = false; // close drawer after selection
+    console.log('PersonalForm onDrawerContinue: isDrawerOpen set to', this.isDrawerOpen);
+    setTimeout(() => {
+      this.isDrawerOpen = false;
+      console.log('PersonalForm onDrawerContinue (timeout): isDrawerOpen set to', this.isDrawerOpen);
+    }, 100);
+  }
+  // Reset drawer state on navigation (Angular lifecycle)
+  ngOnInit() {
+    this.isDrawerOpen = true;
+    console.log('PersonalForm ngOnInit: isDrawerOpen set to', this.isDrawerOpen);
   }
 
   // Employment modal controls
   openEmploymentModal() {
     this.employmentModalOpen = true;
+    console.log('PersonalForm openEmploymentModal: employmentModalOpen set to', this.employmentModalOpen);
   }
 
   closeEmploymentModal() {
     this.employmentModalOpen = false;
+    document.body.style.overflow = 'auto';
+    console.log('PersonalForm closeEmploymentModal: employmentModalOpen set to', this.employmentModalOpen);
   }
 
   selectEmploymentType(type: string) {

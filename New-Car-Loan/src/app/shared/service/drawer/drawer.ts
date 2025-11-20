@@ -11,13 +11,25 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./drawer.css']
 })
 export class DrawerComponent {
+  ngOnChanges(changes: any) {
+    if (changes.isOpen) {
+      console.log('DrawerComponent ngOnChanges: isOpen', changes.isOpen.currentValue);
+      if (changes.isOpen.currentValue === false) {
+        // Reset internal state when drawer closes
+        this.showNameError = false;
+        this.fullName = '';
+        this.selectedOption = '';
+        this.isContentVisible = false;
+      }
+    }
+  }
   @Input() isOpen = true;
   @Input() selectedOption: string = '';
   @Input() showError: boolean = false;
   @Input() isContentVisible: boolean = false;
-  
+
   @Output() close = new EventEmitter<void>();
-  @Output() continue = new EventEmitter<{option: string, fullName?: string}>();
+  @Output() continue = new EventEmitter<{ option: string, fullName?: string }>();
   @Output() toggleContent = new EventEmitter<void>();
   @Output() optionChange = new EventEmitter<string>();
 
@@ -25,15 +37,15 @@ export class DrawerComponent {
   showNameError: boolean = false; // flag when auto selected and name missing on continue
   // Full name should accept alphabets and spaces only; no error messages shown.
   private namePattern: RegExp = /^[A-Za-z ]+$/; // letters + space
-   
+
   onBackdropClick() {
     this.close.emit();
   }
-  
+
   onCloseClick() {
     this.close.emit();
   }
-  
+
   onContinueClick() {
     if (this.selectedOption === 'auto') {
       const value = this.fullName.trim();
@@ -45,11 +57,11 @@ export class DrawerComponent {
     this.showNameError = false;
     this.continue.emit({ option: this.selectedOption, fullName: this.fullName });
   }
-  
+
   onToggleText() {
     this.toggleContent.emit();
   }
-  
+
   onOptionChange(value: string) {
     this.fullName = '';
     this.showNameError = false;

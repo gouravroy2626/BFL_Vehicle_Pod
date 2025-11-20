@@ -1,16 +1,16 @@
+import { Tracker } from './../../../../shared/components/tracker/tracker';
 import { Component, ViewEncapsulation, inject, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
-import { VehicleFormLoader } from '../vehicle-form-loader/vehicle-form-loader';
 import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-vehicle-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, VehicleFormLoader],
+  imports: [ReactiveFormsModule, CommonModule, Tracker],
   templateUrl: './vehicle-form.html',
   styleUrls: ['./vehicle-form.css'],
   encapsulation: ViewEncapsulation.None,
@@ -126,11 +126,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.brandHighlightIndex = -1;
       }
-      console.log('Brand query updated:', {
-        query: this.brandQuery$.value,
-        filteredBrands: this.filteredBrands,
-        dropdownVisible: this.filteredBrands.length > 0 && this.brandFieldFocused
-      });
       this.cdr.detectChanges();
     });
 
@@ -144,11 +139,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.modelHighlightIndex = -1;
       }
-      console.log('Model query updated:', {
-        query: this.modelQuery$.value,
-        filteredModels: this.filteredModels,
-        dropdownVisible: this.filteredModels.length > 0 && this.modelFieldFocused
-      });
       this.cdr.detectChanges();
     });
 
@@ -242,6 +232,8 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private onDealerModalHidden(): void {
+    // Reset body overflow when modal closes
+    document.body.style.overflow = 'auto';
     if (!this.filteredDealers.length) {
       this.dealerHighlightIndex = -1;
       return;
@@ -281,19 +273,12 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   onBrandFieldFocus() {
     this.brandFieldFocused = true;
     this.brandHighlightIndex = -1;
-    console.log('Brand field focused:', {
-      filteredBrands: this.filteredBrands,
-      brandFieldFocused: this.brandFieldFocused
-    });
   }
 
   onBrandFieldBlur() {
     setTimeout(() => {
       if (!this.selectingBrand) {
         this.brandFieldFocused = false;
-        console.log('Brand field blurred:', {
-          brandFieldFocused: this.brandFieldFocused
-        });
       }
     }, 300); // Increased timeout to ensure focus event completes first
   }
@@ -301,19 +286,12 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   onModelFieldFocus() {
     this.modelFieldFocused = true;
     this.modelHighlightIndex = -1;
-    console.log('Model field focused:', {
-      filteredModels: this.filteredModels,
-      modelFieldFocused: this.modelFieldFocused
-    });
   }
 
   onModelFieldBlur() {
     setTimeout(() => {
       if (!this.selectingModel) {
         this.modelFieldFocused = false;
-        console.log('Model field blurred:', {
-          modelFieldFocused: this.modelFieldFocused
-        });
       }
     }, 200);
   }
@@ -368,12 +346,15 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     const allDealers = this.dealers.slice();
     this.filteredDealers = allDealers;
     this.dealerHighlightIndex = allDealers.findIndex(d => d === dealer);
-    console.log('Dealer selected:', dealer);
     // Ensure modal closes
     if (this.dealerModalElement) {
       const modal = Modal.getInstance(this.dealerModalElement.nativeElement);
       modal?.hide();
+      // Reset body overflow when modal closes by selection
+      document.body.style.overflow = 'auto';
     }
+    // Always reset loading state after dealer selection
+    this.isLoading = false;
   }
 
   handleDealerControlTrigger(toggleButton: HTMLButtonElement, event: Event): void {
@@ -534,18 +515,17 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
 
     this.isLoading = true;
     this.cancelLoaderNavigation();
-    this.loaderNavigationTimer = window.setTimeout(() => {
-      this.ngZone.run(() => {
-        this.router.navigate(['/account-aggregator'], {
-          state: this.submittedData
-        }).finally(() => {
+    this.ngZone.run(() => {
+      this.router.navigate(['/vehicle-loader'], {
+        state: this.submittedData
+      }).then(success => {
+        if (!success) {
           this.isLoading = false;
-          this.loaderNavigationTimer = null;
-        });
+        }
+      }).catch(err => {
+        this.isLoading = false;
       });
-    }, 3000);
-
-    console.log('Form submitted:', this.form.value);
+    });
   }
 
   onSaveToCart() {
@@ -554,7 +534,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
         this.form.get(key)?.markAsTouched();
       });
     } else {
-      console.log('Saved to cart:', this.form.value);
       // Add your logic here
     }
   }
