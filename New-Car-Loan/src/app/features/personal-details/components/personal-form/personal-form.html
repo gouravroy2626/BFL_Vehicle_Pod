@@ -44,6 +44,9 @@
         Third Gender
       </label>
     </div>
+     @if (showErrors && !gender.trim()) {
+    <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please select Gender</span></div>
+    }
   </div>
 
   <div class="form-field">
