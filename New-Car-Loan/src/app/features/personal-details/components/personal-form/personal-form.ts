@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -211,6 +212,20 @@ export class PersonalForm {
     if (val.length > 6) val = val.slice(0, 6); // arbitrary max length
     input.value = val;
     this.monthlySalary = val;
+  }
+
+  onDobInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    // Allow only numbers and dashes, and restrict year part to 4 digits
+    let val = input.value.replace(/[^0-9-]/g, '');
+    // If user is typing year, restrict to 4 digits
+    const parts = val.split('-');
+    if (parts[0] && parts[0].length > 4) parts[0] = parts[0].slice(0, 4);
+    if (parts[1] && parts[1].length > 2) parts[1] = parts[1].slice(0, 2);
+    if (parts[2] && parts[2].length > 2) parts[2] = parts[2].slice(0, 2);
+    val = parts.filter(Boolean).join('-');
+    input.value = val;
+    this.dob = val;
   }
 
   // Re-evaluate errors when consent toggled so border warning disappears immediately

@@ -51,7 +51,7 @@
 
   /* Expanded drawer state */
   .drawer.expanded {
-    width: 375px;
+    /* width: 375px; */
     height: auto;
     max-height: 90vh;
     gap: 4px;
@@ -71,6 +71,9 @@
   }
 }
 
+.brand-logo {
+  padding-top: 2px;
+}
 .drawer-backdrop {
   position: fixed;
   inset: 0;
@@ -160,7 +163,7 @@
 /* Two column layout */
 .row3-layout {
   display: flex;
-  gap: 8px;
+  /* gap: 8px; */
   width: 100%;
   margin-top: -3px;
 }
@@ -290,6 +293,7 @@
   align-items: center;
   box-sizing: border-box;
   transition: background-color 0.2s ease;
+  
 }
 
 /* Selected state background */
@@ -351,7 +355,7 @@
 .radio-label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   cursor: pointer;
   margin: 0;
   position: relative;
@@ -360,7 +364,7 @@
 
 .radio-input {
   
-  margin-left: -4px;
+  /* margin-left: -4px; */
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
@@ -368,11 +372,11 @@
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid #000000;
   border-radius: 50%;
   outline: none;
   position: relative;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   transition: all 0.2s ease;
   /* background-image: url('/Radio.svg');
   background-repeat: no-repeat;
@@ -568,6 +572,7 @@
   margin: 8px 0;
   text-align: center;
   margin-bottom: -5px;
+  padding-top:10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -608,7 +613,7 @@
   width: 100%;
   height: 44px;
   padding-bottom: 12px;
-  border: 1px solid #E0E0E0;
+  border: 1px solid #999999;
   border-radius: 4px;
   font-family: 'Rubik', sans-serif;
   font-size: 14px;
@@ -618,8 +623,14 @@
   transition: border-color 0.2s ease;
 }
 
+.highlight-autofill {
+  background-color: rgba(240, 248, 255, 1) !important;
+  border-color: rgba(174, 221, 255, 1) !important;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
 .full-name-input::placeholder {
-  color: #9E9E9E;
+  color: #666666;
   font-weight: 300;
 }
 
