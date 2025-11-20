@@ -81,6 +81,16 @@ export class DrawerComponent {
     if (this.showNameError && this.fullName.trim().length > 0) {
       this.showNameError = false; // clear error as user types
     }
+
+    // Add highlight class for 3 seconds
+    this.fullNameHighlight = true;
+    clearTimeout(this.fullNameHighlightTimeout);
+    this.fullNameHighlightTimeout = setTimeout(() => {
+      this.fullNameHighlight = false;
+    }, 3000);
   }
+
+  fullNameHighlight: boolean = false;
+  private fullNameHighlightTimeout: any;
 }
 

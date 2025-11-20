@@ -1,8 +1,16 @@
 .tracker-above-form {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto 4px auto;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #fff;
+  z-index: 1;
   display: block;
+  box-sizing: border-box;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .form-container {
@@ -10,10 +18,12 @@
   padding-left: 16px;
   padding-right: 16px;
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
   margin: 0 auto;
+  /* padding-bottom:16px; */
 }
+
 
 label {
   font-family: Rubik;
@@ -23,8 +33,7 @@ label {
   line-height: 18px;
   letter-spacing: 0px;
   display: block;
-  margin-bottom: 12px;
-  /* spacing between label and its input */
+  padding-bottom: 12px;
 }
 
 ::placeholder,
@@ -46,6 +55,7 @@ label {
   line-height: 100%;
   letter-spacing: 0%;
   padding-top: 12px;
+  margin-bottom:4px;
 }
 
 
@@ -86,18 +96,30 @@ label {
 }
 
 .consent-group {
-  margin-top: 12px;
+  /* margin-top: 12px; */
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 4px;
-  /* reduce space below consent section */
+  /* gap: 4px; */
+ 
+}
+.terms-conditions{
+  font-weight: 500;
 }
 
+/* font-family: Rubik;
+font-weight: 400;
+font-style: Regular;
+font-size: 12px;
+leading-trim: NONE;
+line-height: 16px;
+letter-spacing: 0px;
+ */
 .consent-item {
+  font-family: Rubik;
+  font-style: Regular;
   font-size: 12px;
-  /* line-height: 1.4; */
-  font-weight: 400;
+  line-height: 16px;
+  font-weight:400;
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -108,7 +130,8 @@ label {
 }
 
 .consent-item input {
-  margin-top: 2px;
+  margin-top: 4px;
+  background-color:white;
 }
 
 .consent-item.optional {
@@ -117,21 +140,19 @@ label {
 
 .consent-item .link {
   color: #FF6600;
-  text-decoration: none;
+  text-decoration:none;
   font-weight: 500;
 }
 
-.consent-item .link:hover {
-  text-decoration: underline;
-}
 
 .button-row {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin: 12px 0 4px;
+  
   flex-wrap: nowrap;
-  padding-bottom: 16px;
+  
+  padding:16px;
 }
 
 
@@ -166,6 +187,29 @@ label {
   border-radius: 6px;
   background-color: #FFFFFF;
 }
+.form-control:focus {
+  border-color: #CCCCCC !important;     /* subtle border */
+  outline: none !important;             /* removes thick browser ring */
+  box-shadow: none !important;          /* removes glow or shadow */
+  transition: none !important;          /* disables animation if needed */
+}
+
+
+/* Highlight inputs while typing (focus state) */
+.form-control:focus {
+  background-color: rgba(255, 245, 218, 1);
+   border-color: #CCCCCC; 
+  outline: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.consent-item input[type="checkbox"]:focus,
+.consent-item input[type="checkbox"]:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
 
 /* Field group spacing */
 .form-field {
@@ -420,7 +464,8 @@ label {
 
 .error-summary {
   display: flex;
-  align-content: center;
+  align-content:center;
+  justify-content: center;
   gap: 8px;
   padding: 8px 12px;
   /* border-radius: 6px; */
@@ -498,14 +543,27 @@ label {
   display: inline-flex;
   align-items: center;
   margin-right: 14px;
-  margin-top: 2px;
+  /* margin-top: 2px; */
 }
 
 /* Horizontal separator above buttons */
-.button-separator {
+
+/* Box with shadow for buttons */
+.button-box-with-shadow {
   width: 100%;
-  height: 1px;
-  background: linear-gradient(to right, #EDEDED, #EDEDED);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-  margin-top: 12px;
+  background: #fff;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-top: 18px;
+  margin-bottom: 0;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
 }
+.consent-item input[type="checkbox"]:checked {
+  accent-color: #FF6700;
+}
+
+ 
