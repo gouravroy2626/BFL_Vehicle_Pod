@@ -52,13 +52,11 @@ export class Tracker implements OnInit {
   }
 
   getIconWidth(index: number): number {
-    // Inner icon sizing: active & completed icons 11px, lock icon specific width 11px
     if (index > this.currentStep) return 11; // locked
     return 11; // active or completed
   }
 
   getIconHeight(index: number): number {
-    // Active & completed icons square 11px, lock icon height 11px
     if (index > this.currentStep) return 11; // locked
     return 11;
   }

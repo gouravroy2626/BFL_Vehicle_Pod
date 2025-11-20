@@ -1,7 +1,7 @@
 .tracker-above-form {
   width: 100%;
   max-width: 800px;
-  margin: 0 auto 24px auto;
+  margin: 0 auto 4px auto;
   display: block;
 }
 
@@ -66,7 +66,7 @@ label {
 }
 
 .required {
-  color: #B40000;
+  color: #FF0000;
 }
 
 .field-error {
@@ -127,17 +127,14 @@ label {
 
 .button-row {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 12px;
   margin: 12px 0 4px;
   flex-wrap: nowrap;
+  padding-bottom: 16px;
 }
 
-@media (max-width: 900px) {
-  .button-row {
-    justify-content: center;
-  }
-}
+
 
 
 /* Always keep buttons in one line, but make them responsive */
@@ -424,10 +421,7 @@ label {
 .error-summary {
   display: flex;
   align-content: center;
-
   gap: 8px;
-  /* background: #FFF4F4; */
-  /* border: 1px solid #F8D0D0; */
   padding: 8px 12px;
   /* border-radius: 6px; */
   margin-top: 8px;

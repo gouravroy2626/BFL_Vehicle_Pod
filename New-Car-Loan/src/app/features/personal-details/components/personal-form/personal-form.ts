@@ -33,8 +33,8 @@ export class PersonalForm {
   employmentType: string = '';
   pincode: string = '';
   monthlySalary: string = '';
-  autoFetchFailed: boolean = false; // banner when auto-fill failed
   employmentModalOpen = false; // controls bootstrap-style modal
+  city: string = ''; // Add city property to bind in the template
 
   // Consents
   tncAccepted = false;
@@ -44,12 +44,14 @@ export class PersonalForm {
   // Error / validation state
   showErrors = false;
   isPincodeValid() {
-    const pincode = localStorage.getItem('pincode');
-    if (pincode && pincode.length === 6) {
-      const city = 'pune'; // Example city
+    const pincode = this.pincode.trim();
+    if (/^[0-9]{6}$/.test(pincode)) {
+      const city = 'Pune'; // Example city for valid pincode
       localStorage.setItem('city', city);
+      this.city = city; // Update city property
       return true;
     }
+    this.city = ''; // Clear city if pincode is invalid
     return false;
   }
 
@@ -90,10 +92,7 @@ export class PersonalForm {
     if (payload.fullName) {
       this.fullName = payload.fullName;
     }
-    if (payload.option === 'auto' && !payload.fullName) {
-      // treat missing full name as auto-fetch failure
-      this.autoFetchFailed = true;
-    }
+    
     this.isDrawerOpen = false; // close drawer after selection
     console.log('PersonalForm onDrawerContinue: isDrawerOpen set to', this.isDrawerOpen);
     setTimeout(() => {
