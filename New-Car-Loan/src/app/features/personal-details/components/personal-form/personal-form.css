@@ -1,7 +1,7 @@
 .tracker-above-form {
   width: 100%;
   max-width: 800px;
-  margin: 0 auto 24px auto;
+  margin: 0 auto 4px auto;
   display: block;
 }
 .form-container {
@@ -13,7 +13,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
 }
-
 label {
   font-family: Rubik;
   font-weight: 500;
@@ -63,7 +62,7 @@ label {
 }
 
 .required {
-  color: #B40000;
+  color: #FF0000;
 }
 
 .field-error {
@@ -122,17 +121,14 @@ label {
 
 .button-row {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 12px;
   margin: 12px 0 4px;
   flex-wrap: nowrap;
+  padding-bottom:16px;
 }
 
-@media (max-width: 900px) {
-  .button-row {
-    justify-content: center;
-  }
-}
+
 
 
 /* Always keep buttons in one line, but make them responsive */
@@ -172,20 +168,7 @@ label {
 }
 .form-field:last-of-type { margin-bottom: 0; }
 
-/* Auto-fetch failure banner */
-.fetch-error-banner {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: #A80000;
-  color: #FFFFFF;
-  padding: 18px 42px 18px 30px;
-  border-radius: 80px;
-  font-family: Rubik;
-  font-size: 22px;
-  font-weight: 500;
-  margin: 12px 0 24px;
-}
+
 .fetch-error-banner .fetch-icon-wrapper img {
   width: 36px;
   height: 36px;
