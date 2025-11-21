@@ -1,219 +1,251 @@
-<div *ngIf="!isLoading" class="page-container">
+@if (!isLoading) {
+  <div class="page-container">
     <app-tracker></app-tracker>
     <div class="vehicle-details-page">
-        <div class="vehicle-details-content" aria-labelledby="vehicle-details-heading">
-            <header class="vehicle-details-content__header">
-                <h2 id="vehicle-details-heading">Vehicle details</h2>
-                <p class="vehicle-details-content__subtitle">Enter your vehicle details and proceed with your loan
-                    application.</p>
-            </header>
-            <form class="vehicle-form" [class.highlight-all-filled]="highlightAllFilled" [formGroup]="form" novalidate>
-                <!-- Brand input + autocomplete -->
-                <div class="form-row brand-row">
-                    <label class="allLabel" for="brand">Brand <span class="required-mark">*</span></label>
-                    <div class="field-with-icon">
-                        <span *ngIf="showBrandSearchIcon" class="icon-search" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2" />
-                                <line x1="13.35" y1="13.35" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </span>
-                        <input id="brand" type="text" formControlName="brand" placeholder="Enter brand name"
-                            autocomplete="off" (focus)="onBrandFieldFocus()" (blur)="onBrandFieldBlur()"
-                            (keydown)="onBrandKeydown($event)" [style.padding-left.px]="brandInputPaddingLeft"
-                            [class.filled-input]="isBrandFilled" />
-                        <ul *ngIf="brandFieldFocused && currentBrandQuery.trim().length"
-                            class="suggestions-list brand-autocomplete-list">
-                            <li *ngFor="let b of filteredBrands; let i = index" (mousedown)="$event.preventDefault()"
-                                (mouseup)="onBrandSelect(b)" [class.focused]="i === brandHighlightIndex">{{ b }}</li>
-                            <li *ngIf="filteredBrands.length === 0" class="no-results-message">No record found</li>
-                        </ul>
-                    </div>
-                    <div *ngIf="form.get('brand')?.invalid && form.get('brand')?.touched" class="error">
-                        <span class="error-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="7" cy="7" r="7" fill="#B40000" />
-                                <path
-                                    d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
-                                    fill="#E9F3FB" />
-                                <path
-                                    d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
-                                    fill="#D6E9F8" />
-                                <path
-                                    d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
-                                    fill="#E9F3FB" />
-                            </svg>
-                        </span>
-                        <span>This field is mandatory</span>
-                    </div>
+      <div class="vehicle-details-content" aria-labelledby="vehicle-details-heading">
+        <header class="vehicle-details-content__header">
+          <h2 id="vehicle-details-heading">Vehicle details</h2>
+          <p class="vehicle-details-content__subtitle">Enter your vehicle details and proceed with your loan
+          application.</p>
+        </header>
+        <form class="vehicle-form" [class.highlight-all-filled]="highlightAllFilled" [formGroup]="form" novalidate>
+          <!-- Brand input + autocomplete -->
+          <div class="form-row brand-row">
+            <label class="allLabel" for="brand">Brand <span class="required-mark">*</span></label>
+            <div class="field-with-icon">
+              @if (showBrandSearchIcon) {
+                <span class="icon-search" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2" />
+                    <line x1="13.35" y1="13.35" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2"
+                      stroke-linecap="round" />
+                  </svg>
+                </span>
+              }
+              <input id="brand" type="text" formControlName="brand" placeholder="Enter brand name"
+                autocomplete="off" (focus)="onBrandFieldFocus()" (blur)="onBrandFieldBlur()"
+                (keydown)="onBrandKeydown($event)" [style.padding-left.px]="brandInputPaddingLeft"
+                [class.filled-input]="isBrandFilled" />
+              @if (brandFieldFocused && currentBrandQuery.trim().length) {
+                <ul
+                  class="suggestions-list brand-autocomplete-list">
+                  @for (b of filteredBrands; track b; let i = $index) {
+                    <li (mousedown)="$event.preventDefault()"
+                    (mouseup)="onBrandSelect(b)" [class.focused]="i === brandHighlightIndex">{{ b }}</li>
+                  }
+                  @if (filteredBrands.length === 0) {
+                    <li class="no-results-message">No record found</li>
+                  }
+                </ul>
+              }
+            </div>
+            @if (form.get('brand')?.invalid && form.get('brand')?.touched) {
+              <div class="error">
+                <span class="error-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="7" fill="#B40000" />
+                    <path
+                      d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
+                      fill="#E9F3FB" />
+                    <path
+                      d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
+                      fill="#D6E9F8" />
+                    <path
+                      d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
+                      fill="#E9F3FB" />
+                  </svg>
+                </span>
+                <span>This field is mandatory</span>
+              </div>
+            }
+          </div>
+          <!-- Model input + autocomplete -->
+          <div class="form-row model-row">
+            <label class="allLabel" for="model">Model <span class="required-mark">*</span></label>
+            <div class="field-with-icon">
+              @if (showModelSearchIcon) {
+                <span class="icon-search" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2" />
+                    <line x1="13.35" y1="13.35" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2"
+                      stroke-linecap="round" />
+                  </svg>
+                </span>
+              }
+              <input id="model" type="text" formControlName="model" placeholder="Enter model name"
+                autocomplete="off" (focus)="onModelFieldFocus()" (blur)="onModelFieldBlur()"
+                (keydown)="onModelKeydown($event)" [style.padding-left.px]="modelInputPaddingLeft"
+                [class.filled-input]="isModelFilled" />
+              @if (modelFieldFocused && currentModelQuery.trim().length) {
+                <ul
+                  class="suggestions-list model-autocomplete-list">
+                  @for (m of filteredModels; track m; let i = $index) {
+                    <li (mousedown)="$event.preventDefault()"
+                    (mouseup)="onModelSelect(m)" [class.focused]="i === modelHighlightIndex">{{ m }}</li>
+                  }
+                  @if (filteredModels.length === 0) {
+                    <li class="no-results-message">No record found</li>
+                  }
+                </ul>
+              }
+            </div>
+            @if (form.get('model')?.invalid && form.get('model')?.touched) {
+              <div class="error">
+                <span class="error-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="7" fill="#B40000" />
+                    <path
+                      d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
+                      fill="#E9F3FB" />
+                    <path
+                      d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
+                      fill="#D6E9F8" />
+                    <path
+                      d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
+                      fill="#E9F3FB" />
+                  </svg>
+                </span>
+                <span>This field is mandatory</span>
+              </div>
+            }
+          </div>
+          <!-- Dealer selection -->
+          <div class="form-row dealer-row">
+            <label class="allLabel" for="dealer">Dealer <span class="required-mark">*</span></label>
+            <div class="dealer-controls dealer-field" [class.filled]="isDealerFilled">
+              <input type="text" class="dealer-input" readonly [value]="selectedDealer || ''"
+                [class.filled-input]="isDealerFilled" placeholder="Select dealer"
+                (click)="handleDealerControlTrigger(dealerOpen, $event)"
+                (keydown.enter)="handleDealerControlTrigger(dealerOpen, $event)"
+                (keydown.space)="handleDealerControlTrigger(dealerOpen, $event)" />
+              <button #dealerOpen id="dealerOpenBtn" type="button" class="dealer-dropdown-btn"
+                (click)="onDealerModalButtonClick()" [class.filled]="isDealerFilled" data-bs-toggle="modal"
+                data-bs-target="#dealerPicker" aria-label="Open dealer selector">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 10l5 5 5-5" stroke="#333" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+            @if (form.get('dealer')?.invalid && form.get('dealer')?.touched) {
+              <div class="error">
+                <span class="error-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="7" fill="#B40000" />
+                    <path
+                      d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
+                      fill="#E9F3FB" />
+                    <path
+                      d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
+                      fill="#D6E9F8" />
+                    <path
+                      d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
+                      fill="#E9F3FB" />
+                  </svg>
+                </span>
+                <span>This field is mandatory</span>
+              </div>
+            }
+            <!-- Dealer modal (searchable) -->
+            <div #dealerModal class="modal fade dealer-modal" id="dealerPicker" tabindex="-1"
+              aria-labelledby="dealerPickerLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered dealer-modal-dialog">
+                <div class="modal-content dealer-modal-content">
+                  <div class="dealer-modal-header">
+                    <h2 class="dealer-modal-title" id="dealerPickerLabel">Select dealer</h2>
+                    <button type="button" class="dealer-modal-close" data-bs-dismiss="modal"
+                      aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body dealer-modal-body">
+                    @if (filteredDealers.length) {
+                      <ul #dealerList class="dealer-list" role="listbox"
+                        tabindex="0" [attr.aria-activedescendant]="activeDealerOptionId"
+                        (focus)="onDealerListFocus()" (keydown)="onDealerListKeydown($event)">
+                        @for (dealer of filteredDealers; track dealer; let i = $index) {
+                          <li
+                            class="dealer-list-item" role="option" tabindex="-1"
+                            [attr.id]="'dealer-option-' + i"
+                            [attr.aria-selected]="i === dealerHighlightIndex"
+                            [class.focused]="i === dealerHighlightIndex"
+                            (focus)="dealerHighlightIndex = i" (mouseenter)="dealerHighlightIndex = i"
+                            (keydown)="onDealerOptionKeydown($event, i)"
+                          (click)="onDealerSelect(dealer)">{{ dealer }}</li>
+                        }
+                      </ul>
+                    }
+                    @if (!filteredDealers.length) {
+                      <div class="dealer-empty">No dealers match your
+                      selection.</div>
+                    }
+                  </div>
                 </div>
-                <!-- Model input + autocomplete -->
-                <div class="form-row model-row">
-                    <label class="allLabel" for="model">Model <span class="required-mark">*</span></label>
-                    <div class="field-with-icon">
-                        <span *ngIf="showModelSearchIcon" class="icon-search" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2" />
-                                <line x1="13.35" y1="13.35" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </span>
-                        <input id="model" type="text" formControlName="model" placeholder="Enter model name"
-                            autocomplete="off" (focus)="onModelFieldFocus()" (blur)="onModelFieldBlur()"
-                            (keydown)="onModelKeydown($event)" [style.padding-left.px]="modelInputPaddingLeft"
-                            [class.filled-input]="isModelFilled" />
-                        <ul *ngIf="modelFieldFocused && currentModelQuery.trim().length"
-                            class="suggestions-list model-autocomplete-list">
-                            <li *ngFor="let m of filteredModels; let i = index" (mousedown)="$event.preventDefault()"
-                                (mouseup)="onModelSelect(m)" [class.focused]="i === modelHighlightIndex">{{ m }}</li>
-                            <li *ngIf="filteredModels.length === 0" class="no-results-message">No record found</li>
-                        </ul>
-                    </div>
-                    <div *ngIf="form.get('model')?.invalid && form.get('model')?.touched" class="error">
-                        <span class="error-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="7" cy="7" r="7" fill="#B40000" />
-                                <path
-                                    d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
-                                    fill="#E9F3FB" />
-                                <path
-                                    d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
-                                    fill="#D6E9F8" />
-                                <path
-                                    d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
-                                    fill="#E9F3FB" />
-                            </svg>
-                        </span>
-                        <span>This field is mandatory</span>
-                    </div>
-                </div>
-                <!-- Dealer selection -->
-                <div class="form-row dealer-row">
-                    <label class="allLabel" for="dealer">Dealer <span class="required-mark">*</span></label>
-                    <div class="dealer-controls dealer-field" [class.filled]="isDealerFilled">
-                        <input type="text" class="dealer-input" readonly [value]="selectedDealer || ''"
-                            [class.filled-input]="isDealerFilled" placeholder="Select dealer"
-                            (click)="handleDealerControlTrigger(dealerOpen, $event)"
-                            (keydown.enter)="handleDealerControlTrigger(dealerOpen, $event)"
-                            (keydown.space)="handleDealerControlTrigger(dealerOpen, $event)" />
-                        <button #dealerOpen id="dealerOpenBtn" type="button" class="dealer-dropdown-btn"
-                            (click)="onDealerModalButtonClick()" [class.filled]="isDealerFilled" data-bs-toggle="modal"
-                            data-bs-target="#dealerPicker" aria-label="Open dealer selector">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7 10l5 5 5-5" stroke="#333" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div *ngIf="form.get('dealer')?.invalid && form.get('dealer')?.touched" class="error">
-                        <span class="error-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="7" cy="7" r="7" fill="#B40000" />
-                                <path
-                                    d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
-                                    fill="#E9F3FB" />
-                                <path
-                                    d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
-                                    fill="#D6E9F8" />
-                                <path
-                                    d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
-                                    fill="#E9F3FB" />
-                            </svg>
-                        </span>
-                        <span>This field is mandatory</span>
-                    </div>
-                    <!-- Dealer modal (searchable) -->
-                    <div #dealerModal class="modal fade dealer-modal" id="dealerPicker" tabindex="-1"
-                        aria-labelledby="dealerPickerLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered dealer-modal-dialog">
-                            <div class="modal-content dealer-modal-content">
-                                <div class="dealer-modal-header">
-                                    <h2 class="dealer-modal-title" id="dealerPickerLabel">Select dealer</h2>
-                                    <button type="button" class="dealer-modal-close" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body dealer-modal-body">
-                                    <ul *ngIf="filteredDealers.length" #dealerList class="dealer-list" role="listbox"
-                                        tabindex="0" [attr.aria-activedescendant]="activeDealerOptionId"
-                                        (focus)="onDealerListFocus()" (keydown)="onDealerListKeydown($event)">
-                                        <li *ngFor="let dealer of filteredDealers; let i = index"
-                                            class="dealer-list-item" role="option" tabindex="-1"
-                                            [attr.id]="'dealer-option-' + i"
-                                            [attr.aria-selected]="i === dealerHighlightIndex"
-                                            [class.focused]="i === dealerHighlightIndex"
-                                            (focus)="dealerHighlightIndex = i" (mouseenter)="dealerHighlightIndex = i"
-                                            (keydown)="onDealerOptionKeydown($event, i)"
-                                            (click)="onDealerSelect(dealer)">{{ dealer }}</li>
-                                    </ul>
-                                    <div *ngIf="!filteredDealers.length" class="dealer-empty">No dealers match your
-                                        selection.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Note -->
-                <div class="note-block note-box">
-                    <span class="note-icon" aria-hidden="true">
-                        <svg width="16" height="16" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M7.01037 1.42188C7.01037 1.55312 6.92179 1.64062 6.78893 1.64062C6.65606 1.64062 6.56749 1.53125 6.56749 1.42188V0.21875C6.56749 0.0875 6.65606 0 6.78893 0C6.92179 0 7.01037 0.0875 7.01037 0.21875V1.42188Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M10.3763 4.28751C9.68979 2.80001 8.22828 1.94688 6.56747 2.01251C5.01738 2.07813 3.66659 3.01876 3.0687 4.46251C2.47081 5.88438 2.73654 7.48126 3.77731 8.61876C4.1759 9.05626 4.44163 9.58126 4.53021 10.1281C4.66307 10.0625 4.81808 10.0188 4.97309 10.0188H6.56747V7.74376L5.79242 6.97813C5.70385 6.89063 5.70385 6.75938 5.79242 6.67188C5.881 6.58438 6.01386 6.58438 6.10244 6.67188L6.78891 7.35001L7.51966 6.62813C7.60824 6.54063 7.74111 6.54063 7.82968 6.62813C7.91826 6.71563 7.91826 6.84688 7.82968 6.93438L7.01035 7.74376V9.99688H8.60473C8.75973 9.99688 8.8926 10.0188 9.02546 10.0844C9.11404 9.53751 9.35763 9.05626 9.75622 8.64063C10.8191 7.43751 11.0849 5.77501 10.3763 4.28751Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M9.13618 11.0031V11.5719C9.13618 11.8781 8.89259 12.1188 8.58258 12.1188H8.51614V12.2719C8.51614 13.2125 7.7411 14 6.76676 14C5.81456 14 5.01737 13.2344 5.01737 12.2719V12.1188H4.95094C4.64092 12.1188 4.39734 11.8781 4.39734 11.5719V11.0031C4.39734 10.6969 4.64092 10.4563 4.95094 10.4563H8.58258C8.89259 10.4344 9.13618 10.6969 9.13618 11.0031Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M4.17593 2.16562C4.24236 2.275 4.37522 2.29688 4.48594 2.25312C4.59666 2.1875 4.61881 2.05625 4.57452 1.94687L3.97663 0.91875C3.9102 0.809375 3.77733 0.7875 3.66661 0.83125C3.55589 0.896875 3.53375 1.02813 3.57804 1.1375L4.17593 2.16562Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M2.47082 4.00312L1.43005 3.4125C1.31932 3.34687 1.27504 3.21562 1.34147 3.10625C1.4079 2.99687 1.54077 2.95312 1.65149 3.01875L2.69226 3.60937C2.80298 3.675 2.84727 3.80625 2.78084 3.91562C2.7144 4.025 2.58154 4.06875 2.47082 4.00312Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M2.13866 6.2125C2.13866 6.08125 2.05009 5.99375 1.91722 5.99375H0.721441C0.588576 5.99375 0.5 6.08125 0.5 6.2125C0.5 6.34375 0.588576 6.43125 0.721441 6.43125H1.91722C2.05009 6.43125 2.13866 6.34375 2.13866 6.2125Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M1.43008 9.0125L2.47085 8.42187C2.58157 8.35625 2.71444 8.4 2.78087 8.50937C2.82516 8.61875 2.80301 8.75 2.69229 8.81562L1.65152 9.40625C1.5408 9.45 1.40793 9.42812 1.3415 9.31875C1.29721 9.20937 1.31936 9.07812 1.43008 9.0125Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M12.1478 9.03438L11.107 8.44375C10.9963 8.37813 10.8634 8.42188 10.797 8.53125C10.7306 8.64063 10.7749 8.77188 10.8856 8.8375L11.9264 9.42813C12.0371 9.49375 12.17 9.45 12.2364 9.34063C12.3028 9.20938 12.2585 9.07813 12.1478 9.03438Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M11.6607 5.99375H12.8564C12.9893 5.99375 13.1 6.08125 13.1 6.2125C13.1 6.34375 13.0114 6.43125 12.8786 6.43125H11.6607C11.5278 6.43125 11.4392 6.34375 11.4392 6.2125C11.4392 6.08125 11.5278 5.99375 11.6607 5.99375Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M11.107 4.00313L12.1478 3.4125C12.2585 3.34688 12.2806 3.21563 12.2364 3.10625C12.1921 2.99688 12.0371 2.975 11.9263 3.01875L10.8856 3.60938C10.7748 3.675 10.7527 3.80625 10.797 3.91563C10.8634 4.025 10.9963 4.06875 11.107 4.00313Z"
-                                fill="#1778EB" />
-                            <path
-                                d="M9.42412 2.16562C9.35768 2.275 9.22482 2.31875 9.1141 2.25312C9.00338 2.1875 8.95909 2.05625 9.02552 1.94687L9.62341 0.918746C9.68985 0.809371 9.82271 0.765621 9.93343 0.831246C10.0442 0.896871 10.0884 1.02812 10.022 1.1375L9.42412 2.16562Z"
-                                fill="#1778EB" />
-                        </svg>
-                    </span>
-                    <div class="note-text">
-                        <span>Please note:</span>
-                        <p> <span>The dealer list is populated as per the Pincode and brand you have entered.</span></p>
-                    </div>
-                </div>
-                <!-- Actions -->
-                <div class="form-actions">
-                    <button type="button" class="save-btn" (click)="onSaveToCart()">Save to Cart</button>
-                    <button type="button" class="continue-btn" (click)="onContinue()">Continue</button>
-                </div>
-            </form>
-        </div>
+              </div>
+            </div>
+          </div>
+          <!-- Note -->
+          <div class="note-block note-box">
+            <span class="note-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7.01037 1.42188C7.01037 1.55312 6.92179 1.64062 6.78893 1.64062C6.65606 1.64062 6.56749 1.53125 6.56749 1.42188V0.21875C6.56749 0.0875 6.65606 0 6.78893 0C6.92179 0 7.01037 0.0875 7.01037 0.21875V1.42188Z"
+                  fill="#1778EB" />
+                <path
+                  d="M10.3763 4.28751C9.68979 2.80001 8.22828 1.94688 6.56747 2.01251C5.01738 2.07813 3.66659 3.01876 3.0687 4.46251C2.47081 5.88438 2.73654 7.48126 3.77731 8.61876C4.1759 9.05626 4.44163 9.58126 4.53021 10.1281C4.66307 10.0625 4.81808 10.0188 4.97309 10.0188H6.56747V7.74376L5.79242 6.97813C5.70385 6.89063 5.70385 6.75938 5.79242 6.67188C5.881 6.58438 6.01386 6.58438 6.10244 6.67188L6.78891 7.35001L7.51966 6.62813C7.60824 6.54063 7.74111 6.54063 7.82968 6.62813C7.91826 6.71563 7.91826 6.84688 7.82968 6.93438L7.01035 7.74376V9.99688H8.60473C8.75973 9.99688 8.8926 10.0188 9.02546 10.0844C9.11404 9.53751 9.35763 9.05626 9.75622 8.64063C10.8191 7.43751 11.0849 5.77501 10.3763 4.28751Z"
+                  fill="#1778EB" />
+                <path
+                  d="M9.13618 11.0031V11.5719C9.13618 11.8781 8.89259 12.1188 8.58258 12.1188H8.51614V12.2719C8.51614 13.2125 7.7411 14 6.76676 14C5.81456 14 5.01737 13.2344 5.01737 12.2719V12.1188H4.95094C4.64092 12.1188 4.39734 11.8781 4.39734 11.5719V11.0031C4.39734 10.6969 4.64092 10.4563 4.95094 10.4563H8.58258C8.89259 10.4344 9.13618 10.6969 9.13618 11.0031Z"
+                  fill="#1778EB" />
+                <path
+                  d="M4.17593 2.16562C4.24236 2.275 4.37522 2.29688 4.48594 2.25312C4.59666 2.1875 4.61881 2.05625 4.57452 1.94687L3.97663 0.91875C3.9102 0.809375 3.77733 0.7875 3.66661 0.83125C3.55589 0.896875 3.53375 1.02813 3.57804 1.1375L4.17593 2.16562Z"
+                  fill="#1778EB" />
+                <path
+                  d="M2.47082 4.00312L1.43005 3.4125C1.31932 3.34687 1.27504 3.21562 1.34147 3.10625C1.4079 2.99687 1.54077 2.95312 1.65149 3.01875L2.69226 3.60937C2.80298 3.675 2.84727 3.80625 2.78084 3.91562C2.7144 4.025 2.58154 4.06875 2.47082 4.00312Z"
+                  fill="#1778EB" />
+                <path
+                  d="M2.13866 6.2125C2.13866 6.08125 2.05009 5.99375 1.91722 5.99375H0.721441C0.588576 5.99375 0.5 6.08125 0.5 6.2125C0.5 6.34375 0.588576 6.43125 0.721441 6.43125H1.91722C2.05009 6.43125 2.13866 6.34375 2.13866 6.2125Z"
+                  fill="#1778EB" />
+                <path
+                  d="M1.43008 9.0125L2.47085 8.42187C2.58157 8.35625 2.71444 8.4 2.78087 8.50937C2.82516 8.61875 2.80301 8.75 2.69229 8.81562L1.65152 9.40625C1.5408 9.45 1.40793 9.42812 1.3415 9.31875C1.29721 9.20937 1.31936 9.07812 1.43008 9.0125Z"
+                  fill="#1778EB" />
+                <path
+                  d="M12.1478 9.03438L11.107 8.44375C10.9963 8.37813 10.8634 8.42188 10.797 8.53125C10.7306 8.64063 10.7749 8.77188 10.8856 8.8375L11.9264 9.42813C12.0371 9.49375 12.17 9.45 12.2364 9.34063C12.3028 9.20938 12.2585 9.07813 12.1478 9.03438Z"
+                  fill="#1778EB" />
+                <path
+                  d="M11.6607 5.99375H12.8564C12.9893 5.99375 13.1 6.08125 13.1 6.2125C13.1 6.34375 13.0114 6.43125 12.8786 6.43125H11.6607C11.5278 6.43125 11.4392 6.34375 11.4392 6.2125C11.4392 6.08125 11.5278 5.99375 11.6607 5.99375Z"
+                  fill="#1778EB" />
+                <path
+                  d="M11.107 4.00313L12.1478 3.4125C12.2585 3.34688 12.2806 3.21563 12.2364 3.10625C12.1921 2.99688 12.0371 2.975 11.9263 3.01875L10.8856 3.60938C10.7748 3.675 10.7527 3.80625 10.797 3.91563C10.8634 4.025 10.9963 4.06875 11.107 4.00313Z"
+                  fill="#1778EB" />
+                <path
+                  d="M9.42412 2.16562C9.35768 2.275 9.22482 2.31875 9.1141 2.25312C9.00338 2.1875 8.95909 2.05625 9.02552 1.94687L9.62341 0.918746C9.68985 0.809371 9.82271 0.765621 9.93343 0.831246C10.0442 0.896871 10.0884 1.02812 10.022 1.1375L9.42412 2.16562Z"
+                  fill="#1778EB" />
+              </svg>
+            </span>
+            <div class="note-text">
+              <span>Please note:</span>
+              <p> <span>The dealer list is populated as per the Pincode and brand you have entered.</span></p>
+            </div>
+          </div>
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" class="save-btn" (click)="onSaveToCart()">Save to Cart</button>
+            <button type="button" class="continue-btn" (click)="onContinue()">Continue</button>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
-<div *ngIf="isLoading" class="loader-overlay">
+  </div>
+}
+@if (isLoading) {
+  <div class="loader-overlay">
     <!-- The loader is now handled by the vehicle-loader route -->
-</div>
+  </div>
+}

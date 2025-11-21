@@ -45,14 +45,8 @@
 
   <div class="form-field">
     <label for="dob-input">Date of Birth <span class="required">*</span></label>
-    <input type="text"
-       class="form-control"
-       id="dob-input"
-       placeholder="dd-mm-yyyy"
-       [(ngModel)]="dob"
-       maxlength="10"
-       pattern="\d{2}-\d{2}-\d{4}"
-       (input)="onDobInput($event)">
+    <input type="text" class="form-control" id="dob-input" placeholder="dd/mm/yyyy" [(ngModel)]="dob" maxlength="10"
+      pattern="\d{2}/\d{2}/\d{4}" (input)="onDobInput($event)">
 
     @if (showErrors && !dob) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your date of birth</span>
@@ -65,8 +59,8 @@
   </div>
 
   <div class="form-field">
-    <label for="pan-number-input">PAN Card Number <span class="required">*</span> <img src="/Vector copy.svg"
-        alt="PAN info" class="pan-info-icon" /></label>
+    <label for="pan-number-input">PAN Card Number <span class="required">*</span>
+      <img src="/Vector copy.svg" alt="PAN info" class="pan-info-icon" /></label>
     <input type="text" class="form-control" id="pan-number-input" placeholder="Enter 10-character alphanumeric PAN"
       [(ngModel)]="pan" (input)="onPanInput($event)" maxlength="10">
     @if (showErrors && !isPanValid()) {
@@ -101,6 +95,19 @@
       @if (showErrors && !isSalaryValid()) {
       <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter salary between 15000 to
           75000</span></div>
+      }
+    </div>
+    }
+    @else if (employmentType==='self-employed') {
+    <div class="salary-field">
+      <label for="gstin-input">GSTIN Number (Optional)
+        <img src="/Vector copy.svg" alt="GST info" class="pan-info-icon" (click)="openDrawerForGstin()" />
+      </label>
+      <input id="gstin-input" type="text" class="form-control" placeholder="Enter your GSTIN" [(ngModel)]="gstin"
+        (input)="onGstInput($event)">
+      @if (showErrors && !isGstValid()) {
+      <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Invalid GSTIN card number. Please
+          enter a valid 15-character alphanumeric GSTIN</span></div>
       }
     </div>
     }
@@ -139,7 +146,7 @@
   }
   <div class="consent-group">
     <div class="consent-item" [ngClass]="{'tnc-error': showErrors && !tncAccepted}">
-      <input type="checkbox" [(ngModel)]="tncAccepted" (change)="onConsentChange()" />
+      <input type="checkbox" class="consent-checkbox" [(ngModel)]="tncAccepted" (change)="onConsentChange()" />
       <span>I have read, understood, and hereby accept the product
         <span class="terms-conditions">
           <a target="_blank" href="https://www.bajajfinserv.in/tnc-retail-lending" class="link">Terms and
@@ -147,13 +154,13 @@
     </div>
     <hr>
     <div class="consent-item" [ngClass]="{'tnc-error': showErrors && !creditConsent}">
-      <input type="checkbox" [(ngModel)]="creditConsent" (change)="onConsentChange()" />
+      <input type="checkbox" class="consent-checkbox" [(ngModel)]="creditConsent" (change)="onConsentChange()" />
       <span>I hereby consent to receiving my credit information offered by TransUnion CIBIL Limited (TU CIBIL)
         ("Product") through Bajaj Finance Limited (referred to as the "Agent").</span>
     </div>
     <hr>
     <div class="consent-item optional">
-      <input type="checkbox" [(ngModel)]="marketingOptIn" />
+      <input type="checkbox" class="consent-checkbox" [(ngModel)]="marketingOptIn" />
       <span>I hereby expressly authorize BFL, its group companies, affiliates and/or business associates and their
         respective representatives to send me information about its/their promotional communications regarding fixed
         deposit, loans, insurance and their respective products and/or services ("Products/Services") by telephone calls
@@ -182,3 +189,21 @@
     <button type="button" class="btn-primary" (click)="onContinue()">CONTINUE</button>
   </div>
 </div>
+
+<!-- Drawer for GSTIN info -->
+@if (isGstinDrawerOpen) {
+<div class="gstin-drawer">
+  <div class="drawer-content">
+    <div class="drawer-row-1">
+      <span class="close-button">
+        <img src="/Vector copy 2.svg" alt="Close" (click)="closeGstinDrawer()" />
+      </span>
+    </div>
+    <p class="drawer-label">GSTIN</p>
+    <p class="gst-p">Enter the 15-character alphanumeric GSTIN for your business as per GST certificate. </p>
+    <div class="drawer-button-wrapper">
+      <button type="button" class="btn-primary1" (click)="closeGstinDrawer()">Got it</button>
+    </div>
+  </div>
+</div>
+}

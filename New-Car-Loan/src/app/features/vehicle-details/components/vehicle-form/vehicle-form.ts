@@ -1,7 +1,7 @@
 import { Tracker } from './../../../../shared/components/tracker/tracker';
 import { Component, ViewEncapsulation, inject, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
@@ -10,7 +10,7 @@ import { Modal } from 'bootstrap';
 @Component({
   selector: 'app-vehicle-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, Tracker],
+  imports: [ReactiveFormsModule, Tracker],
   templateUrl: './vehicle-form.html',
   styleUrls: ['./vehicle-form.css'],
   encapsulation: ViewEncapsulation.None,

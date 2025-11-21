@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
@@ -6,7 +6,7 @@ import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-vehicle-form-loader',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './vehicle-form-loader.html',
   styleUrl: './vehicle-form-loader.css',
 })
