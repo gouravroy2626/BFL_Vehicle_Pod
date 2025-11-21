@@ -12,6 +12,13 @@
   padding-top: 0;
   padding-bottom: 0;
 }
+/* 2px separator bar below tracker for visual distinction */
+.tracker-above-form::after {
+  content: '';
+  display: block;
+  height: 2px;
+  /* background: #F5F5F5;  */
+}
 
 .form-container {
   max-width: 800px;
@@ -619,6 +626,13 @@ letter-spacing: 0px;
   /* display: flex; */
   flex-direction: column;
   align-items: center;
+}
+/* Remove top shadow & border on wider (desktop) screens */
+@media (min-width: 992px) {
+  .button-box-with-shadow {
+    box-shadow: none;
+    border-top: none;
+  }
 }
 
 .consent-item input[type="checkbox"] {
