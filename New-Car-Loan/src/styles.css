@@ -1,5 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-
 app-tracker .tracker-container {
-  padding-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+body.no-scroll {
+    /* This creates a new "containing block" for our loader */
+    height: 100vh;
+    overflow: hidden;
+}
+
+body.no-scroll app-vehicle-form-loader {
+    /* This makes the loader component itself scrollable if needed (e.g., on zoom) */
+    /* while the main body does not scroll. */
+    overflow-y: auto;
+    height: 100%;
 }

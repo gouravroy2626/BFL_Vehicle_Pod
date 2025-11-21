@@ -7,41 +7,61 @@
     background: #ffffff;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    /* Center vertically */
+    padding: 20px 0;
+    /* Add some padding for small screens/zoom */
 }
 
 .loader-spacer {
-    height: 120px;
-    flex-shrink: 0;
+    display: none;
+    /* No longer needed */
 }
 
 .loader-shell {
-    flex: 1;
     display: flex;
     justify-content: center;
+    padding: 0 20px;
 }
 
 .loader-main {
     width: 100%;
-    max-width: 853px;
-    padding: 0 141px 141px;
+    max-width: 571px;
+    /* Set a max-width for larger screens */
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 40px;
+    gap: 32px;
 }
 
 .loader-main h1 {
+    width: 100%;
+    max-width: 309px;
     margin: 0;
-    font-size: 24px;
-    font-weight: 600;
-    color: #0c2f64;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.2;
+    /* Adjusted for readability */
+    letter-spacing: 0;
+    text-align: center;
+    color: #002953;
 }
 
 .loader-note {
+    width: 100%;
+    max-width: 298px;
     margin: 0;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
     font-size: 16px;
-    color: #595959;
+    line-height: 1.25;
+    /* Adjusted for readability */
+    letter-spacing: 0;
+    text-align: center;
+    color: #1A1A1A;
 }
 
 .loader-ring {
@@ -74,24 +94,28 @@
     box-shadow: 0 0 0 1px rgba(12, 47, 100, 0.04);
 }
 
-@media (max-width: 768px) {
-    .loader-spacer {
-        height: 80px;
-    }
+@media (max-width: 992px) {
 
-    .loader-main {
-        padding: 0 32px 96px;
-        gap: 32px;
-    }
-
-    .loader-main h1 {
-        font-size: 20px;
+    /* For tablets and larger phones */
+    .loader-shell {
+        padding: 0 40px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
+
+    /* For small phones */
+    .loader-shell {
+        padding: 0 20px;
+    }
+
     .loader-main {
-        padding: 0 20px 80px;
+        gap: 24px;
+    }
+
+    .loader-ring {
+        width: 120px;
+        height: 120px;
     }
 }
 
