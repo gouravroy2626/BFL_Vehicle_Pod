@@ -1,8 +1,9 @@
 import { Tracker } from './../../../../shared/components/tracker/tracker';
 import { Component, ViewEncapsulation, inject, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
 import { Modal } from 'bootstrap';
@@ -271,7 +272,14 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
 
   onBrandFieldFocus() {
     this.brandFieldFocused = true;
-    this.brandHighlightIndex = -1;
+    // Show full brand list immediately on focus if input empty
+    const current = (this.form.get('brand')?.value ?? '').trim();
+    if (!current.length) {
+      this.filteredBrands = this.brands.slice();
+      this.brandHighlightIndex = 0;
+    } else {
+      this.brandHighlightIndex = -1;
+    }
   }
 
   onBrandFieldBlur() {
@@ -284,7 +292,13 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
 
   onModelFieldFocus() {
     this.modelFieldFocused = true;
-    this.modelHighlightIndex = -1;
+    const current = (this.form.get('model')?.value ?? '').trim();
+    if (!current.length) {
+      this.filteredModels = this.models.slice();
+      this.modelHighlightIndex = 0;
+    } else {
+      this.modelHighlightIndex = -1;
+    }
   }
 
   onModelFieldBlur() {
@@ -296,13 +310,13 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   searchBrands(query: string): string[] {
-    if (!query || query.trim() === '') return [];
+    if (!query || query.trim() === '') return this.brands.slice();
     const lowerQuery = query.toLowerCase();
     return this.brands.filter(b => b.toLowerCase().includes(lowerQuery));
   }
 
   searchModels(query: string): string[] {
-    if (!query || query.trim() === '') return [];
+    if (!query || query.trim() === '') return this.models.slice();
     const lowerQuery = query.toLowerCase();
     return this.models.filter(m => m.toLowerCase().includes(lowerQuery));
   }

@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -16,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class PersonalForm {
   // Drawer state and UI flags
   isDrawerOpen = true;
+  isGstinDrawerOpen = false;
   // Debug log for initial state
   constructor(private router: Router) {
     console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
@@ -36,7 +36,7 @@ export class PersonalForm {
   monthlySalary: string = '';
   employmentModalOpen = false; // controls bootstrap-style modal
   city: string = ''; // Add city property to bind in the template
-
+  gstin:string='';
   // Consents
   tncAccepted = false;
   creditConsent = false;
@@ -123,6 +123,9 @@ export class PersonalForm {
     if (type !== 'salaried') {
       this.monthlySalary = '';
     }
+    if (type === 'salaried') {
+      this.gstin = '';
+    }
     this.closeEmploymentModal();
   }
 
@@ -140,6 +143,7 @@ export class PersonalForm {
     if (!this.employmentType) return true;
     if (!this.isPincodeValidLocal()) return true;
     if (this.employmentType === 'salaried' && !this.isSalaryValid()) return true;
+    if (this.employmentType === 'self-employed' && !this.isGstValid()) return true;
     if (!this.tncAccepted) return true;
     if (!this.creditConsent) return true;
     // mobile not described in new requirements but keep previous rule if provided
@@ -166,6 +170,12 @@ export class PersonalForm {
     return value >= 15000 && value <= 75000;
   }
 
+  isGstValid(): boolean {
+    if (!this.gstin) return false;
+    // GSTIN: 15-character alphanumeric, only capital letters and numbers
+    const gstRegex = /^[A-Z0-9]{15}$/;
+    return gstRegex.test(this.gstin);
+  }
   isAgeValid(): boolean {
     if (!this.dob) return true; // age error only if DOB filled
     const age = this.calculateAge(this.dob);
@@ -178,6 +188,33 @@ export class PersonalForm {
     const diff = Date.now() - dobDate.getTime();
     const ageDate = new Date(diff);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+
+  onDobInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    let raw = input.value.replace(/\D/g, ''); // only digits
+
+    let day = '';
+    let month = '';
+    let year = '';
+
+    if (raw.length <= 2) {
+      day = raw;
+    } else if (raw.length <= 4) {
+      day = raw.substring(0, 2);
+      month = raw.substring(2);
+    } else {
+      day = raw.substring(0, 2);
+      month = raw.substring(2, 4);
+      year = raw.substring(4, 8);
+    }
+
+    let formatted = day;
+    if (month) formatted += '/' + month;
+    if (year) formatted += '/' + year;
+
+    input.value = formatted;
+    this.dob = formatted;
   }
 
   // Input handlers to enforce constraints
@@ -212,19 +249,13 @@ export class PersonalForm {
     this.monthlySalary = val;
   }
 
-  onDobInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    // Allow only numbers and dashes, and restrict year part to 4 digits
-    let val = input.value.replace(/[^0-9-]/g, '');
-    // If user is typing year, restrict to 4 digits
-    const parts = val.split('-');
-    if (parts[0] && parts[0].length > 4) parts[0] = parts[0].slice(0, 4);
-    if (parts[1] && parts[1].length > 2) parts[1] = parts[1].slice(0, 2);
-    if (parts[2] && parts[2].length > 2) parts[2] = parts[2].slice(0, 2);
-    val = parts.filter(Boolean).join('-');
-    input.value = val;
-    this.dob = val;
-  }
+  onGstInput(e: Event) {
+  const input = e.target as HTMLInputElement;
+  let val = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (val.length > 15) val = val.slice(0, 15);
+  input.value = val;
+  this.gstin = val;
+}
 
   // Re-evaluate errors when consent toggled so border warning disappears immediately
   onConsentChange() {
@@ -257,5 +288,13 @@ export class PersonalForm {
     this.showErrors = true;
     if (this.hasAnyErrors()) return; // show error summary; prevent navigation
     this.vehicleDetails();
+  }
+
+  openDrawerForGstin() {
+    this.isGstinDrawerOpen = true;
+  }
+
+  closeGstinDrawer() {
+    this.isGstinDrawerOpen = false;
   }
 }
