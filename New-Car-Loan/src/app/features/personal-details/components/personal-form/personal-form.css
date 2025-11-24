@@ -1,3 +1,6 @@
+.consent-group label.consent-item:last-child {
+  margin-bottom: 50px;
+}
 /* --- Line between consent 2 & 3 --- */
 .consent-group label.consent-item:nth-child(3)+hr {
   /* Example style: adjust as needed */
@@ -715,32 +718,17 @@ letter-spacing: 0px;
 .button-box-with-shadow {
   width: 100%;
   max-width: 800px;
-  /* match form-container width for left alignment */
-  background: #fff;
   padding-left: 16px;
   padding-right: 16px;
   margin: 0 auto;
-  /* center container */
   margin-top: 0;
-  /* remove gap so buttons sit just below inputs */
-  box-shadow: none;
-  /* remove shadow that caused visual separation */
-  border-top: none;
-  /* remove top border */
-  border-bottom: none;
   display: flex;
-  background: #fff;
-  padding-left: 16px;
-  padding-right: 16px;
-  margin-top: 18px;
-  margin-left: 0;
-  margin-right: 0;
-  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid #cccccce0;
-  border-bottom: none;
   flex-direction: column;
   align-items: stretch;
-  /* allow button-row to span full width */
+  background: transparent;
+  box-shadow: none;
+  border-top: none;
+  border-bottom: none;
 }
 
 @media (min-width: 992px) {

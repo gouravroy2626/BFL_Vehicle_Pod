@@ -1,23 +1,6 @@
-<<<<<<< HEAD
-<div class="tracker-container">
-  @for (step of steps; track step; let i = $index) {
-  <div [class]="getStepClass(i)">
-    <div class="circle">
-      <img [src]="getStepIcon(i)" [alt]="getStepIconAlt(i)" class="status-icon" [style.width.px]="getIconWidth(i)"
-        [style.height.px]="getIconHeight(i)" />
-    </div>
-    <div class="label" [innerHTML]="formatStepLabel(step)"></div>
-    @if (i < steps.length - 1) { <div class="line" [class.line-active]="i < currentStep">
-  </div>
-  }
-</div>
-}
-</div>
-=======
 <div class="tracker-container"> @for (step of steps; track step; let i = $index) { <div [class]="getStepClass(i)">
     <div class="circle"> <img [src]="getStepIcon(i)" [alt]="getStepIconAlt(i)" class="status-icon"
         [style.width.px]="getIconWidth(i)" [style.height.px]="getIconHeight(i)" /> </div>
     <div class="label">{{ step }}</div> @if (i < steps.length - 1) { <div class="line"
       [class.line-active]="i < currentStep">
   </div> } </div> } </div>
->>>>>>> main
