@@ -60,7 +60,7 @@
 
   <div class="form-field">
     <label for="pan-number-input">PAN Card Number <span class="required">*</span>
-      <img src="/Vector copy.svg" alt="PAN info" class="pan-info-icon" /></label>
+      <img src="/Vector copy.svg" alt="PAN info" class="pan-info-icon" (click)="openDrawerForPan()"/></label>
     <input type="text" class="form-control" id="pan-number-input" placeholder="Enter 10-character alphanumeric PAN"
       [(ngModel)]="pan" (input)="onPanInput($event)" maxlength="10">
     @if (showErrors && !isPanValid()) {
@@ -211,6 +211,26 @@
     <p class="gst-p">Enter the 15-character alphanumeric GSTIN for your business as per GST certificate. </p>
     <div class="drawer-button-wrapper">
       <button type="button" class="btn-primary1" (click)="closeGstinDrawer()">Got it</button>
+    </div>
+  </div>
+</div>
+}
+
+@if (isPanDrawerOpen) {
+<div class="gstin-drawer">
+  <div class="pan-drawer-content">
+    <div class="drawer-row-1">
+      <span class="close-button"></span>
+        <img src="/Vector copy 2.svg" alt="Close" (click)="closePanDrawer()" />
+      
+    </div>
+    <p class="pan-heading">Permanent Account Number (PAN)</p>
+    <p class="pan-sub">Enter your 10-character alphanumeric PAN.</p>
+    <div class="pan-sample-wrapper">
+      <img src="/Pan Image.png" alt="Sample PAN" class="pan-sample-img" />
+    </div>
+    <div class="drawer-button-wrapper pan-btn-wrapper">
+      <button type="button" class="btn-primary2" (click)="closePanDrawer()">GOT IT</button>
     </div>
   </div>
 </div>

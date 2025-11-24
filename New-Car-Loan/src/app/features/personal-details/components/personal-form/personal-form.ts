@@ -16,6 +16,7 @@ export class PersonalForm {
   // Drawer state and UI flags
   isDrawerOpen = true;
   isGstinDrawerOpen = false;
+  isPanDrawerOpen=false;
   // Debug log for initial state
   constructor(private router: Router) {
     console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
@@ -294,7 +295,15 @@ export class PersonalForm {
     this.isGstinDrawerOpen = true;
   }
 
+  openDrawerForPan(){
+    this.isPanDrawerOpen=true;
+  }
+
   closeGstinDrawer() {
     this.isGstinDrawerOpen = false;
+  }
+
+  closePanDrawer(){
+    this.isPanDrawerOpen=false;
   }
 }
