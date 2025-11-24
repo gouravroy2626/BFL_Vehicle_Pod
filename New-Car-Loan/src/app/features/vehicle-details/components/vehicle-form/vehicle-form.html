@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <!-- Dealer selection -->
-                <div class="form-row dealer-row">
+                <div class="form-row dealer-row dealer-prompt-fixed">
                     <label class="allLabel" for="dealer">Dealer <span class="required-mark">*</span></label>
                     <div class="dealer-controls dealer-field" [class.filled]="isDealerFilled"
                         [class.is-invalid]="form.get('dealer')?.invalid && form.get('dealer')?.touched">
@@ -145,7 +145,8 @@
                                 <div class="modal-body dealer-modal-body">
                                     <ul *ngIf="filteredDealers.length" #dealerList class="dealer-list" role="listbox"
                                         tabindex="0" [attr.aria-activedescendant]="activeDealerOptionId"
-                                        (focus)="onDealerListFocus()" (keydown)="onDealerListKeydown($event)">
+                                        (focus)="onDealerListFocus()" (keydown)="onDealerListKeydown($event)"
+                                        style="max-height:156px;overflow-y:auto;">
                                         <li *ngFor="let dealer of filteredDealers; let i = index"
                                             class="dealer-list-item" role="option" tabindex="-1"
                                             [attr.id]="'dealer-option-' + i"

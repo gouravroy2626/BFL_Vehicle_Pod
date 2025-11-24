@@ -1,6 +1,7 @@
 .consent-group label.consent-item:last-child {
   margin-bottom: 50px;
 }
+
 /* --- Line between consent 2 & 3 --- */
 .consent-group label.consent-item:nth-child(3)+hr {
   /* Example style: adjust as needed */

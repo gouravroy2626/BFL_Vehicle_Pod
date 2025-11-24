@@ -416,7 +416,12 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   private getDealerItems(): HTMLLIElement[] {
     const list = this.dealerList?.nativeElement;
     if (!list) return [];
-    return Array.from(list.querySelectorAll<HTMLLIElement>('.dealer-list-item'));
+    // Get first 3 li directly under ul
+    const firstThree = Array.from(list.querySelectorAll<HTMLLIElement>(":scope > .dealer-list-item"));
+    // Get any li inside the scrollable div (for >3 dealers)
+    const scrollableDiv = list.querySelector('div');
+    const rest = scrollableDiv ? Array.from(scrollableDiv.querySelectorAll<HTMLLIElement>('.dealer-list-item')) : [];
+    return [...firstThree, ...rest];
   }
 
   get activeDealerOptionId(): string | null {
