@@ -68,7 +68,6 @@ export class PersonalForm {
   // Drawer event handlers
   onDrawerClose() {
     this.isDrawerOpen = false;
-    document.body.style.overflow = 'auto';
     console.log('PersonalForm onDrawerClose: isDrawerOpen set to', this.isDrawerOpen);
   }
 
@@ -93,7 +92,7 @@ export class PersonalForm {
     if (payload.fullName) {
       this.fullName = payload.fullName;
     }
-    
+
     this.isDrawerOpen = false; // close drawer after selection
     console.log('PersonalForm onDrawerContinue: isDrawerOpen set to', this.isDrawerOpen);
     setTimeout(() => {
@@ -115,7 +114,6 @@ export class PersonalForm {
 
   closeEmploymentModal() {
     this.employmentModalOpen = false;
-    document.body.style.overflow = 'auto';
     console.log('PersonalForm closeEmploymentModal: employmentModalOpen set to', this.employmentModalOpen);
   }
 

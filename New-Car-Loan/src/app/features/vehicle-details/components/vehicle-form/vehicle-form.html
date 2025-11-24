@@ -95,7 +95,8 @@
                 <!-- Dealer selection -->
                 <div class="form-row dealer-row">
                     <label class="allLabel" for="dealer">Dealer <span class="required-mark">*</span></label>
-                    <div class="dealer-controls dealer-field" [class.filled]="isDealerFilled">
+                    <div class="dealer-controls dealer-field" [class.filled]="isDealerFilled"
+                        [class.is-invalid]="form.get('dealer')?.invalid && form.get('dealer')?.touched">
                         <input type="text" class="dealer-input" readonly [value]="selectedDealer || ''"
                             [class.filled-input]="isDealerFilled" placeholder="Select dealer"
                             (click)="handleDealerControlTrigger(dealerOpen, $event)"
@@ -106,7 +107,7 @@
                             data-bs-target="#dealerPicker" aria-label="Open dealer selector">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7 10l5 5 5-5" stroke="#333" stroke-width="2" stroke-linecap="round"
+                                <path d="M7 10l5 5 5-5" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
                         </button>
@@ -151,7 +152,6 @@
                                             [attr.aria-selected]="i === dealerHighlightIndex"
                                             [class.focused]="i === dealerHighlightIndex"
                                             (focus)="dealerHighlightIndex = i" (mouseenter)="dealerHighlightIndex = i"
-                                            (keydown)="onDealerOptionKeydown($event, i)"
                                             (click)="onDealerSelect(dealer)">{{ dealer }}</li>
                                     </ul>
                                     <div *ngIf="!filteredDealers.length" class="dealer-empty">No dealers match your

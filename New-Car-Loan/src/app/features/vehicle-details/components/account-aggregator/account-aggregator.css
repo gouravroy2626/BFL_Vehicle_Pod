@@ -1,16 +1,24 @@
 .aa-wrapper {
-    min-height: 100vh;
+    height: 100vh;
+    /* Fallback for older browsers */
+    height: 100svh;
+    /* Use smallest viewport height */
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding: 194.5px 16px;
+    padding: 16px;
     background: #ffffff;
+    box-sizing: border-box;
 }
 
 .aa-card {
     text-align: center;
     max-width: 520px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 6vh, 36px);
 }
 
 .aa-title {
@@ -19,20 +27,18 @@
     font-size: 20px;
     line-height: 1;
     letter-spacing: 0;
-    text-align: center;
-    margin: 0 0 40px;
+    margin: 0;
     color: #002953;
 }
 
 
 .aa-subtitle {
-    width: 298px;
-    height: 38px;
     margin: 0 auto;
+    max-width: 298px;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 16px;
-    line-height: 1;
+    line-height: 1.4;
     letter-spacing: 0;
     text-align: center;
     color: #1A1A1A;
@@ -52,9 +58,8 @@
 }
 
 .loader-svg {
-    width: 243px;
-    height: 60.75px;
+    width: clamp(180px, 45vw, 243px);
+    height: auto;
     animation: aa-float 1.8s ease-in-out infinite;
     transform-origin: center bottom;
-    margin-bottom: 40px;
 }

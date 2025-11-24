@@ -232,8 +232,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private onDealerModalHidden(): void {
-    // Reset body overflow when modal closes
-    document.body.style.overflow = 'auto';
+    // Let the router manage scroll behavior; avoid direct manipulation
     if (!this.filteredDealers.length) {
       this.dealerHighlightIndex = -1;
       return;
@@ -350,8 +349,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     if (this.dealerModalElement) {
       const modal = Modal.getInstance(this.dealerModalElement.nativeElement);
       modal?.hide();
-      // Reset body overflow when modal closes by selection
-      document.body.style.overflow = 'auto';
     }
     // Always reset loading state after dealer selection
     this.isLoading = false;
@@ -413,36 +410,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
       return null;
     }
     return `dealer-option-${this.dealerHighlightIndex}`;
-  }
-
-  onDealerOptionKeydown(event: KeyboardEvent, index: number): void {
-    if (!this.filteredDealers.length) return;
-
-    const lastIndex = this.filteredDealers.length - 1;
-    const clamp = (value: number) => Math.max(0, Math.min(value, lastIndex));
-
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      const nextIndex = clamp(index + 1);
-      this.dealerHighlightIndex = nextIndex;
-      this.focusDealerOption(nextIndex);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      const prevIndex = clamp(index - 1);
-      this.dealerHighlightIndex = prevIndex;
-      this.focusDealerOption(prevIndex);
-    } else if (event.key === 'Home') {
-      event.preventDefault();
-      this.dealerHighlightIndex = 0;
-      this.focusDealerOption(0);
-    } else if (event.key === 'End') {
-      event.preventDefault();
-      this.dealerHighlightIndex = lastIndex;
-      this.focusDealerOption(lastIndex);
-    } else if (event.key === 'Enter') {
-      event.preventDefault();
-      this.getDealerItems()[index]?.click();
-    }
   }
 
   onDealerSearch(event: Event): void {

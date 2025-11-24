@@ -3,14 +3,17 @@
 }
 
 .loader-root {
-    min-height: 100vh;
+    height: 100vh;
+    /* Fallback for older browsers */
+    height: 100svh;
+    /* Use smallest viewport height to avoid issues with browser UI */
     background: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     /* Center vertically */
-    padding: 20px 0;
-    /* Add some padding for small screens/zoom */
+    padding: clamp(24px, 6vh, 48px) 16px;
+    box-sizing: border-box;
 }
 
 .loader-spacer {
@@ -21,7 +24,7 @@
 .loader-shell {
     display: flex;
     justify-content: center;
-    padding: 0 20px;
+    padding: 0;
 }
 
 .loader-main {

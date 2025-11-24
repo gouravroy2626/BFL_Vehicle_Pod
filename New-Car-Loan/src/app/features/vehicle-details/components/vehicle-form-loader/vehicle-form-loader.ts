@@ -43,11 +43,12 @@ export class VehicleFormLoader implements OnInit, OnDestroy {
           }
         });
       });
-    }, 3000000); // 3-second delay
+    }, 3000); // 3-second delay
   }
 
   ngOnDestroy(): void {
-    this.renderer.removeClass(this.document.documentElement, 'no-scroll');
-    this.renderer.removeClass(this.document.body, 'no-scroll');
+    // The AccountAggregator will now be responsible for removing the no-scroll class.
+    // this.renderer.removeClass(this.document.documentElement, 'no-scroll');
+    // this.renderer.removeClass(this.document.body, 'no-scroll');
   }
 }
