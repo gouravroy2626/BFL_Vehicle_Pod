@@ -16,7 +16,7 @@ export class Tracker implements OnInit {
   private readonly activeIcon = '/Ellipse 22.svg'; // dot
   private readonly lockedIcon = '/aaa.svg'; // lock
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.updateCurrentStep();
@@ -59,5 +59,14 @@ export class Tracker implements OnInit {
   getIconHeight(index: number): number {
     if (index > this.currentStep) return 11; // locked
     return 11;
+  }
+
+  formatStepLabel(step: string): string {
+    // Insert a line break after the first word to force two-line layout (matches provided design screenshot)
+    const parts = step.split(' ');
+    if (parts.length > 1) {
+      return parts[0] + '<br>' + parts.slice(1).join(' ');
+    }
+    return step;
   }
 }

@@ -1,15 +1,14 @@
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-  <div class="container-fluid d-flex align-items-center position-relative">
-    @if (showBackButton()) {
-      <button type="button" class="back-button" (click)="goBack()">
-        <img src="Path 4.svg" alt="Back" style="width:11.67px;height:21px;" />
+<nav class="navbar" data-bs-theme="dark">
+  <div class="navbar-inner">
+    <div class="nav-left">
+      <img class="nav-logo" src="assets/BFS_Digital_Logo_Reverse 01 1.svg" alt="Bajaj Finserv Logo" />
+      <span class="nav-divider" aria-hidden="true"></span>
+      @if (showBackButton()) {
+      <button type="button" class="back-button" (click)="goBack()" aria-label="Go back">
+        <img src="Path 4.svg" alt="Back" class="back-icon" />
       </button>
-    }
-    <span class="navbar-brand">
-      New Car Loan
-    </span>
-    @if (showBackButton()) {
-      <div class="spacer"></div>
-    }
+      }
+    </div>
+    <span class="brand-text">New Car Loan</span>
   </div>
 </nav>

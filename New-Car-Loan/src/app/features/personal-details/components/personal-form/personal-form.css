@@ -1,3 +1,33 @@
+/* --- Line between consent 2 & 3 --- */
+.consent-group label.consent-item:nth-child(3)+hr {
+  /* Example style: adjust as needed */
+  margin-top: 0;
+  margin-bottom: px;
+  border: none;
+  border-top: 1px solid #29292d;
+}
+
+/* --- Second consent checkbox --- */
+.consent-group label.consent-item:nth-child(3) {
+  /* Example style: adjust as needed */
+  /* border: 1px solid #FF6700; */
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+
+/* --- Line between consent 1 & 2 --- */
+.consent-group label.consent-item:first-child+hr {
+  /* Example style: adjust as needed */
+  margin-top: 0;
+  margin-bottom: 0px;
+  border: none;
+  border-top: 1px solid #29292d;
+}
+
+.residential-city-field {
+  margin-bottom: 36px;
+}
+
 .tracker-above-form {
   width: 100vw;
   position: relative;
@@ -12,6 +42,7 @@
   padding-top: 0;
   padding-bottom: 0;
 }
+
 /* 2px separator bar below tracker for visual distinction */
 .tracker-above-form::after {
   content: '';
@@ -115,12 +146,16 @@ input[type="date"]::-moz-focus-inner {
 }
 
 .consent-group {
-  /* margin-top: 12px; */
   display: flex;
   flex-direction: column;
-  /* gap: 4px; */
-
 }
+
+.consent-group label.consent-item:first-child {
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+
+
 
 .terms-conditions {
   font-weight: 500;
@@ -168,11 +203,15 @@ letter-spacing: 0px;
 .button-row {
   display: flex;
   justify-content: center;
-  gap: 12px;
-
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  height: 40px;
+  gap: 8px;
+  opacity: 1;
   flex-wrap: nowrap;
-
-  padding: 16px;
+  margin: 0 auto 20px auto;
+  padding: 0;
 }
 
 
@@ -180,7 +219,7 @@ letter-spacing: 0px;
 
 
 .gst-p {
-  leading-trim: NONE;
+  /* removed unsupported leading-trim property */
   font-family: Rubik;
   font-weight: 400;
   font-style: Regular;
@@ -489,15 +528,17 @@ letter-spacing: 0px;
   color: #FF6600;
   border: 2px solid #FF6600;
   border-radius: 200px;
+  width: 50%;
+  min-width: 200px;
   height: 40px;
-  padding: 0 22px;
+  padding: 12px 24px;
   font-weight: 600;
   cursor: pointer;
-  min-width: 150px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
 }
 
 .btn-outline:hover {
@@ -510,15 +551,17 @@ letter-spacing: 0px;
   color: #fff;
   border: none;
   border-radius: 200px;
+  width: 50%;
+  min-width: 200px;
   height: 40px;
-  padding: 0 22px;
+  padding: 12px 24px;
   font-weight: 600;
   cursor: pointer;
-  min-width: 150px;
   box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
 }
 
 .btn-primary:hover {
@@ -615,64 +658,42 @@ letter-spacing: 0px;
 /* Box with shadow for buttons */
 .button-box-with-shadow {
   width: 100%;
+  max-width: 800px;
+  /* match form-container width for left alignment */
   background: #fff;
   padding-left: 16px;
   padding-right: 16px;
-  margin-top: 18px;
-  /* margin-bottom: 0; */
-  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid #cccccce0;
+  margin: 0 auto;
+  /* center container */
+  margin-top: 0;
+  /* remove gap so buttons sit just below inputs */
+  box-shadow: none;
+  /* remove shadow that caused visual separation */
+  border-top: none;
+  /* remove top border */
   border-bottom: none;
-  /* display: flex; */
+  display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  /* allow button-row to span full width */
 }
+
 /* Remove top shadow & border on wider (desktop) screens */
 @media (min-width: 992px) {
   .button-box-with-shadow {
-    box-shadow: none;
-    border-top: none;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
-.consent-item input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 1px solid #0a0a0a;
-  border-radius: 2px;
-  /* match design sample with more rounding */
-  /* background: #FF6600; always orange so it never visually disappears */
-  cursor: pointer;
-  position: relative;
-  flex-shrink: 0;
-  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
-  display: inline-block;
-  box-sizing: border-box;
-  vertical-align: middle;
-}
+/* Remove duplicate generic checkbox styling to prevent conflict with .consent-checkbox */
+/* .consent-item input[type="checkbox"] block removed */
 
 /* Checked keeps same orange base */
-.consent-item input[type="checkbox"]:checked {
-  background: #FF6700;
-  border: none;
-}
+/* Checked styling handled below by .consent-checkbox */
 
 /* White tick when checked */
-.consent-item input[type="checkbox"]:checked::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 10px;
-  height: 6px;
-  transform: translate(-50%, -55%) rotate(-45deg);
-  border-left: 3px solid #FFFFFF;
-  border-bottom: 3px solid #FFFFFF;
-  box-sizing: border-box;
-}
+/* Tick rendering unified in .consent-checkbox:checked::after */
 
 /* Added styles for GSTIN drawer */
 .gstin-drawer {
@@ -757,33 +778,60 @@ letter-spacing: 0px;
   margin-top: 16px;
 }
 
-/* Minimal explicit default state for consent checkboxes */
+/* Accessible visually-hidden native checkbox */
 .consent-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  pointer-events: none;
+  /* visual interaction handled by label */
+}
+
+/* Visual box matching spec: 20x20, radius 2px, border orange */
+.consent-visual {
   width: 20px;
   height: 20px;
-  border: 1px solid #FF6700;
-  border-radius: 6px;
+  border: 1px solid #4D4D4D;
+  border-radius: 2px;
   background: #FFFFFF;
-  cursor: pointer;
+  display: inline-block;
   position: relative;
-  vertical-align: middle;
+  flex-shrink: 0;
   box-sizing: border-box;
 }
 
-.consent-checkbox:checked {
+.consent-checkbox:checked+.consent-visual {
   background: #FF6700;
   border-color: #FF6700;
 }
 
-.consent-checkbox:checked::after {
+/* Checked state fills orange */
+.consent-checkbox:checked+.consent-visual {
+  background: #FF6700;
+  border-color: #FF6700;
+}
+
+/* White tick exact geometry inside orange box */
+.consent-checkbox:checked+.consent-visual::after {
   content: '';
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 10px;
-  height: 6px;
-  transform: translate(-50%, -55%) rotate(-45deg);
-  border-left: 3px solid #FFFFFF;
-  border-bottom: 3px solid #FFFFFF;
-  box-sizing: border-box;
+  top: 6.88px;
+  /* exact spec position */
+  left: 5px;
+  /* exact spec position */
+  width: 10.9375px;
+  height: 6.640625px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.9375' height='6.640625' viewBox='0 0 11 7' fill='none'%3E%3Cpath d='M0.75 3.59375L3.53125 6.375L10.3125 0.625' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain;
+}
+
+/* Focus outline for accessibility (applied to visual when native input focused) */
+.consent-checkbox:focus+.consent-visual {
+  outline: none;
+  outline-offset: 0;
+  box-shadow: none;
+  transform: none;
 }

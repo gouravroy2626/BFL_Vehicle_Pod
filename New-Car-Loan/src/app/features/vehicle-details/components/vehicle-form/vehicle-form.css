@@ -391,6 +391,24 @@
     border-color: #B40000;
 }
 
+/* Ensure brand/model inputs show red border on error (were missing selector) */
+.form-row input.ng-invalid.ng-touched {
+    border-color: #B40000 !important;
+}
+
+/* Override highlight-all-filled and focus states so errors remain red */
+.vehicle-form.highlight-all-filled .form-row input.ng-invalid.ng-touched:not(:focus) {
+    border-color: #B40000 !important;
+    background: #FFF;
+    /* keep normal background to distinguish from valid highlight */
+}
+
+.form-row input.ng-invalid.ng-touched:focus {
+    border-color: #B40000 !important;
+    background: #FFECEC;
+    /* subtle error focus background */
+}
+
 .required-mark {
     font-weight: bold;
     font-size: 14px;

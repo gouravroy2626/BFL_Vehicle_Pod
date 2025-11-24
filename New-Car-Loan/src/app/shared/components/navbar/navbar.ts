@@ -12,7 +12,7 @@ import { filter } from 'rxjs/operators';
 export class Navbar implements OnInit {
   private currentUrl: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.currentUrl = this.router.url;
@@ -28,6 +28,10 @@ export class Navbar implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/']);
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

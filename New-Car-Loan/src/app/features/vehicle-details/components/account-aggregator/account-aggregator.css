@@ -57,9 +57,13 @@
     }
 }
 
-.loader-svg {
-    width: clamp(180px, 45vw, 243px);
+/* GIF loader: keep natural dimensions (no scaling) */
+.loader-gif {
+    width: auto;
     height: auto;
-    animation: aa-float 1.8s ease-in-out infinite;
-    transform-origin: center bottom;
+    max-width: 100%;
+    display: block;
+    /* Remove previous float animation to respect GIF's own motion */
+    margin-left: 20px;
+    /* subtle right shift as requested */
 }

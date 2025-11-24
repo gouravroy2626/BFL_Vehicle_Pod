@@ -145,28 +145,36 @@
   </div>
   }
   <div class="consent-group">
-    <div class="consent-item" [ngClass]="{'tnc-error': showErrors && !tncAccepted}">
+    <!-- T&C consent -->
+    <label class="consent-item" [ngClass]="{'tnc-error': showErrors && !tncAccepted}">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="tncAccepted" (change)="onConsentChange()" />
-      <span>I have read, understood, and hereby accept the product
+      <span class="consent-visual" aria-hidden="true"></span>
+      <span class="consent-text">I have read, understood, and hereby accept the product
         <span class="terms-conditions">
           <a target="_blank" href="https://www.bajajfinserv.in/tnc-retail-lending" class="link">Terms and
             Conditions.</a></span></span>
-    </div>
+    </label>
     <hr>
-    <div class="consent-item" [ngClass]="{'tnc-error': showErrors && !creditConsent}">
+    <!-- Credit consent -->
+    <label class="consent-item" [ngClass]="{'tnc-error': showErrors && !creditConsent}">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="creditConsent" (change)="onConsentChange()" />
-      <span>I hereby consent to receiving my credit information offered by TransUnion CIBIL Limited (TU CIBIL)
+      <span class="consent-visual" aria-hidden="true"></span>
+      <span class="consent-text">I hereby consent to receiving my credit information offered by TransUnion CIBIL Limited
+        (TU CIBIL)
         ("Product") through Bajaj Finance Limited (referred to as the "Agent").</span>
-    </div>
+    </label>
     <hr>
-    <div class="consent-item optional">
+    <!-- Optional marketing consent -->
+    <label class="consent-item optional">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="marketingOptIn" />
-      <span>I hereby expressly authorize BFL, its group companies, affiliates and/or business associates and their
+      <span class="consent-visual" aria-hidden="true"></span>
+      <span class="consent-text">I hereby expressly authorize BFL, its group companies, affiliates and/or business
+        associates and their
         respective representatives to send me information about its/their promotional communications regarding fixed
         deposit, loans, insurance and their respective products and/or services ("Products/Services") by telephone calls
         / SMSs / emails / WhatsApp / bitly/ Chatbots/ In-App Notifications or any other electronic modes.
         <em><b>(Optional)</b></em></span>
-    </div>
+    </label>
   </div>
 
 
