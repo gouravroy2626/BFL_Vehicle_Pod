@@ -3,12 +3,8 @@
   align-items: center;
   justify-content: center;
   margin: 0;
-<<<<<<< HEAD
-  padding: 1rem ;
-=======
   padding: 1rem 1rem 2rem 1rem; /* Add extra bottom padding */
   padding: 1rem 1rem 2rem 1rem; /* Add extra bottom padding */
->>>>>>> main
   position: relative;
   width: 100%;
   max-width: 100%;
@@ -94,14 +90,6 @@
   .tracker-container {
     padding: 0.75rem 1rem;
   }
-<<<<<<< HEAD
-  
-  .circle { width: 20px; height: 20px; }
-  .step.active .circle::after { width: 10px; height: 10px; }
-  .label { font-size: 0.7rem; margin-top: 4px; }
-  .line { top: 10px; left: calc(50% + 13px); width: calc(100% - 26px); }
-}
-=======
 
   .circle {
     width: 20px;
@@ -124,4 +112,3 @@
     width: calc(100% - 26px);
   }
 }
->>>>>>> main
