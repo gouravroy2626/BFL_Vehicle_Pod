@@ -68,7 +68,6 @@ export class PersonalForm {
   // Drawer event handlers
   onDrawerClose() {
     this.isDrawerOpen = false;
-    document.body.style.overflow = 'auto';
     console.log('PersonalForm onDrawerClose: isDrawerOpen set to', this.isDrawerOpen);
   }
 
@@ -115,7 +114,6 @@ export class PersonalForm {
 
   closeEmploymentModal() {
     this.employmentModalOpen = false;
-    document.body.style.overflow = 'auto';
     console.log('PersonalForm closeEmploymentModal: employmentModalOpen set to', this.employmentModalOpen);
   }
 

@@ -1,5 +1,5 @@
-
-import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, OnInit, OnDestroy, inject, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 
@@ -10,9 +10,11 @@ import { NgZone } from '@angular/core';
   templateUrl: './vehicle-form-loader.html',
   styleUrl: './vehicle-form-loader.css',
 })
-export class VehicleFormLoader implements OnInit {
+export class VehicleFormLoader implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly ngZone = inject(NgZone);
+  private readonly renderer = inject(Renderer2);
+  private readonly document = inject(DOCUMENT);
 
   brand!: string;
   model!: string;
@@ -29,6 +31,8 @@ export class VehicleFormLoader implements OnInit {
   }
 
   ngOnInit(): void {
+    this.renderer.addClass(this.document.documentElement, 'no-scroll');
+    this.renderer.addClass(this.document.body, 'no-scroll');
     setTimeout(() => {
       this.ngZone.run(() => {
         this.router.navigate(['/account-aggregator'], {
@@ -40,5 +44,11 @@ export class VehicleFormLoader implements OnInit {
         });
       });
     }, 3000); // 3-second delay
+  }
+
+  ngOnDestroy(): void {
+    // The AccountAggregator will now be responsible for removing the no-scroll class.
+    // this.renderer.removeClass(this.document.documentElement, 'no-scroll');
+    // this.renderer.removeClass(this.document.body, 'no-scroll');
   }
 }

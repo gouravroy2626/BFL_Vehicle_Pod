@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,8 +9,12 @@ import { Router } from '@angular/router';
   templateUrl: './account-aggregator.html',
   styleUrls: ['./account-aggregator.css'],
 })
-export class AccountAggregator implements OnInit {
-  constructor(private router: Router) { }
+export class AccountAggregator implements OnInit, OnDestroy {
+  constructor(
+    private router: Router,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) { }
 
   ngOnInit() {
     // Debug log for route activation
@@ -17,8 +22,14 @@ export class AccountAggregator implements OnInit {
     // Check navigation state
     const navState = this.router.getCurrentNavigation()?.extras.state;
     console.log('Navigation state:', navState);
-    // Remove any black background if present
-    document.body.style.background = '#fff';
-    document.documentElement.style.background = '#fff';
+    // Add class to lock body scroll
+    this.renderer.addClass(this.document.documentElement, 'no-scroll');
+    this.renderer.addClass(this.document.body, 'no-scroll');
+  }
+
+  ngOnDestroy() {
+    // Remove class to restore body scroll
+    this.renderer.removeClass(this.document.documentElement, 'no-scroll');
+    this.renderer.removeClass(this.document.body, 'no-scroll');
   }
 }
