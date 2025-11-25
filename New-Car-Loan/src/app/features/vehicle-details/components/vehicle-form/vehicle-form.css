@@ -1101,7 +1101,7 @@
 }
 
 /* Desktop-only left alignment for vehicle form (do not affect mobile) */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
 
     /* Push the whole vehicle details section 141px from the viewport left */
     .vehicle-details-page {

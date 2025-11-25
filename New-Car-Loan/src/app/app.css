@@ -3,27 +3,31 @@ app-tracker {
   width: 100%;
   max-width: 800px;
   margin: 0 auto 0 0;
-  background: #fff;
+  background-color: Canvas; /* system background color */
+  color: CanvasText;        /* system text color */
   z-index: 1;
   display: block;
   box-sizing: border-box;
+  color-scheme: light dark; /* respect browser/system theme */
 }
 
-/* 2px separator bar below tracker for visual distinction */
-app-tracker::after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: #e0e0e0;
-  margin: 0;
+/* removed separator pseudo-element below tracker; using CSS gap instead */
+
+/* Container for tracker + page body so we can use a 4px gap (no margin/padding) */
+.app-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* exact 4px separation between tracker and content */
+  background-color: Canvas; /* adapts to light/dark */
+  color: CanvasText;        /* adapts to light/dark */
+  color-scheme: light dark;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 769px) {
   app-tracker {
     width: 50%;
     max-width: 50%;
-    margin-left: 161px;
+    margin-left: 165px;
     margin-right: 0;
   }
 

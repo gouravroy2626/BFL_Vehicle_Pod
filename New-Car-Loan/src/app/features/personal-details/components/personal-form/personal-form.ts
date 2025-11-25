@@ -286,7 +286,22 @@ export class PersonalForm {
 
   onContinue() {
     this.showErrors = true;
-    // Validation bypassed for testing: always navigate
+    // If there are validation errors, prevent navigation and focus the first invalid field
+    if (this.hasAnyErrors()) {
+      // Try to focus the first invalid input (best-effort)
+      setTimeout(() => {
+        const firstInvalid = document.querySelector('.field-error, input:invalid, .tnc-error');
+        if (firstInvalid instanceof HTMLElement) {
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // If it's an input, focus it
+          if ((firstInvalid as HTMLInputElement).focus) {
+            try { (firstInvalid as HTMLInputElement).focus(); } catch (e) { /* ignore */ }
+          }
+        }
+      }, 50);
+      return;
+    }
+
     this.vehicleDetails();
   }
 

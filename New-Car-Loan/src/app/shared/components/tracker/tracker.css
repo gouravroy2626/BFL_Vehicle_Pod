@@ -3,14 +3,14 @@
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: 1rem 1rem 2rem 1rem; /* Add extra bottom padding */
-  padding: 1rem 1rem 2rem 1rem; /* Add extra bottom padding */
+  padding: 1rem 1rem 2rem 0;
+   /* Add extra bottom padding */
   position: relative;
   width: 100%;
-  max-width: 100%;
+  max-width: 330px;
   background: #FFFFFF;
   /* border-bottom: 1px solid #dee2e6; */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
 }
 
 .step {
@@ -138,5 +138,23 @@
     top: 10px;
     left: calc(50% + 13px);
     width: calc(100% - 26px);
+  }
+}
+
+/* Small visual nudge for the last step on large screens */
+@media (min-width: 1024px) {
+  .step:last-child {
+    transform: translateX(-6px);
+  }
+}
+
+/* One-word-per-line labels on tablet and above */
+@media (min-width: 769px) {
+  .label {
+    /* limit width so the first word wraps to line 1 and remaining to line 2 */
+    max-width: 9ch; /* ~9 characters — adjust if your words are longer */
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
   }
 }
