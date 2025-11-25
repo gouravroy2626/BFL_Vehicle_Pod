@@ -245,9 +245,9 @@
 
 /* Removed empty .dealer-controls.filled ruleset to satisfy linter */
 
-.dealer-controls.filled {
-    border-color: #FF9800;
-    /* highlight when filled */
+.dealer-controls.filled .dealer-input {
+    border-color: #999999 !important;
+    /* highlight when filled (selected) */
 }
 
 .dealer-input {
