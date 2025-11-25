@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Tracker } from '../../../../shared/components/tracker/tracker';
 import { DrawerComponent } from '../../../../shared/service/drawer/drawer';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-personal-form',
   standalone: true,
-  imports: [CommonModule, Tracker, DrawerComponent, FormsModule],
+  imports: [CommonModule, DrawerComponent, FormsModule],
   templateUrl: './personal-form.html',
   styleUrl: './personal-form.css',
 })

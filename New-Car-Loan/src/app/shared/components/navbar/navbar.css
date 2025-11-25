@@ -79,9 +79,8 @@
 .brand-text {
   position: absolute;
   top: 50%;
-  left: 675px;
-  /* aligns 'N' over 'Vehicle details' start assuming 1440px viewport */
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: 'Rubik', sans-serif;
   font-weight: 500;
   font-size: 20px;
@@ -90,6 +89,22 @@
   white-space: nowrap;
   z-index: 1;
   pointer-events: none;
+}
+
+/* Large desktop - fixed position for precise alignment */
+@media (min-width: 1440px) {
+  .brand-text {
+    left: 675px;
+    transform: translateY(-50%);
+  }
+}
+
+/* Medium to large screens - keep centered */
+@media (min-width: 769px) and (max-width: 1439px) {
+  .brand-text {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 @media (max-width: 768px) {
@@ -117,7 +132,6 @@
   .brand-text {
     font-size: 18px;
     left: 50%;
-    /* fallback to center on narrow screens */
     transform: translate(-50%, -50%);
     z-index: 2;
     /* ensure remains above */
