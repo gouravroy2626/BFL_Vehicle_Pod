@@ -3,6 +3,7 @@ import { Component, ViewEncapsulation, inject, OnInit, AfterViewInit, OnDestroy,
 import { Router } from '@angular/router';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
 import { Modal } from 'bootstrap';
@@ -10,7 +11,7 @@ import { Modal } from 'bootstrap';
 @Component({
   selector: 'app-vehicle-form',
   standalone: true,
-  imports: [ReactiveFormsModule, Tracker],
+  imports: [ReactiveFormsModule, CommonModule, Tracker],
   templateUrl: './vehicle-form.html',
   styleUrls: ['./vehicle-form.css'],
   encapsulation: ViewEncapsulation.None,
@@ -232,8 +233,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private onDealerModalHidden(): void {
-    // Reset body overflow when modal closes
-    document.body.style.overflow = 'auto';
+    // Let the router manage scroll behavior; avoid direct manipulation
     if (!this.filteredDealers.length) {
       this.dealerHighlightIndex = -1;
       return;
@@ -272,7 +272,14 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
 
   onBrandFieldFocus() {
     this.brandFieldFocused = true;
-    this.brandHighlightIndex = -1;
+    // Show full brand list immediately on focus if input empty
+    const current = (this.form.get('brand')?.value ?? '').trim();
+    if (!current.length) {
+      this.filteredBrands = this.brands.slice();
+      this.brandHighlightIndex = 0;
+    } else {
+      this.brandHighlightIndex = -1;
+    }
   }
 
   onBrandFieldBlur() {
@@ -285,7 +292,13 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
 
   onModelFieldFocus() {
     this.modelFieldFocused = true;
-    this.modelHighlightIndex = -1;
+    const current = (this.form.get('model')?.value ?? '').trim();
+    if (!current.length) {
+      this.filteredModels = this.models.slice();
+      this.modelHighlightIndex = 0;
+    } else {
+      this.modelHighlightIndex = -1;
+    }
   }
 
   onModelFieldBlur() {
@@ -297,13 +310,13 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   searchBrands(query: string): string[] {
-    if (!query || query.trim() === '') return [];
+    if (!query || query.trim() === '') return this.brands.slice();
     const lowerQuery = query.toLowerCase();
     return this.brands.filter(b => b.toLowerCase().includes(lowerQuery));
   }
 
   searchModels(query: string): string[] {
-    if (!query || query.trim() === '') return [];
+    if (!query || query.trim() === '') return this.models.slice();
     const lowerQuery = query.toLowerCase();
     return this.models.filter(m => m.toLowerCase().includes(lowerQuery));
   }
@@ -350,8 +363,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     if (this.dealerModalElement) {
       const modal = Modal.getInstance(this.dealerModalElement.nativeElement);
       modal?.hide();
-      // Reset body overflow when modal closes by selection
-      document.body.style.overflow = 'auto';
     }
     // Always reset loading state after dealer selection
     this.isLoading = false;
@@ -405,7 +416,12 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   private getDealerItems(): HTMLLIElement[] {
     const list = this.dealerList?.nativeElement;
     if (!list) return [];
-    return Array.from(list.querySelectorAll<HTMLLIElement>('.dealer-list-item'));
+    // Get first 3 li directly under ul
+    const firstThree = Array.from(list.querySelectorAll<HTMLLIElement>(":scope > .dealer-list-item"));
+    // Get any li inside the scrollable div (for >3 dealers)
+    const scrollableDiv = list.querySelector('div');
+    const rest = scrollableDiv ? Array.from(scrollableDiv.querySelectorAll<HTMLLIElement>('.dealer-list-item')) : [];
+    return [...firstThree, ...rest];
   }
 
   get activeDealerOptionId(): string | null {
@@ -413,36 +429,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
       return null;
     }
     return `dealer-option-${this.dealerHighlightIndex}`;
-  }
-
-  onDealerOptionKeydown(event: KeyboardEvent, index: number): void {
-    if (!this.filteredDealers.length) return;
-
-    const lastIndex = this.filteredDealers.length - 1;
-    const clamp = (value: number) => Math.max(0, Math.min(value, lastIndex));
-
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      const nextIndex = clamp(index + 1);
-      this.dealerHighlightIndex = nextIndex;
-      this.focusDealerOption(nextIndex);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      const prevIndex = clamp(index - 1);
-      this.dealerHighlightIndex = prevIndex;
-      this.focusDealerOption(prevIndex);
-    } else if (event.key === 'Home') {
-      event.preventDefault();
-      this.dealerHighlightIndex = 0;
-      this.focusDealerOption(0);
-    } else if (event.key === 'End') {
-      event.preventDefault();
-      this.dealerHighlightIndex = lastIndex;
-      this.focusDealerOption(lastIndex);
-    } else if (event.key === 'Enter') {
-      event.preventDefault();
-      this.getDealerItems()[index]?.click();
-    }
   }
 
   onDealerSearch(event: Event): void {

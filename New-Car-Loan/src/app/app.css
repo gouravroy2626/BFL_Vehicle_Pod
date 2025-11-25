@@ -1,0 +1,34 @@
+/* Wrapper for the tracker component to control its layout */
+app-tracker {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 0 0;
+  background: #fff;
+  z-index: 1;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* 2px separator bar below tracker for visual distinction */
+app-tracker::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #e0e0e0;
+  margin: 0;
+}
+
+@media (min-width: 992px) {
+  app-tracker {
+    width: 50%;
+    max-width: 50%;
+    margin-left: 161px;
+    margin-right: 0;
+  }
+
+  app-tracker::after {
+    width: 100%;
+    margin: 0;
+  }
+}

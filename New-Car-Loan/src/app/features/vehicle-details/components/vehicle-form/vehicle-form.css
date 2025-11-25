@@ -2,6 +2,16 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.page-container * {
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Layout scaffolding */
@@ -11,6 +21,16 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.vehicle-details-page * {
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .vehicle-details-banner {
@@ -58,6 +78,27 @@
     justify-content: center;
     color: rgba(255, 255, 255, .6);
     font-size: 13px;
+
+    /* Fix dealer prompt at bottom for mobile */
+    .dealer-row.dealer-prompt-fixed {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2100;
+        background: #fff;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+        padding: 12px;
+        margin: 0;
+        width: 100vw;
+        max-width: 100vw;
+        border-top: 1px solid #E0E0E0;
+    }
+
+    .vehicle-form {
+        padding-bottom: 110px;
+    }
+
     letter-spacing: .28px;
     text-transform: uppercase;
 }
@@ -88,9 +129,8 @@
 /* Informational note block */
 .note-block.note-box {
     width: 100%;
-    min-height: 56px;
+    min-height: 48px;
     background: #F5F7FB;
-    border: 1px solid #E0E0E0;
     padding: 10px 14px;
     display: flex;
     flex-direction: row;
@@ -138,6 +178,8 @@
     gap: 12px;
     position: relative;
     margin-bottom: 20px;
+    max-width: 100%;
+    overflow: visible;
 }
 
 .form-row:last-child {
@@ -156,6 +198,7 @@
 .form-row select,
 .form-row input {
     width: 100%;
+    max-width: 100%;
     min-height: 44px;
     padding: 12px 16px;
     border: 1.5px solid #C7C7C7;
@@ -172,6 +215,7 @@
 .form-row input:focus,
 .form-row select:focus {
     background: #E5F1FA;
+    border-color: #999999;
 }
 
 /* Dealer unified control */
@@ -195,15 +239,15 @@
     box-sizing: border-box;
 }
 
-.dealer-controls:focus-within {
-    box-shadow: none;
+.dealer-controls:focus-within .dealer-input {
+    border-color: #999999;
 }
 
 /* Removed empty .dealer-controls.filled ruleset to satisfy linter */
 
-.dealer-controls.filled {
-    border-color: #FF9800;
-    /* highlight when filled */
+.dealer-controls.filled .dealer-input {
+    border-color: #999999 !important;
+    /* highlight when filled (selected) */
 }
 
 .dealer-input {
@@ -211,7 +255,8 @@
     width: 100%;
     height: 44px;
     padding: 12px 44px 12px 16px;
-    border: none;
+    border: 1.5px solid #C7C7C7;
+    border-radius: 4px;
     background: transparent;
     font-size: 16px;
     color: #2E2E2E;
@@ -267,8 +312,8 @@
     background: #E5F1FA;
 }
 
-.vehicle-form.highlight-all-filled .dealer-controls:not(:focus-within) {
-    background: #FFF5DA;
+.vehicle-form.highlight-all-filled .dealer-controls:not(:focus-within) .dealer-input {
+    border-color: #999999;
 }
 
 .dealer-dropdown-btn.filled {
@@ -276,7 +321,8 @@
 }
 
 .dealer-dropdown-btn.filled svg path {
-    stroke: currentColor;
+    /* Keep arrow stroke permanently #1A1A1A per requirement (ignore parent color) */
+    stroke: #1A1A1A;
 }
 
 /* Removed standalone .icon-dropdown span; arrow SVG now lives inside .dealer-dropdown-btn */
@@ -284,7 +330,7 @@
 /* Highlight when all filled (excluding focus) */
 .vehicle-form.highlight-all-filled .form-row input:not(:focus) {
     background: #FFF5DA;
-    border: none;
+    border-color: #999999;
     box-shadow: none;
 }
 
@@ -299,10 +345,12 @@
     background: #fff;
     border: 1px solid #e6e6e6;
     max-height: 220px;
+    max-width: 100%;
     overflow: auto;
     z-index: 1200;
     padding: 0;
     list-style: none;
+    box-sizing: border-box;
 }
 
 .suggestions-list li,
@@ -359,8 +407,27 @@
 }
 
 .input-with-icon input.ng-invalid.ng-touched,
-.form-row select.ng-invalid.ng-touched {
-    border-color: #E74C3C;
+.form-row select.ng-invalid.ng-touched,
+.dealer-controls.is-invalid .dealer-input {
+    border-color: #B40000;
+}
+
+/* Ensure brand/model inputs show red border on error (were missing selector) */
+.form-row input.ng-invalid.ng-touched {
+    border-color: #B40000 !important;
+}
+
+/* Override highlight-all-filled and focus states so errors remain red */
+.vehicle-form.highlight-all-filled .form-row input.ng-invalid.ng-touched:not(:focus) {
+    border-color: #B40000 !important;
+    background: #FFF;
+    /* keep normal background to distinguish from valid highlight */
+}
+
+.form-row input.ng-invalid.ng-touched:focus {
+    border-color: #B40000 !important;
+    background: #FFECEC;
+    /* subtle error focus background */
 }
 
 .required-mark {
@@ -383,6 +450,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 100%;
+    overflow: visible;
 }
 
 .field-with-icon .no-results-message {
@@ -453,7 +522,7 @@
     width: 100%;
     box-sizing: border-box;
     margin-top: 20px;
-    /* Add some space above the buttons */
+    /* base spacing; desktop override below ensures 250px gap from note block */
 }
 
 .save-btn,
@@ -511,6 +580,8 @@
 .dealer-modal-dialog {
     margin: 1.75rem auto;
     max-width: 420px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .dealer-modal-content {
@@ -518,6 +589,8 @@
     border: none;
     box-shadow: 0 16px 40px rgba(16, 24, 40, .18);
     overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .dealer-modal-header {
@@ -555,7 +628,8 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    max-height: 280px;
+    /* Show only 3 dealers at a time; each item ~52px tall (16px padding top + 16px bottom + ~20px line height) */
+    max-height: 156px;
     overflow-y: auto;
 }
 
@@ -649,15 +723,51 @@
 }
 
 /* Responsive adjustments */
+@media (max-width:1040px) {
+
+    /* Fix for Nest Hub (1024px) and similar devices */
+    .vehicle-details-banner,
+    .vehicle-details-shell,
+    .app-reserved-shell {
+        max-width: 100% !important;
+    }
+}
+
 @media (max-width:960px) {
     .loan-card__body {
         padding: 40px 32px 48px;
     }
+
+    .vehicle-form {
+        padding: 12px 20px;
+    }
+
+    .vehicle-details-content__header {
+        padding: 0 20px;
+    }
 }
 
-@media (max-width:720px) {
+@media (max-width:768px) {
     .vehicle-details-page {
-        padding: 32px 16px 56px;
+        padding: 24px 16px 56px;
+    }
+
+    .vehicle-form {
+        padding: 12px 16px;
+        max-width: 100%;
+    }
+
+    .vehicle-details-content__header {
+        padding: 0 16px;
+        max-width: 100%;
+    }
+
+    .vehicle-details-content__header h2 {
+        font-size: 22px;
+    }
+
+    .vehicle-details-content__subtitle {
+        font-size: 15px;
     }
 
     .app-reserved-shell {
@@ -716,16 +826,6 @@
     .loan-card__body {
         padding: 32px 20px 40px;
     }
-}
-
-@media (max-width:600px) {
-    .vehicle-form {
-        padding: 12px 12px;
-    }
-
-    .vehicle-details-content__header {
-        padding: 0 12px;
-    }
 
     #brand,
     #model,
@@ -734,9 +834,48 @@
         max-width: 100%;
     }
 
+    .form-row input,
+    .form-row select {
+        font-size: 15px;
+    }
+
+    .form-actions {
+        gap: 14px;
+        margin-top: 24px;
+    }
+
+    .save-btn,
+    .continue-btn {
+        max-width: 200px;
+    }
+
+    .dealer-modal-dialog {
+        max-width: 90%;
+        margin: 1rem auto;
+    }
+
+    .suggestions-list {
+        max-width: 100%;
+        max-height: 200px;
+    }
+}
+
+@media (max-width:600px) {
+    .vehicle-form {
+        padding: 12px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .vehicle-details-content__header {
+        padding: 0 12px;
+        width: 100%;
+        max-width: 100%;
+    }
+
     .vehicle-details-page {
-        padding-bottom: 110px;
-        /* reserve space for fixed action bar */
+        padding: 20px 12px 110px;
+        width: 100%;
     }
 
     .global-offsets__navbar,
@@ -750,32 +889,90 @@
         right: 0;
         bottom: 0;
         justify-content: space-between;
-        padding: 12px 16px 18px;
+        padding: 12px;
         background: #FFFFFF;
         border-top: 1px solid #E0E0E0;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
         z-index: 2000;
         gap: 12px;
+        margin-top: 0;
+        width: 100%;
     }
 
     .save-btn,
     .continue-btn {
         height: 42px;
-        padding: 12px 20px;
+        padding: 10px 18px;
         flex: 1 1 50%;
         max-width: 50%;
-        /* equal width side by side */
         min-width: 0;
-        /* allow shrink within container */
+        font-size: 0.95rem;
     }
 
     .note-block.note-box {
         flex-direction: column;
         gap: 6px;
+        padding: 10px 12px;
+        width: 100%;
+    }
+
+    .form-row {
+        margin-bottom: 18px;
+        width: 100%;
+    }
+
+    .dealer-modal-dialog {
+        width: 95%;
+        max-width: 95%;
+        margin: 0.5rem auto;
+    }
+
+    .dealer-list {
+        max-height: 240px;
+    }
+
+    /* Ensure all inputs respect viewport width */
+    #brand,
+    #model,
+    .dealer-field,
+    .dealer-controls {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .form-row input,
+    .form-row select {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .field-with-icon {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .suggestions-list {
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    /* Override any fixed widths on mobile */
+    .vehicle-details-content,
+    .vehicle-details-shell,
+    .vehicle-details-banner,
+    .app-reserved-shell {
+        max-width: 100% !important;
     }
 }
 
 @media (max-width:480px) {
     .vehicle-details-container h2 {
+        font-size: 20px;
+    }
+
+    .vehicle-details-content__header h2 {
         font-size: 20px;
     }
 
@@ -792,7 +989,20 @@
     .dealer-input {
         font-size: 15px;
         padding: 10px 14px;
+        min-height: 42px;
         height: 42px;
+    }
+
+    /* Adjust search icon for smaller screens */
+    .field-with-icon .icon-search,
+    .input-with-icon .search-icon {
+        left: 14px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .input-with-icon input {
+        padding-left: 45px !important;
     }
 
     .dealer-dropdown-btn {
@@ -809,19 +1019,73 @@
     }
 
     .vehicle-details-page {
-        padding-top: 56px;
-        padding-bottom: 110px;
+        padding: 16px 12px 110px;
     }
 
     .form-actions {
         gap: 10px;
-        padding: 12px 14px 16px;
+        padding: 10px 12px 16px;
     }
 
     .save-btn,
     .continue-btn {
         flex: 1 1 48%;
         max-width: 48%;
+        height: 40px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+
+    .note-block.note-box {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .note-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .note-icon svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .dealer-modal-header {
+        padding: 14px 18px;
+    }
+
+    .dealer-modal-title {
+        font-size: 16px;
+    }
+
+    .dealer-list-item {
+        padding: 14px 18px;
+        font-size: 15px;
+    }
+
+    .suggestions-list {
+        max-height: 180px;
+        font-size: 14px;
+    }
+
+    .suggestions-list li {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width:400px) {
+
+    /* Minimal fix for very small devices - only adjust search icon to prevent overlap */
+    .field-with-icon .icon-search,
+    .input-with-icon .search-icon {
+        left: 12px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .input-with-icon input {
+        padding-left: 40px !important;
     }
 }
 
@@ -834,4 +1098,31 @@
 /* Override Bootstrap modal-backdrop for dealer modal */
 .modal-backdrop {
     display: none !important;
+}
+
+/* Desktop-only left alignment for vehicle form (do not affect mobile) */
+@media (min-width: 769px) {
+
+    /* Push the whole vehicle details section 141px from the viewport left */
+    .vehicle-details-page {
+        padding-left: 141px;
+    }
+
+    /* Remove auto-centering so header + form align with the new left offset */
+    .vehicle-details-content__header,
+    .vehicle-form {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Ensure note block follows the same left alignment without stretching */
+    .note-block.note-box {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Ensure exactly 250px gap between note block and buttons on desktop */
+    .note-block.note-box+.form-actions {
+        margin-top: 250px !important;
+    }
 }

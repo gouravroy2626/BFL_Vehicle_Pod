@@ -1,62 +1,139 @@
-/* Navbar styling */
+/* Clean flattened navbar styling (removed accidental nested blocks) */
 .navbar {
-  background-color: #002953 !important; /* Bajaj Finserv blue */
+  width: 100%;
+  background: #001e52;
+  /* Bajaj Finserv blue */
+  padding: 16px 0;
+  position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-height: 56px;
 }
-/* Container spacing */
-.container-fluid {
-  padding: 0.5rem 1rem;
+
+.navbar-inner {
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 32px 0 60px;
+  /* left offset 60px as requested */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
-/* Back button styling */
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  /* gap spec */
+  z-index: 2;
+  /* ensure left items above centered title */
+}
+
+.nav-logo {
+  width: 81.2086px;
+  /* precise width from spec */
+  height: 32px;
+  /* explicit height */
+  display: block;
+  object-fit: contain;
+}
+
+.nav-divider {
+  display: inline-block;
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.3);
+  margin-left: 20px;
+  /* updated per request: 20px gap after logo */
+  margin-right: 20px;
+  /* 20px before back button retained */
+}
+
 .back-button {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  /* remove boundary */
+  border-radius: 0;
   padding: 0;
-  margin: 0; 
-  font-size: 2rem;
-  font-weight: bold;
-  line-height: 1;
-  color: #ffffff !important;
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  text-decoration: none !important;
-  transition: all 0.2s ease;
-  z-index: 10;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
-.back-button:hover {
-  background-color: rgba(255,255,255,0.15);
-  border-radius: 6px;
+.back-button:hover .back-icon,
+.back-button:focus .back-icon {
+  filter: brightness(0) invert(0.85);
+  /* subtle visual feedback via icon tint */
 }
 
-/* Brand/Title styling - centered */
-.navbar-brand {
+.back-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.brand-text {
   position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  font-family: Rubik, sans-serif;
+  transform: translate(-50%, -50%);
+  font-family: 'Rubik', sans-serif;
   font-weight: 500;
-  font-size: 18px;
-  line-height: 100%;
-  color: #ffffff !important;
-  margin: 0;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+  white-space: nowrap;
+  z-index: 1;
   pointer-events: none;
 }
-/* Logo inside brand */
-.brand-logo {
-  margin-right: 6px;
-  vertical-align: middle;
-  transform: translateY(-2px);
+
+/* Large desktop - fixed position for precise alignment */
+@media (min-width: 1440px) {
+  .brand-text {
+    left: 675px;
+    transform: translateY(-50%);
+  }
 }
-/* Spacer to balance layout */
-.spacer {
-  width: 60px;
-  margin-left: auto;
+
+/* Medium to large screens - keep centered */
+@media (min-width: 769px) and (max-width: 1439px) {
+  .brand-text {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-inner {
+    padding: 0 16px;
+    /* tighter horizontal padding when logo hidden */
+  }
+
+  /* Hide logo + divider completely on mobile per spec */
+  .nav-logo,
+  .nav-divider {
+    display: none;
+  }
+
+  /* Remove extra gap introduced by hidden elements */
+  .nav-left {
+    gap: 0;
+  }
+
+  .back-button {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-text {
+    font-size: 18px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    /* ensure remains above */
+  }
 }
