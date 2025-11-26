@@ -157,6 +157,23 @@ input[type="date"]::-moz-focus-inner {
   flex-direction: column;
 }
 
+/* When a consent item has an error (class tnc-error), hide the HR immediately after it
+   and add 16px top padding to the consent label that follows. This keeps the first
+   consent label unchanged but inserts breathing room before the next consent(s). */
+.consent-item.tnc-error + hr {
+  display: none !important;
+}
+
+.consent-item.tnc-error + hr + .consent-item {
+  padding-top: 16px !important;
+}
+
+/* If the second consent (credit) has an error, hide the HR after it and add padding
+   above the optional marketing consent label. */
+.consent-item.tnc-error + hr + .consent-item.optional {
+  padding-top: 16px !important;
+}
+
 
 
 .consent-group label.consent-item:first-child {

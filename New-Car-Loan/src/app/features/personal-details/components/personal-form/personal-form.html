@@ -151,7 +151,7 @@
           <a target="_blank" href="https://www.bajajfinserv.in/tnc-retail-lending" class="link">Terms and
             Conditions.</a></span></span>
     </label>
-    <hr>
+  <hr [hidden]="showErrors && !tncAccepted">
     <!-- Credit consent -->
     <label class="consent-item" [ngClass]="{'tnc-error': showErrors && !creditConsent}">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="creditConsent" (change)="onConsentChange()" />
@@ -160,7 +160,7 @@
         (TU CIBIL)
         ("Product") through Bajaj Finance Limited (referred to as the "Agent").</span>
     </label>
-    <hr>
+  <hr [hidden]="showErrors && !creditConsent">
     <!-- Optional marketing consent -->
     <label class="consent-item optional">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="marketingOptIn" />

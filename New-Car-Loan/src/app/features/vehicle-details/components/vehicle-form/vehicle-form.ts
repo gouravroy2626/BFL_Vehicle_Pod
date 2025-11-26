@@ -11,7 +11,7 @@ import { Modal } from 'bootstrap';
 @Component({
   selector: 'app-vehicle-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, Tracker],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './vehicle-form.html',
   styleUrls: ['./vehicle-form.css'],
   encapsulation: ViewEncapsulation.None,

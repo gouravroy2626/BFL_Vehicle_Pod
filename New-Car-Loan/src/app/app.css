@@ -19,7 +19,7 @@ app-tracker {
   flex-direction: column;
   gap: 4px; /* exact 4px separation between tracker and content */
   background-color: Canvas; /* adapts to light/dark */
-  color: CanvasText;        /* adapts to light/dark */
+  color: CanvasText;     
   color-scheme: light dark;
 }
 
@@ -27,7 +27,7 @@ app-tracker {
   app-tracker {
     width: 50%;
     max-width: 50%;
-    margin-left: 165px;
+    margin-left: 140px;
     margin-right: 0;
   }
 
