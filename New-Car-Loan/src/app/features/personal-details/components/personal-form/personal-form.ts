@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DrawerComponent } from '../../../../shared/service/drawer/drawer';
@@ -11,15 +11,17 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './personal-form.html',
   styleUrl: './personal-form.css',
 })
-export class PersonalForm {
+export class PersonalForm implements OnDestroy {
   // Drawer state and UI flags
   isDrawerOpen = true;
   isGstinDrawerOpen = false;
   isPanDrawerOpen = false;
   // Debug log for initial state
-  constructor(private router: Router) {
+  constructor(private router: Router, private cd: ChangeDetectorRef) {
     console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
   }
+  // resize handler reference so we can remove listener on destroy
+  private resizeHandler: (() => void) | null = null;
   selectedOption: string = '';
   showError: boolean = false;
   isContentVisible: boolean = false;
@@ -104,6 +106,34 @@ export class PersonalForm {
   ngOnInit() {
     this.isDrawerOpen = true;
     console.log('PersonalForm ngOnInit: isDrawerOpen set to', this.isDrawerOpen);
+    // listen for viewport size changes to keep save-cart overlay visible when crossing the 500px breakpoint
+    this.resizeHandler = () => {
+      try {
+        const w = window.innerWidth || 1024;
+        // If a desktop modal is open and viewport shrinks to mobile, switch to mobile drawer
+        if (this.showSaveCartModal && w <= 500) {
+          this.showSaveCartModal = false;
+          this.showSaveCartDrawer = true;
+          try { this.cd.detectChanges(); } catch (e) { /* noop */ }
+        }
+        // If mobile drawer is open and viewport grows beyond mobile, switch to desktop modal
+        else if (this.showSaveCartDrawer && w > 500) {
+          this.showSaveCartDrawer = false;
+          this.showSaveCartModal = true;
+          try { this.cd.detectChanges(); } catch (e) { /* noop */ }
+        }
+      } catch (e) {
+        // ignore
+      }
+    };
+    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  ngOnDestroy() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
   }
 
   // Employment modal controls
@@ -268,7 +298,11 @@ export class PersonalForm {
   saveToCart() {
     // Simple validation gate before saving
     this.showErrors = true;
-    if (this.hasAnyErrors()) return;
+    // Debug log to confirm click handler runs and validation state
+    console.log('saveToCart called. hasErrors=', this.hasAnyErrors(), 'tncAccepted=', this.tncAccepted, 'creditConsent=', this.creditConsent);
+    // Allow saving drafts even if there are validation errors so the user can
+    // pick up later from Cart — do not early-return here.
+    // if (this.hasAnyErrors()) return;
     // Simulate save logic (could integrate service later)
     console.log('Saved draft:', {
       fullName: this.fullName,
@@ -282,6 +316,38 @@ export class PersonalForm {
       address: this.address,
       consents: { tncAccepted: this.tncAccepted, creditConsent: this.creditConsent, marketingOptIn: this.marketingOptIn }
     });
+    // don't open overlay if there are validation errors visible on screen
+    if (this.hasAnyErrors()) {
+      console.log('saveToCart aborted: validation errors present');
+      return;
+    }
+
+    // open modal on desktop, drawer on small screens
+    try {
+      const w = window.innerWidth || 1024;
+      if (w <= 500) {
+        this.showSaveCartDrawer = true;
+      } else {
+        this.showSaveCartModal = true;
+      }
+      // ensure template updates immediately
+      try { this.cd.detectChanges(); } catch (e) { /* noop */ }
+    } catch (e) {
+      // fallback to modal
+      this.showSaveCartModal = true;
+    }
+  }
+
+  // Save-to-cart overlay flags
+  showSaveCartModal = false;
+  showSaveCartDrawer = false;
+
+  closeSaveCartModal() {
+    this.showSaveCartModal = false;
+  }
+
+  closeSaveCartDrawer() {
+    this.showSaveCartDrawer = false;
   }
 
   onContinue() {
