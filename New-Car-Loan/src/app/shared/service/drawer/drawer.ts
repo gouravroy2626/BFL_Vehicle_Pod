@@ -20,6 +20,20 @@ export class DrawerComponent {
         this.fullName = '';
         this.selectedOption = '';
         this.isContentVisible = false;
+        // remove no-scroll class from body when drawer closes
+        try {
+          document && document.body && document.body.classList && document.body.classList.remove('no-scroll');
+        } catch (e) {
+          // noop in environments without document (server-side)
+        }
+      }
+      if (changes.isOpen.currentValue === true) {
+        // add no-scroll to body when drawer opens
+        try {
+          document && document.body && document.body.classList && document.body.classList.add('no-scroll');
+        } catch (e) {
+          // noop
+        }
       }
     }
   }
@@ -40,6 +54,15 @@ export class DrawerComponent {
 
   onBackdropClick() {
     this.close.emit();
+  }
+
+  ngOnDestroy() {
+    // ensure the body class is cleaned up if the component is destroyed
+    try {
+      document && document.body && document.body.classList && document.body.classList.remove('no-scroll');
+    } catch (e) {
+      // noop
+    }
   }
 
   onCloseClick() {

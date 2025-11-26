@@ -305,6 +305,7 @@ export class PersonalForm {
     this.vehicleDetails();
   }
 
+  
   openDrawerForGstin() {
     this.isGstinDrawerOpen = true;
   }
