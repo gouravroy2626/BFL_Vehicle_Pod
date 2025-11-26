@@ -60,11 +60,11 @@
     width: auto;
   }
 
-  .consent-group{
+  .consent-group {
     max-width: 539px;
   }
 
-  .button-row{
+  .button-row {
     max-width: 539px;
   }
 }
@@ -160,17 +160,17 @@ input[type="date"]::-moz-focus-inner {
 /* When a consent item has an error (class tnc-error), hide the HR immediately after it
    and add 16px top padding to the consent label that follows. This keeps the first
    consent label unchanged but inserts breathing room before the next consent(s). */
-.consent-item.tnc-error + hr {
+.consent-item.tnc-error+hr {
   display: none !important;
 }
 
-.consent-item.tnc-error + hr + .consent-item {
+.consent-item.tnc-error+hr+.consent-item {
   padding-top: 16px !important;
 }
 
 /* If the second consent (credit) has an error, hide the HR after it and add padding
    above the optional marketing consent label. */
-.consent-item.tnc-error + hr + .consent-item.optional {
+.consent-item.tnc-error+hr+.consent-item.optional {
   padding-top: 16px !important;
 }
 
@@ -315,7 +315,7 @@ letter-spacing: 0px;
 
 /* Standard form control styling */
 .form-control {
-  width: auto;
+  /* width: auto; */
   max-width: 539px;
   box-sizing: border-box;
   padding: 12px 14px;
@@ -744,7 +744,7 @@ letter-spacing: 0px;
     background: #ffffff;
   }
 
-  .error-summary{
+  .error-summary {
     margin-top: -24px;
   }
 }
@@ -944,6 +944,235 @@ letter-spacing: 0px;
 .pan-btn-wrapper {
   margin-top: 4px;
 }
+
+/* Save-to-cart modal/drawer styles */
+.save-cart-overlay,
+.save-cart-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.save-cart-modal {
+  width: 720px;
+  max-width: 94vw;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 28px 28px 32px 28px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: center;
+}
+
+.save-cart-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
+
+.save-cart-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 8px 0 6px 0;
+}
+
+.save-cart-sub {
+  font-size: 16px;
+  color: #333;
+  margin: 0 0 14px 0;
+}
+
+.save-cart-frame {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  height: 200px;
+  margin: 12px auto 6px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-cart-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.save-cart-main {
+  position: absolute;
+  width: 60%;
+  max-width: 420px;
+  height: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -6%);
+}
+
+.save-cart-arrow {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  right: 18%;
+  top: 30%;
+}
+
+.save-cart-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.save-cart-actions .btn-primary {
+  width: 340px;
+  height: 56px;
+  border-radius: 200px;
+  font-size: 18px;
+  padding: 0 28px;
+}
+
+/* Mobile: bottom sheet drawer */
+@media (max-width: 500px) {
+  .save-cart-overlay {
+    display: none;
+  }
+
+  .save-cart-drawer {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .save-cart-drawer-content {
+    width: 100%;
+    max-width: none;
+    background: #ffffff;
+    border-radius: 12px 12px 0 0;
+    padding: 16px;
+    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+  .save-cart-frame {
+    height: 160px;
+  }
+
+  .save-cart-main {
+    width: 68%;
+  }
+
+  .save-cart-arrow {
+    width: 56px;
+    right: 20%;
+    top: 26%;
+  }
+
+  .save-cart-actions .btn-primary {
+    width: 92%;
+  }
+
+  /* Mobile: 6-row grid layout inside the drawer content */
+  .save-cart-drawer-content {
+    display: grid;
+    grid-template-rows: auto auto auto auto 1fr auto;
+    gap: 8px;
+    /* 4px between rows visually, but 8px for touch spacing */
+    align-items: center;
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 20px;
+  }
+
+  /* Row-specific tweaks */
+  .save-cart-drawer-content .row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .row-close {
+    justify-content: flex-end;
+    padding-right: 6px;
+  }
+
+  .close-icon {
+    background: transparent;
+    border: none;
+    padding: 6px;
+    height: 40px;
+    width: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    z-index: 3;
+  }
+
+  .close-icon img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .row-symbol .save-cart-symbol {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+  }
+
+  .row-title .save-cart-title {
+    font-size: 20px;
+    margin: 0;
+  }
+
+  .row-sub .save-cart-sub {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .save-cart-frame-mobile {
+    width: 86%;
+    max-width: 420px;
+    height: 140px;
+    margin: 0 auto;
+  }
+
+  .save-cart-frame-mobile .save-cart-bg {
+    border-radius: 8px;
+  }
+
+  .save-cart-frame-mobile .save-cart-main {
+    position: absolute;
+    width: 62%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -6%);
+  }
+
+  .row-actions {
+    padding-top: 6px;
+  }
+
+  .save-cart-actions .btn-primary {
+    width: 50%;
+    height: 40px;
+    border-radius: 28px;
+    font-size: 16px;
+  }
+}
+
+
 
 /* Mobile: full-width bottom sheet behaviour */
 @media (max-width: 500px) {

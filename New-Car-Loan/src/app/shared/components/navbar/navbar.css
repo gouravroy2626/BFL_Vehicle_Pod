@@ -91,6 +91,256 @@
   pointer-events: none;
 }
 
+/* Exit overlay (modal / bottom sheet) styles */
+.exitDrawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  background: rgba(0,0,0,0.5);
+}
+
+.exitDrawer .drawer-content {
+  width: 520px;
+  max-width: 94vw;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.25);
+  /* remove horizontal inner padding per request */
+  padding: 10px 24px 16px 24px;
+  text-align: center;
+  position: relative;
+}
+
+/* New exit drawer (rowed layout) shares drawer-content styles */
+.exitDrawer .drawer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.exitDrawer .drawer-row { width: 100%; display:flex; justify-content:center; }
+.exitDrawer .drawer-row-1 { justify-content: flex-end; }
+.exitDrawer .drawer-row-1 .close-button { margin-right: 0; }
+.exitDrawer .drawer-row-2 { padding-top: 4px; }
+.exitDrawer .drawer-row-3 { padding-top: 4px; }
+.exitDrawer .drawer-row-4 { padding-top: 4px; }
+.exitDrawer .drawer-row-dots { padding-top: 4px; }
+.exitDrawer .drawer-row-6 { padding-top: 4px; }
+
+.exitDrawer .drawer-row-1 .close-button img {
+  height: 12px;
+  width: 12px;
+}
+
+
+.exit-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.exit-title1 {
+  font-size: 22px;
+  font-weight: 600;
+ margin-bottom: -2px;
+}
+
+.exit-icon {
+  /* fixed display box so all images render at the same visual size */
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin: 8px auto 12px auto;
+  display: block;
+}
+
+.exit-subtext {
+  font-weight: 600;
+  font-size: 18px;
+  /* margin: 6px 0 18px 0; */
+  color: #10203A;
+}
+
+.exit-subtext1 {
+  font-weight: 400;
+  font-size: 14px;
+  /* margin: 6px 0 18px 0; */
+  color: #10203A;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+.dot-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10203A;
+  border: none;
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 0;
+}
+.dot-btn.active {
+  opacity: 1;
+}
+.dot-btn:focus { outline: 2px solid rgba(16,32,58,0.18); }
+
+/* Feedback form specific styles */
+.exit-feedback-form .drawer-content {
+  width: 520px;
+  max-width: 94vw;
+  padding: 18px;
+}
+
+.feedback-content .feedback-box {
+  border: 1px solid rgba(16,32,58,0.12);
+  padding: 10px 10px 14px 14px;
+  border-radius: 6px;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.feedback-box legend {
+  font-weight: 600;
+  display: block;
+  /* margin-bottom: 12px; */
+  font-size: 14px;
+}
+
+.feedback-box .fb-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  padding: 8px 6px;
+}
+
+.feedback-box .fb-submit-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.feedback-box .btn-primary {
+  align-items: center;
+  height: 40px;
+  min-width: 160px;
+  border-radius: 28px;
+  
+  border: none;
+  color: white;
+  background: linear-gradient(97.13deg, #FF6700 5.56%, #FE8E0C 94.44%);
+
+}
+
+.exit-buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 18px;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.exit-buttons .btn-outline {
+  height: 40px;
+  border: 2px solid #FF6600;
+  color: #FF6600;
+  background: transparent;
+  border-radius: 28px;
+  padding: 0 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+.exit-buttons .btn-primary {
+  background: linear-gradient(90deg,#FF6700 0%,#FF8900 100%);
+  border: #FF6600;
+  color: #fff;
+  border-radius: 28px;
+  padding: 0 12px;
+  font-weight: 600;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+/* Bottom-sheet behavior on small screens */
+@media (max-width: 500px) {
+  .exitDrawer {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .exitDrawer .drawer-content {
+    width: 100%;
+    max-width: none;
+    border-radius: 10px 10px 0 0;
+    /* reduce horizontal padding on mobile as well */
+    padding: 0 16px 24px 16px;
+    box-shadow: 0 -6px 18px rgba(0,0,0,0.18);
+  }
+
+  .exit-icon { width: 108px; height: 108px; object-fit: contain; }
+  .exit-title { font-size: 18px; }
+  .exit-title1 { font-size: 18px; }
+  .exit-subtext { font-size: 18px; }
+  /* Keep buttons on one line even on small screens; allow them to shrink */
+  .exit-buttons { padding-bottom: 8px; flex-wrap: nowrap; }
+  .exit-buttons .btn-outline, .exit-buttons .btn-primary 
+  { 
+    flex: 1 1 0;
+     min-width: 0; 
+     font-size: 14px;
+  }
+}
+
+
+/* Keep the close button in normal flow as the first row so gap:4px places the title 4px below it */
+.exitDrawer .drawer-content .drawer-row-1 {
+  position: static;
+  height: auto;
+  display: flex;
+  justify-content: flex-end; /* push close to the right */
+  align-items: center;
+  /* padding-top: 4px; */
+}
+
+.exitDrawer .drawer-content .drawer-row-1 .close-button {
+  position: static;
+  margin: 0;
+  background: transparent;
+}
+
+@media (max-width: 500px) {
+  /* For bottom sheet, slightly inset the close icon */
+  .exitDrawer .drawer-content .drawer-row-1 { padding-top: 8px; }
+  .exitDrawer .drawer-content .drawer-row-1 .close-button {
+    /* margin-right: 10px; */
+  }
+}
 /* Large desktop - fixed position for precise alignment */
 @media (min-width: 1440px) {
   .brand-text {
