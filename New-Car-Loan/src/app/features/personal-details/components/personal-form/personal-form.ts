@@ -360,20 +360,10 @@ onDobInput(e: Event) {
       return;
     }
 
-    // open modal on desktop, drawer on small screens
-    try {
-      const w = window.innerWidth || 1024;
-      if (w <= 500) {
-        this.showSaveCartDrawer = true;
-      } else {
-        this.showSaveCartModal = true;
-      }
-      // ensure template updates immediately
-      try { this.cd.detectChanges(); } catch (e) { /* noop */ }
-    } catch (e) {
-      // fallback to modal
-      this.showSaveCartModal = true;
-    }
+    // Unified: always open the responsive drawer markup; CSS handles desktop vs mobile presentation
+    this.showSaveCartDrawer = true;
+    this.showSaveCartModal = false;
+    try { this.cd.detectChanges(); } catch (e) { /* noop */ }
   }
 
   // Save-to-cart overlay flags
@@ -381,7 +371,9 @@ onDobInput(e: Event) {
   showSaveCartDrawer = false;
 
   closeSaveCartModal() {
+    // Close unified drawer when modal flag used
     this.showSaveCartModal = false;
+    this.showSaveCartDrawer = false;
   }
 
   closeSaveCartDrawer() {

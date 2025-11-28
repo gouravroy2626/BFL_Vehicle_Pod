@@ -191,53 +191,28 @@
   </div>
 </div>
 
-<!-- SAVE TO CART Modal (desktop) -->
-@if (showSaveCartModal) {
-<div class="save-cart-overlay" (click)="closeSaveCartModal()">
-  <div class="save-cart-modal" (click)="$event.stopPropagation()">
-    <div class="save-cart-close"><img src="/Vector copy 2.svg" alt="Close" (click)="closeSaveCartModal()"/></div>
-    <div class="save-cart-content">
-      <h3 class="save-cart-title">Details saved successfully</h3>
-      <p class="save-cart-sub">If you exit, visit the <strong>Cart</strong> to pick up where you left off</p>
-      <div class="save-cart-frame">
-        <img class="save-cart-bg" src="/Rectangle 32554.svg" alt="frame bg" />
-        <img class="save-cart-main" src="/Frame 57058.svg" alt="main" />
-        <img class="save-cart-arrow" src="/Subtract copy.svg" alt="arrow" />
-      </div>
-      <div class="save-cart-actions">
-        <button class="btn-primary" (click)="closeSaveCartModal()">GOT IT</button>
-      </div>
-    </div>
-  </div>
-</div>
-}
-
-<!-- SAVE TO CART Drawer (mobile) -->
-@if (showSaveCartDrawer) {
-<div class="save-cart-drawer" (click)="closeSaveCartDrawer()">
+<!-- Unified SAVE TO CART Drawer (responsive: mobile + desktop) -->
+@if (showSaveCartModal || showSaveCartDrawer) {
+<div class="save-cart-drawer" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
   <div class="save-cart-drawer-content" (click)="$event.stopPropagation()">
     <!-- Row 1: Close button (aligned right) -->
     <div class="row row-close">
-      <button class="close-icon" aria-label="Close" (click)="closeSaveCartDrawer()">
+      <button class="close-icon" aria-label="Close" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
         <img src="/Vector copy 2.svg" alt="Close" />
       </button>
     </div>
-
     <!-- Row 2: Green success symbol -->
     <div class="row row-symbol">
       <img src="/Subtract copy.svg" alt="Success" class="save-cart-symbol" />
     </div>
-
     <!-- Row 3: Title -->
     <div class="row row-title">
       <h3 class="save-cart-title">Details saved successfully</h3>
     </div>
-
     <!-- Row 4: Subtitle / helper text -->
     <div class="row row-sub">
       <p class="save-cart-sub">If you exit, visit the <strong>Cart</strong> to pick up where you left off</p>
     </div>
-
     <!-- Row 5: Illustration frame (background + main image) -->
     <div class="row row-illustration">
       <div class="save-cart-frame save-cart-frame-mobile">
@@ -245,17 +220,17 @@
         <img class="save-cart-main" src="/Frame 57058.svg" alt="main" />
       </div>
     </div>
-
     <!-- Row 6: Action button -->
     <div class="row row-actions">
       <div class="save-cart-actions">
-        <button class="btn-primary" (click)="closeSaveCartDrawer()">GOT IT</button>
+        <button class="btn-primary3" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">GOT IT</button>
       </div>
     </div>
-
   </div>
 </div>
 }
+
+<!-- (Removed separate mobile-only block; unified above) -->
 
 <!-- Drawer for GSTIN info -->
 @if (isGstinDrawerOpen) {

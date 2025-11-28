@@ -79,13 +79,14 @@
     color: rgba(255, 255, 255, .6);
     font-size: 13px;
 
-    /* Fix dealer prompt at bottom for mobile */
+    /* Fix dealer prompt at bottom for mobile
+       Lower z-index so global overlays/modals sit above and fully cover it */
     .dealer-row.dealer-prompt-fixed {
         position: fixed;
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 2100;
+        z-index: 1150;
         background: #fff;
         box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
         padding: 12px;
@@ -141,14 +142,19 @@
     box-sizing: border-box;
 }
 
+/* Ensure note text has no extra spacing */
+.note-text {
+    margin: 0;
+    padding: 0;
+}
+
 .note-icon {
+    padding-top: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
-    color: #1778EB;
-    cursor: default;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
 }
 
@@ -156,6 +162,12 @@
 .note-block.note-box .note-icon svg,
 .note-block.note-box svg {
     cursor: default !important;
+}
+
+/* Keep SVG icon fixed to 14px across breakpoints */
+.note-icon svg {
+    width: 14px;
+    height: 14px;
 }
 
 /* Vehicle form container */
@@ -266,7 +278,7 @@
 }
 
 .dealer-input::placeholder {
-    color: #BDBDBD;
+    color: rgba(102, 102, 102, 1);
 }
 
 .dealer-dropdown-btn {
@@ -406,16 +418,7 @@
     display: block;
 }
 
-.input-with-icon input.ng-invalid.ng-touched,
-.form-row select.ng-invalid.ng-touched,
-.dealer-controls.is-invalid .dealer-input {
-    border-color: #B40000;
-}
 
-/* Ensure brand/model inputs show red border on error (were missing selector) */
-.form-row input.ng-invalid.ng-touched {
-    border-color: #B40000 !important;
-}
 
 /* Override highlight-all-filled and focus states so errors remain red */
 .vehicle-form.highlight-all-filled .form-row input.ng-invalid.ng-touched:not(:focus) {
@@ -544,26 +547,26 @@
 }
 
 .save-btn {
-    border: 1.5px solid #FF9800;
+    border: 1.5px solid #FF6600;
     background: #fff;
-    color: #FF9800;
+    color: #FF6600;
     box-shadow: none;
 }
 
 .save-btn:hover {
-    background: #FF9800;
+    background: #FF6600;
     color: #fff;
 }
 
 .continue-btn {
     border: none;
-    background: linear-gradient(90deg, #FF9800 0%, #FF6D00 100%);
+    background: linear-gradient(97.13deg, #FF6700 5.56%, #FE8E0C 94.44%);
     color: #fff;
     box-shadow: 0 2px 8px rgba(255, 152, 0, .12);
 }
 
 .continue-btn:hover {
-    background: linear-gradient(90deg, #FF6D00 0%, #FF9800 100%);
+    background: linear-gradient(97.13deg, #FE8E0C 5.56%, #FF6700 94.44%);
 }
 
 /* Brand & Model explicit dimensions */
@@ -574,6 +577,7 @@
     height: 44px;
     opacity: 1;
     box-sizing: border-box;
+    color: rgba(102, 102, 102, 1);
 }
 
 /* Dealer modal */
@@ -860,7 +864,11 @@
     }
 }
 
-@media (max-width:600px) {
+@media (max-width:768px) {
+    .note-block.note-box {
+        margin-bottom: 0;
+    }
+
     .vehicle-form {
         padding: 12px;
         width: 100%;
@@ -893,7 +901,8 @@
         background: #FFFFFF;
         border-top: 1px solid #E0E0E0;
         box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
-        z-index: 2000;
+        z-index: 1200;
+        /* lower than modal/overlay backdrops so it won't overlap */
         gap: 12px;
         margin-top: 0;
         width: 100%;
@@ -912,7 +921,7 @@
     .note-block.note-box {
         flex-direction: column;
         gap: 6px;
-        padding: 10px 12px;
+        padding: 0 12px 10px 12px;
         width: 100%;
     }
 
@@ -1042,14 +1051,13 @@
     }
 
     .note-icon {
+        padding-top: 4px;
+        margin-bottom: 0;
         width: 14px;
-        height: 14px;
+        height: 18px;
     }
 
-    .note-icon svg {
-        width: 14px;
-        height: 14px;
-    }
+    /* Allow SVG inside note icon to inherit container size */
 
     .dealer-modal-header {
         padding: 14px 18px;

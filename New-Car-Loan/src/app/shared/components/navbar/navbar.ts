@@ -14,6 +14,8 @@ export class Navbar implements OnInit {
  onBackButton=false;
   showExitFeedback = false;
   showExitFeedbackForm = false;
+  showVehicleExit = false;
+  showPickupDrawer = false;
   private currentUrl: string = '';
   // carousel
   carouselIndex = 0;
@@ -38,6 +40,30 @@ export class Navbar implements OnInit {
 
   showBackButton(): boolean {
     return this.currentUrl !== '/' && this.currentUrl !== '' && this.currentUrl !== '/home';
+  }
+
+  showVehicleCartIcon(): boolean {
+    return this.currentUrl.startsWith('/vehicle-details');
+  }
+
+  // Vehicle details exit drawer handlers
+  openVehicleExit(): void {
+    if (this.currentUrl.startsWith('/vehicle-details')) {
+      this.showVehicleExit = true;
+    }
+  }
+
+  closeVehicleExit(): void {
+    this.showVehicleExit = false;
+  }
+
+  yesLeaveVehicle(): void {
+    // Close confirm modal and open the new pickup drawer per spec
+    this.showVehicleExit = false;
+    this.showExitFeedback = false;
+    this.showExitFeedbackForm = false;
+    this.clearCarouselTimers();
+    this.showPickupDrawer = true;
   }
 
   private carouselTimer: any;
@@ -98,6 +124,10 @@ export class Navbar implements OnInit {
 
   closeExitFeedbackForm() {
     this.showExitFeedbackForm = false;
+  }
+
+  closePickupDrawer() {
+    this.showPickupDrawer = false;
   }
 
   // Legacy methods kept for compatibility with existing calls (no-op replaced by clear)

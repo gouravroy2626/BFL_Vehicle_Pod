@@ -10,8 +10,32 @@
       }
     </div>
     <span class="brand-text">New Car Loan</span>
+    @if (showVehicleCartIcon()) {
+    <div class="nav-right">
+      <img class="nav-right-icon" src="/Vector copy 2.svg" alt="Close" (click)="openVehicleExit()" />
+    </div>
+    }
   </div>
 </nav>
+
+@if (showVehicleExit) {
+<div class="vehicleExitOverlay" (click)="closeVehicleExit()">
+  <div class="vehicleExitContent" (click)="$event.stopPropagation()">
+    <button class="veh-exit-close" aria-label="Close" (click)="closeVehicleExit()">
+      <img src="/Vector copy 2.svg" alt="Close" />
+    </button>
+    <h3 class="veh-exit-title">Confirm exit</h3>
+    <div class="veh-exit-warning">
+      <img src="/Mask group.svg" alt="Warning" class="veh-warning-icon" />
+      <p>Click on 'YES, LEAVE' to exit the application process.</p>
+    </div>
+    <div class="veh-exit-actions">
+      <button class="btn-outline" (click)="closeVehicleExit()">NO</button>
+      <button class="btn-primary" (click)="yesLeaveVehicle()">YES, LEAVE</button>
+    </div>
+  </div>
+</div>
+}
 
 @if (showExitFeedback) {
 <div class="exitDrawer" (click)="closeExitFeedback()">
@@ -85,4 +109,43 @@
     </div>
   </div>
 </div>
+}
+
+@if (showPickupDrawer) {
+<div class="exitDrawer" (click)="closePickupDrawer()">
+  <div class="drawer-content" (click)="$event.stopPropagation()">
+    <div class="drawer-row drawer-row-1">
+      <span class="close-button">
+        <img src="/Vector copy 2.svg" alt="Close" (click)="closePickupDrawer()" />
+      </span>
+    </div>
+
+    <div class="drawer-row drawer-row-2">
+      <h3 class="exit-title">Pick up where you left off</h3>
+    </div>
+
+    <div class="drawer-row drawer-row-3">
+      <p class="exit-subtext">Find your last saved application details in the Cart</p>
+    </div>
+
+    <div class="drawer-row drawer-row-3">
+      <div class="exit-cart-bg">
+        <img class="exit-icon" src="/Frame 57058.svg" alt="Cart screenshot" />
+      </div>
+    </div>
+
+    <div class="drawer-row drawer-row-4">
+      <div class="feedback-box">
+        <legend>We are sorry to see you go. Please tell us what made you leave? (optional)</legend>
+        <label class="fb-row"><input type="checkbox"/> Loan amount</label>
+        <label class="fb-row"><input type="checkbox"/> Interest rate</label>
+        <label class="fb-row"><input type="checkbox"/> Not required now</label>
+        <label class="fb-row"><input type="checkbox"/> Others</label>
+        <div class="fb-submit-row">
+          <button class="btn-primary" (click)="closePickupDrawer()">SUBMIT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 }

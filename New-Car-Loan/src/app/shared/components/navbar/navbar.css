@@ -71,7 +71,7 @@
 
 .back-icon {
   width: 16px;
-  height: 16px;
+  height: 20px;
   display: block;
   filter: brightness(0) invert(1);
 }
@@ -91,6 +91,174 @@
   pointer-events: none;
 }
 
+/* Right-side icon visible only on vehicle form */
+.nav-right {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-right-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+  cursor: pointer;
+}
+
+/* Vehicle exit confirm overlay/modal */
+.vehicleExitOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.vehicleExitContent {
+  /* width: 560px; */
+  max-width: 94vw;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  padding: 18px 18px 22px 18px;
+  text-align: center;
+  position: relative;
+}
+
+.veh-exit-close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.veh-exit-close img {
+  width: 12px;
+  height: 12px;
+}
+
+.veh-exit-title {
+  font-size: 24px;
+  font-weight: 600;
+
+  color: #10203A;
+}
+
+.veh-exit-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  background: #FFF3CD;
+  border: 1px solid #FFD97F;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #1A1A1A;
+  margin: 0 auto 14px auto;
+}
+
+.veh-warning-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.veh-exit-warning p {
+  /* align-content: flex-start; */
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.veh-exit-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.veh-exit-actions .btn-outline {
+  height: 40px;
+  border: 2px solid #FF6600;
+  color: #FF6600;
+  background: #FFFFFF;
+  border-radius: 28px;
+  padding: 0 22px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 200px;
+}
+
+.veh-exit-actions .btn-primary {
+  height: 40px;
+  border: none;
+  color: #FFFFFF;
+  background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+  border-radius: 28px;
+  padding: 0 26px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 220px;
+  box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+}
+
+/* Bottom sheet on mobile */
+@media (max-width: 500px) {
+  .vehicleExitOverlay {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .vehicleExitContent {
+    width: 100%;
+    max-width: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.18);
+    padding: 16px 16px 20px 16px;
+  }
+
+  .veh-exit-title {
+    font-size: 20px;
+  }
+
+  .veh-exit-warning {
+    margin: 8px 0 12px 0;
+  }
+
+  .veh-exit-actions {
+    gap: 10px;
+  }
+
+  .veh-exit-actions .btn-outline,
+  .veh-exit-actions .btn-primary {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
 /* Exit overlay (modal / bottom sheet) styles */
 .exitDrawer {
   position: fixed;
@@ -100,7 +268,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: auto;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .exitDrawer .drawer-content {
@@ -108,7 +276,7 @@
   max-width: 94vw;
   background: #FFFFFF;
   border-radius: 12px;
-  box-shadow: 0 12px 36px rgba(0,0,0,0.25);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
   /* remove horizontal inner padding per request */
   padding: 10px 24px 16px 24px;
   text-align: center;
@@ -123,14 +291,39 @@
   justify-content: center;
 }
 
-.exitDrawer .drawer-row { width: 100%; display:flex; justify-content:center; }
-.exitDrawer .drawer-row-1 { justify-content: flex-end; }
-.exitDrawer .drawer-row-1 .close-button { margin-right: 0; }
-.exitDrawer .drawer-row-2 { padding-top: 4px; }
-.exitDrawer .drawer-row-3 { padding-top: 4px; }
-.exitDrawer .drawer-row-4 { padding-top: 4px; }
-.exitDrawer .drawer-row-dots { padding-top: 4px; }
-.exitDrawer .drawer-row-6 { padding-top: 4px; }
+.exitDrawer .drawer-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.exitDrawer .drawer-row-1 {
+  justify-content: flex-end;
+}
+
+.exitDrawer .drawer-row-1 .close-button {
+  margin-right: 0;
+}
+
+.exitDrawer .drawer-row-2 {
+  padding-top: 4px;
+}
+
+.exitDrawer .drawer-row-3 {
+  padding-top: 4px;
+}
+
+.exitDrawer .drawer-row-4 {
+  padding-top: 4px;
+}
+
+.exitDrawer .drawer-row-dots {
+  padding-top: 4px;
+}
+
+.exitDrawer .drawer-row-6 {
+  padding-top: 4px;
+}
 
 .exitDrawer .drawer-row-1 .close-button img {
   height: 12px;
@@ -141,13 +334,13 @@
 .exit-title {
   font-size: 22px;
   font-weight: 600;
-  margin: 0 0 20px 0;
+  margin-bottom: 0;
 }
 
 .exit-title1 {
   font-size: 22px;
   font-weight: 600;
- margin-bottom: -2px;
+  margin-bottom: -2px;
 }
 
 .exit-icon {
@@ -162,6 +355,7 @@
 .exit-subtext {
   font-weight: 600;
   font-size: 18px;
+  margin-bottom: 0;
   /* margin: 6px 0 18px 0; */
   color: #10203A;
 }
@@ -179,6 +373,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .dot-btn {
   width: 10px;
   height: 10px;
@@ -189,10 +384,14 @@
   cursor: pointer;
   padding: 0;
 }
+
 .dot-btn.active {
   opacity: 1;
 }
-.dot-btn:focus { outline: 2px solid rgba(16,32,58,0.18); }
+
+.dot-btn:focus {
+  outline: 2px solid rgba(16, 32, 58, 0.18);
+}
 
 /* Feedback form specific styles */
 .exit-feedback-form .drawer-content {
@@ -202,7 +401,7 @@
 }
 
 .feedback-content .feedback-box {
-  border: 1px solid rgba(16,32,58,0.12);
+  border: 1px solid rgba(204, 204, 204, 1);
   padding: 10px 10px 14px 14px;
   border-radius: 6px;
   text-align: left;
@@ -217,12 +416,55 @@
   font-size: 14px;
 }
 
+/* Pickup drawer fine-tuning to match spec */
+.exitDrawer .drawer-row-2 .exit-title {
+  font-size: 18px;
+  font-weight: 500px;
+}
+.exitDrawer .drawer-row-3 .exit-subtext {
+  font-weight: 400;
+  font-size: 14px;
+  /* margin: 0 0 12px 0; */
+}
+.exitDrawer .drawer-row-3 .exit-icon {
+  margin-top: 6px;
+}
+.exit-cart-bg {
+  width: 100%;
+  max-width: 460px;
+  margin: 8px auto 4px auto;
+  background: url('/Rectangle 32554.svg') center/cover no-repeat;
+  border-radius: 12px;
+  min-height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.exit-cart-bg .exit-icon {
+  width: 260px;
+  height: 100%;
+  object-fit: contain;
+  margin: 0;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+}
+.exitDrawer .feedback-box {
+  margin-top: 12px;
+}
+.exitDrawer .feedback-box {
+  padding: 10px 10px 10px 14px;
+  border: 1px solid rgba(204, 204, 204, 1);
+}
+.exitDrawer .fb-submit-row .btn-primary {
+  min-width: 60%;
+}
+
 .feedback-box .fb-row {
   display: flex;
   align-items: center;
   gap: 12px;
   font-size: 14px;
-  padding: 8px 6px;
+  padding: 4px 6px;
 }
 
 .feedback-box .fb-submit-row {
@@ -236,7 +478,7 @@
   height: 40px;
   min-width: 160px;
   border-radius: 28px;
-  
+
   border: none;
   color: white;
   background: linear-gradient(97.13deg, #FF6700 5.56%, #FE8E0C 94.44%);
@@ -271,7 +513,7 @@
 }
 
 .exit-buttons .btn-primary {
-  background: linear-gradient(90deg,#FF6700 0%,#FF8900 100%);
+  background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
   border: #FF6600;
   color: #fff;
   border-radius: 28px;
@@ -300,20 +542,38 @@
     border-radius: 10px 10px 0 0;
     /* reduce horizontal padding on mobile as well */
     padding: 0 16px 24px 16px;
-    box-shadow: 0 -6px 18px rgba(0,0,0,0.18);
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.18);
   }
 
-  .exit-icon { width: 108px; height: 108px; object-fit: contain; }
-  .exit-title { font-size: 18px; }
-  .exit-title1 { font-size: 18px; }
-  .exit-subtext { font-size: 18px; }
+  .exit-icon {
+    width: 108px;
+    height: 108px;
+    object-fit: contain;
+  }
+
+  .exit-title {
+    font-size: 18px;
+  }
+
+  .exit-title1 {
+    font-size: 18px;
+  }
+
+  .exit-subtext {
+    font-size: 18px;
+  }
+
   /* Keep buttons on one line even on small screens; allow them to shrink */
-  .exit-buttons { padding-bottom: 8px; flex-wrap: nowrap; }
-  .exit-buttons .btn-outline, .exit-buttons .btn-primary 
-  { 
+  .exit-buttons {
+    padding-bottom: 8px;
+    flex-wrap: nowrap;
+  }
+
+  .exit-buttons .btn-outline,
+  .exit-buttons .btn-primary {
     flex: 1 1 0;
-     min-width: 0; 
-     font-size: 14px;
+    min-width: 0;
+    font-size: 14px;
   }
 }
 
@@ -323,7 +583,8 @@
   position: static;
   height: auto;
   display: flex;
-  justify-content: flex-end; /* push close to the right */
+  justify-content: flex-end;
+  /* push close to the right */
   align-items: center;
   /* padding-top: 4px; */
 }
@@ -335,12 +596,13 @@
 }
 
 @media (max-width: 500px) {
+
   /* For bottom sheet, slightly inset the close icon */
-  .exitDrawer .drawer-content .drawer-row-1 { padding-top: 8px; }
-  .exitDrawer .drawer-content .drawer-row-1 .close-button {
-    /* margin-right: 10px; */
+  .exitDrawer .drawer-content .drawer-row-1 {
+    padding-top: 8px;
   }
 }
+
 /* Large desktop - fixed position for precise alignment */
 @media (min-width: 1440px) {
   .brand-text {
