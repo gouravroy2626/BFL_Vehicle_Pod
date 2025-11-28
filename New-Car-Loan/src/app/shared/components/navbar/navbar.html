@@ -14,8 +14,8 @@
 </nav>
 
 @if (showExitFeedback) {
-<div class="exitDrawer">
-  <div class="drawer-content">
+<div class="exitDrawer" (click)="closeExitFeedback()">
+  <div class="drawer-content" (click)="$event.stopPropagation()">
     <!-- Row 1: close button -->
     <div class="drawer-row drawer-row-1">
       <span class="close-button">
@@ -57,8 +57,8 @@
 }
 
 @if (showExitFeedbackForm) {
-<div class="exitDrawer exit-feedback-form">
-  <div class="drawer-content feedback-content">
+<div class="exitDrawer exit-feedback-form" (click)="closeExitFeedbackForm()">
+  <div class="drawer-content feedback-content" (click)="$event.stopPropagation()">
     <div class="drawer-row drawer-row-1">
       <span class="close-button"><img src="/Vector copy 2.svg" alt="Close" (click)="closeExitFeedbackForm()" /></span>
     </div>

@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: 1rem 1rem 2rem 0;
+  padding: 1rem 1rem 10px 0;
    /* Add extra bottom padding */
   position: relative;
   width: 100%;
@@ -117,6 +117,7 @@
 @media (max-width: 768px) {
   .tracker-container {
     /* padding: 0.75rem 1rem; */
+   
     max-width: 768px;
   }
 

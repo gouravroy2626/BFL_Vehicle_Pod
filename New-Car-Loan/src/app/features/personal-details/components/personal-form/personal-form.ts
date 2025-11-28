@@ -36,6 +36,10 @@ export class PersonalForm implements OnDestroy {
   employmentType: string = '';
   pincode: string = '';
   monthlySalary: string = '';
+  // Formatted display value for salary (includes commas). monthlySalary stores raw digits.
+  monthlySalaryDisplay: string = '';
+  // Keep previous raw dob digits to help with caret/flow logic
+  private _prevDobRaw: string = '';
   employmentModalOpen = false; // controls bootstrap-style modal
   city: string = ''; // Add city property to bind in the template
   gstin: string = '';
@@ -173,7 +177,7 @@ export class PersonalForm implements OnDestroy {
     if (!this.employmentType) return true;
     if (!this.isPincodeValidLocal()) return true;
     if (this.employmentType === 'salaried' && !this.isSalaryValid()) return true;
-    if (this.employmentType === 'self-employed' && !this.isGstValid()) return true;
+    // if (this.employmentType === 'self-employed' && !this.isGstValid()) return true;
     if (!this.tncAccepted) return true;
     if (!this.creditConsent) return true;
     // mobile not described in new requirements but keep previous rule if provided
@@ -220,32 +224,34 @@ export class PersonalForm implements OnDestroy {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 
-  onDobInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    let raw = input.value.replace(/\D/g, ''); // only digits
+onDobInput(e: Event) {
+  const input = e.target as HTMLInputElement;
+  const rawDigits = input.value.replace(/\D/g, ''); // keep only numbers
 
-    let day = '';
-    let month = '';
-    let year = '';
+  // Limit to 8 digits (ddmmyyyy)
+  const digits = rawDigits.slice(0, 8);
 
-    if (raw.length <= 2) {
-      day = raw;
-    } else if (raw.length <= 4) {
-      day = raw.substring(0, 2);
-      month = raw.substring(2);
-    } else {
-      day = raw.substring(0, 2);
-      month = raw.substring(2, 4);
-      year = raw.substring(4, 8);
-    }
-
-    let formatted = day;
-    if (month) formatted += '/' + month;
-    if (year) formatted += '/' + year;
-
-    input.value = formatted;
-    this.dob = formatted;
+  // Build formatted string with slashes at fixed positions
+  let formatted = '';
+  if (digits.length > 0) {
+    formatted += digits.substring(0, 2); // day
   }
+  if (digits.length > 2) {
+    formatted += '/' + digits.substring(2, 4); // month
+  }
+  if (digits.length > 4) {
+    formatted += '/' + digits.substring(4); // year
+  }
+
+  input.value = formatted;
+  this.dob = formatted;
+
+  // Keep caret position stable
+  try {
+    const caretPos = input.selectionStart || formatted.length;
+    input.setSelectionRange(caretPos, caretPos);
+  } catch { /* noop */ }
+}
 
   // Input handlers to enforce constraints
   onFullNameInput(e: Event) {
@@ -273,10 +279,42 @@ export class PersonalForm implements OnDestroy {
 
   onSalaryInput(e: Event) {
     const input = e.target as HTMLInputElement;
-    let val = input.value.replace(/[^0-9]/g, '');
-    if (val.length > 6) val = val.slice(0, 6); // arbitrary max length
-    input.value = val;
-    this.monthlySalary = val;
+    // Preserve caret while formatting with thousands separators
+    const selectionStart = input.selectionStart || 0;
+    const digitsBefore = (input.value.slice(0, selectionStart).match(/\d/g) || []).length;
+
+    let raw = input.value.replace(/[^0-9]/g, '');
+    if (raw.length > 6) raw = raw.slice(0, 6); // arbitrary max length
+
+    // Format with commas
+    const formatWithCommas = (s: string) => {
+      if (!s) return '';
+      // remove leading zeros for display but keep single 0 if value is 0
+      s = s.replace(/^0+(?=\d)/, '');
+      return s.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
+
+    const formatted = formatWithCommas(raw);
+
+    // update model: monthlySalary holds raw digits, display holds formatted
+    this.monthlySalary = raw;
+    this.monthlySalaryDisplay = formatted;
+
+    input.value = formatted;
+
+    // restore caret after same number of digits
+    const computePosFromDigits = (str: string, digitsBeforeCount: number) => {
+      if (digitsBeforeCount <= 0) return 0;
+      let seen = 0;
+      for (let i = 0; i < str.length; i++) {
+        if (/\d/.test(str[i])) seen++;
+        if (seen === digitsBeforeCount) return i + 1;
+      }
+      return str.length;
+    };
+
+    const newPos = computePosFromDigits(formatted, digitsBefore);
+    try { input.setSelectionRange(newPos, newPos); } catch (e) { /* noop */ }
   }
 
   onGstInput(e: Event) {
@@ -386,5 +424,36 @@ export class PersonalForm implements OnDestroy {
 
   closePanDrawer() {
     this.isPanDrawerOpen = false;
+  }
+
+  // ---- Typing highlight support ----
+  private typingTimers: Map<HTMLInputElement, any> = new Map();
+
+  setTyping(e: Event) {
+    const input = e.target as HTMLInputElement;
+    if (!input) return;
+    input.classList.add('typing');
+    // Clear previous timer
+    const prev = this.typingTimers.get(input);
+    if (prev) {
+      clearTimeout(prev);
+    }
+    // Remove after idle (no typing) for 400ms
+    const timer = setTimeout(() => {
+      input.classList.remove('typing');
+      this.typingTimers.delete(input);
+    }, 400);
+    this.typingTimers.set(input, timer);
+  }
+
+  onBlurRemoveTyping(e: Event) {
+    const input = e.target as HTMLInputElement;
+    if (!input) return;
+    input.classList.remove('typing');
+    const t = this.typingTimers.get(input);
+    if (t) {
+      clearTimeout(t);
+      this.typingTimers.delete(input);
+    }
   }
 }

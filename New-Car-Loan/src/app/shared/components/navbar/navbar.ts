@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, Location } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ export class Navbar implements OnInit {
   carouselIndex = 0;
   carousel: Array<{ src: string; caption: string }> = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private location: Location) { }
 
   ngOnInit(): void {
     this.currentUrl = this.router.url;
@@ -40,9 +40,44 @@ export class Navbar implements OnInit {
     return this.currentUrl !== '/' && this.currentUrl !== '' && this.currentUrl !== '/home';
   }
 
+  private carouselTimer: any;
+  private carouselStartDelay: any;
+
   goBack(): void {
-    // Open exit/feedback overlay (modal on desktop, bottom sheet on mobile)
+    // Only intercept back on personal details page; otherwise navigate back normally
+    if (this.currentUrl.startsWith('/personal-details')) {
+      this.openExitDrawer();
+    } else {
+      this.location.back();
+    }
+  }
+
+  private openExitDrawer() {
     this.showExitFeedback = true;
+    this.carouselIndex = 0; // reset to first image each time drawer opens
+    // Start auto-scroll after 3 seconds (one cycle then every 3s)
+    this.clearCarouselTimers();
+      this.carouselStartDelay = setTimeout(() => {
+        this.beginCarouselCycle();
+    }, 3000);
+  }
+
+  private beginCarouselCycle() {
+    this.clearCarouselTimers();
+    this.carouselTimer = setInterval(() => {
+      this.carouselIndex = (this.carouselIndex + 1) % this.carousel.length;
+    }, 3000);
+  }
+
+  private clearCarouselTimers() {
+    if (this.carouselStartDelay) {
+      clearTimeout(this.carouselStartDelay);
+      this.carouselStartDelay = null;
+    }
+    if (this.carouselTimer) {
+      clearInterval(this.carouselTimer);
+      this.carouselTimer = null;
+    }
   }
 
  
@@ -51,25 +86,23 @@ export class Navbar implements OnInit {
     // open the feedback form drawer/modal
     this.onBackButton = false;
     this.showExitFeedback = false;
+    this.clearCarouselTimers();
     this.showExitFeedbackForm = true;
   }
 
   closeExitFeedback() {
     this.showExitFeedback = false;
     this.showExitFeedbackForm = false;
+    this.clearCarouselTimers();
   }
 
   closeExitFeedbackForm() {
     this.showExitFeedbackForm = false;
   }
 
-  startCarousel() {
-    // deprecated - carousel is now user controlled by dots
-  }
-
-  stopCarousel() {
-    // no-op for user-controlled carousel
-  }
+  // Legacy methods kept for compatibility with existing calls (no-op replaced by clear)
+  startCarousel() { /* no-op: auto handled */ }
+  stopCarousel() { this.clearCarouselTimers(); }
 
   selectCarousel(index: number) {
     if (index >= 0 && index < this.carousel.length) {

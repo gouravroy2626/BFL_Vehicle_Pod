@@ -84,6 +84,19 @@ label {
 ::placeholder,
 .placeholder1 {
   font-family: Rubik;
+
+  /* Remove browser's light-blue autofill / highlight background in inputs */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: inherit !important;
+  }
+  width: 60%;
   font-weight: 400;
   font-style: Regular;
   font-size: 14px;
@@ -348,10 +361,29 @@ letter-spacing: 0px;
 
 /* Highlight inputs while typing (focus state) */
 .form-control:focus {
-  background-color: rgba(255, 245, 218, 1);
+  /* Remove yellow highlight; keep border only */
+  background-color: #FFFFFF; /* or transparent to allow parent bg */
   border-color: #CCCCCC;
   outline: none;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: border-color 0.15s ease;
+}
+
+/* Show yellow only while actively typing (class added via JS, removed after idle) */
+.form-control.typing {
+  background-color: rgba(255, 245, 218, 1);
+}
+
+/* Proper override to remove Chrome autofill yellow background */
+input.form-control:-webkit-autofill,
+input.form-control:-webkit-autofill:hover,
+input.form-control:-webkit-autofill:focus,
+textarea.form-control:-webkit-autofill,
+select.form-control:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+  box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+  -webkit-text-fill-color: inherit !important;
+  caret-color: inherit;
+  transition: background-color 9999s ease-out 0s;
 }
 
 .consent-item input[type="checkbox"]:focus,
@@ -493,7 +525,8 @@ letter-spacing: 0px;
 .employment-modal {
   width: 360px;
   max-width: 92vw;
-  background: #FFFFFF;
+  
+  background: rgba(242, 242, 242, 1);
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   overflow: hidden;
@@ -505,7 +538,8 @@ letter-spacing: 0px;
 }
 
 .employment-modal-header {
-  padding: 18px 12px 18px 12px;
+  
+  padding: 16px 12px 16px 12px;
   gap: 8px;
   background: #F6F6F7;
   display: flex;
@@ -514,14 +548,14 @@ letter-spacing: 0px;
 }
 
 .employment-modal-header h5 {
+  font-size: 14px;
   margin: 0;
-  font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.3px;
 }
 
 .employment-modal-header .close-x {
-  margin-top: 0px;
+  margin-top: -2px;
   background: none;
   border: none;
   font-size: 28px;
@@ -538,13 +572,14 @@ letter-spacing: 0px;
 }
 
 .employment-options li {
-  padding: 20px 24px;
-  font-size: 16px;
-  font-weight: 500;
+  padding: 16px 12px 16px 12px;
+  font-size: 14px;
+  font-weight: 400;
   cursor: pointer;
   position: relative;
   transition: background .15s ease, color .15s ease;
   border-top: 1px solid #E3E3E5;
+  background: rgba(255, 255, 255, 1);
 }
 
 .employment-options li:first-child {
@@ -552,26 +587,36 @@ letter-spacing: 0px;
 }
 
 .employment-options li:hover {
-  background: #F4F4F5;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 1);
 }
 
 .employment-options li.active {
-  background: #FF67000A;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 1);
   color: #000;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .employment-modal {
-    width: 94vw;
+    /* Responsive width: target ~75% of viewport, with sensible min/max bounds
+       Example: 375px viewport -> clamp gives ~281px (≈ desired 280px) */
+    width: clamp(260px, 75vw, 420px);
+    /*reduced height*/
   }
 
   .employment-modal-header h5 {
-    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+  font-size: 14px;
   }
-
+  .employment-modal-header .close-x {
+    font-size: 26px;
+    font-weight: 300;
+  }
   .employment-options li {
-    padding: 18px 18px;
-    font-size: 15px;
+    background: rgba(255, 255, 255, 1);
+    padding: 16px 12px 16px 12px;
+    font-size: 14px;
   }
 }
 
@@ -1106,7 +1151,7 @@ letter-spacing: 0px;
   .close-icon {
     background: transparent;
     border: none;
-    padding: 6px;
+    /* padding: 6px; */
     height: 40px;
     width: 40px;
     display: inline-flex;
@@ -1115,13 +1160,14 @@ letter-spacing: 0px;
     border-radius: 999px;
     position: absolute;
     right: 6px;
-    top: 6px;
+    top: 4px;
     z-index: 3;
+    font-weight: 600px;
   }
 
   .close-icon img {
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height: 12px;
   }
 
   .row-symbol .save-cart-symbol {
@@ -1176,6 +1222,11 @@ letter-spacing: 0px;
 
 /* Mobile: full-width bottom sheet behaviour */
 @media (max-width: 500px) {
+  .row-symbol{
+    width: 12px;
+    height: 12px;
+    margin-bottom: 30px;
+  }
   .pan-drawer-content {
     width: 100%;
     border-radius: 10px 10px 0 0;
@@ -1240,9 +1291,9 @@ letter-spacing: 0px;
 .consent-checkbox:checked+.consent-visual::after {
   content: '';
   position: absolute;
-  top: 6.88px;
+  top: 5.88px;
   /* exact spec position */
-  left: 5px;
+  left: 4px;
   /* exact spec position */
   width: 10.9375px;
   height: 6.640625px;
