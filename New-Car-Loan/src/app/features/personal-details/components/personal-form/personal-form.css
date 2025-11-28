@@ -1103,6 +1103,7 @@ select.form-control:-webkit-autofill {
     padding: 16px;
     box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.2);
     position: relative;
+    padding-right: 0;
   }
 
   .save-cart-frame {
@@ -1174,6 +1175,7 @@ select.form-control:-webkit-autofill {
     width: 56px;
     height: 56px;
     object-fit: contain;
+    /* padding-top: 10px; */
   }
 
   .row-title .save-cart-title {
