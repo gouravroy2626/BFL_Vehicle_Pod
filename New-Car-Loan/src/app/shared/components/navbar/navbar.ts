@@ -124,6 +124,12 @@ export class Navbar implements OnInit {
 
   closeExitFeedbackForm() {
     this.showExitFeedbackForm = false;
+    // Also close pickup drawer if open
+    this.showPickupDrawer = false;
+    // After submitting feedback, navigate to personal-details as requested
+    if (this.currentUrl !== '/personal-details') {
+      this.router.navigateByUrl('/personal-details');
+    }
   }
 
   closePickupDrawer() {

@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DrawerComponent } from '../../../../shared/service/drawer/drawer';
+import { DrawerService } from '../../../../shared/service/drawer/drawer.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -17,7 +18,7 @@ export class PersonalForm implements OnDestroy {
   isGstinDrawerOpen = false;
   isPanDrawerOpen = false;
   // Debug log for initial state
-  constructor(private router: Router, private cd: ChangeDetectorRef) {
+  constructor(private router: Router, private cd: ChangeDetectorRef, private drawerService: DrawerService) {
     console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
   }
   // resize handler reference so we can remove listener on destroy
@@ -108,6 +109,11 @@ export class PersonalForm implements OnDestroy {
   }
   // Reset drawer state on navigation (Angular lifecycle)
   ngOnInit() {
+    // Listen for save to cart drawer trigger from vehicle-form
+    this.drawerService.cartDrawer$.subscribe(() => {
+      this.isDrawerOpen = true;
+      this.cd.detectChanges();
+    });
     this.isDrawerOpen = true;
     console.log('PersonalForm ngOnInit: isDrawerOpen set to', this.isDrawerOpen);
     // listen for viewport size changes to keep save-cart overlay visible when crossing the 500px breakpoint

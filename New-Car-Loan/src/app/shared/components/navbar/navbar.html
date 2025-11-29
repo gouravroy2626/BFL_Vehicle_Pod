@@ -21,17 +21,32 @@
 @if (showVehicleExit) {
 <div class="vehicleExitOverlay" (click)="closeVehicleExit()">
   <div class="vehicleExitContent" (click)="$event.stopPropagation()">
-    <button class="veh-exit-close" aria-label="Close" (click)="closeVehicleExit()">
-      <img src="/Vector copy 2.svg" alt="Close" />
-    </button>
-    <h3 class="veh-exit-title">Confirm exit</h3>
-    <div class="veh-exit-warning">
-      <img src="/Mask group.svg" alt="Warning" class="veh-warning-icon" />
-      <p>Click on 'YES, LEAVE' to exit the application process.</p>
+    <!-- Row 1: close button -->
+    <div class="vehicle-row vehicle-row-1">
+      <button class="veh-exit-close" aria-label="Close" (click)="closeVehicleExit()">
+        <img src="/Vector copy 2.svg" alt="Close" />
+      </button>
     </div>
-    <div class="veh-exit-actions">
-      <button class="btn-outline" (click)="closeVehicleExit()">NO</button>
-      <button class="btn-primary" (click)="yesLeaveVehicle()">YES, LEAVE</button>
+
+    <!-- Row 2: title -->
+    <div class="vehicle-row vehicle-row-2">
+      <h3 class="veh-exit-title">Confirm exit</h3>
+    </div>
+
+    <!-- Row 3: warning -->
+    <div class="vehicle-row vehicle-row-3">
+      <div class="veh-exit-warning">
+        <img src="/Mask group.svg" alt="Warning" class="veh-warning-icon" />
+        <p>Click on 'YES, LEAVE' to exit the application process.</p>
+      </div>
+    </div>
+
+    <!-- Row 4: actions -->
+    <div class="vehicle-row vehicle-row-4">
+      <div class="veh-exit-actions">
+        <button class="btn-outline" (click)="closeVehicleExit()">NO</button>
+        <button class="btn-primary" (click)="yesLeaveVehicle()">YES, LEAVE</button>
+      </div>
     </div>
   </div>
 </div>
@@ -103,7 +118,7 @@
         <label class="fb-row"><input type="checkbox"/> Loan not required now</label>
         <label class="fb-row"><input type="checkbox"/> Others</label>
         <div class="fb-submit-row">
-          <button class="btn-primary" (click)="closeExitFeedbackForm()">SUBMIT</button>
+         <button class="btn-primary"  (click)="closeExitFeedbackForm()">SUBMIT</button>
         </div>
       </div>
     </div>
@@ -142,7 +157,7 @@
         <label class="fb-row"><input type="checkbox"/> Not required now</label>
         <label class="fb-row"><input type="checkbox"/> Others</label>
         <div class="fb-submit-row">
-          <button class="btn-primary" (click)="closePickupDrawer()">SUBMIT</button>
+          <button class="btn-primary" (click)="closeExitFeedbackForm()">SUBMIT</button>
         </div>
       </div>
     </div>

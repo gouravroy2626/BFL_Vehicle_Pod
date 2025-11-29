@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DrawerService } from '../../../../shared/service/drawer/drawer.service';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
 import { Modal } from 'bootstrap';
@@ -17,6 +18,15 @@ import { Modal } from 'bootstrap';
   encapsulation: ViewEncapsulation.None,
 })
 export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
+  showSaveCartDrawer = false;
+
+  openSaveCartDrawer() {
+    this.showSaveCartDrawer = true;
+  }
+
+  closeSaveCartDrawer() {
+    this.showSaveCartDrawer = false;
+  }
   dealerHighlightIndex = 0;
   @ViewChild('dealerList') dealerList?: ElementRef<HTMLUListElement>;
   private dealerModalElement?: ElementRef<HTMLDivElement>;
@@ -67,6 +77,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly ngZone = inject(NgZone);
   private readonly router = inject(Router);
+  private readonly drawerService = inject(DrawerService);
   private loaderNavigationTimer: number | null = null;
   readonly form = this.formBuilder.group({
     brand: ['', Validators.required],
@@ -520,8 +531,15 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
         this.form.get(key)?.markAsTouched();
       });
     } else {
-      // Add your logic here
+      // Show save to cart drawer in vehicle-form
+      this.openSaveCartDrawer();
     }
+    // Remove error highlight on input
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.get(key)?.valueChanges.subscribe(() => {
+        this.form.get(key)?.markAsUntouched();
+      });
+    });
   }
 
   get showBrandSearchIcon(): boolean {

@@ -1,3 +1,689 @@
+/* Button and row styles for save-cart drawer */
+.btn-primary3 {
+    background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+    color: #fff;
+    border: none;
+    border-radius: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    height: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+.save-cart-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+}
+.row-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+}
+/* Final polish for save-cart drawer (copied from personal-form) */
+.row-sub .save-cart-sub {
+    font-weight: 400;
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+.save-cart-frame-mobile {
+    padding-right: 5px;
+    max-width: 420px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+}
+.save-cart-frame-mobile .save-cart-bg {
+    border-radius: 8px;
+}
+.save-cart-frame-mobile .save-cart-main {
+    position: absolute;
+    width: 68%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.row-actions {
+    padding-top: 0;
+}
+.save-cart-actions .btn-primary3 {
+    align-items: center;
+    flex: 1 1 45%;
+    min-width: 200px;
+    max-width: 200px;
+    box-sizing: border-box;
+    margin: 0;
+    background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+    color: #fff;
+    border: none;
+    border-radius: 200px;
+    height: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (min-width: 501px) {
+    .save-cart-drawer-content {
+        width: 100%;
+        max-width: 400px;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 0 0 16px 16px;
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+        position: relative;
+        margin: 0 auto;
+        display: grid;
+        grid-template-rows: auto auto auto auto 1fr auto;
+        gap: 6px;
+        align-items: center;
+        text-align: center;
+    }
+    .row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .row-close {
+        justify-content: flex-end;
+        padding-right: 6px;
+    }
+    .row-close .close-icon {
+        
+        background: transparent;
+        border: none;
+        height: 40px;
+        width: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        position: absolute;
+        /* right: 6px; */
+        top: 4px;
+        z-index: 3;
+        font-weight: 600;
+    }
+    .row-symbol .save-cart-symbol {
+        width: 56px;
+        height: 40px;
+        object-fit: contain;
+    }
+    .row-title .save-cart-title {
+        font-size: 18px;
+        margin: 0 0 -2px 0;
+        font-weight: 600;
+    }
+    .row-sub .save-cart-sub {
+        font-weight: 400;
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+    }
+    .row.row-illustration {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .save-cart-frame {
+        max-width: 400px;
+        height: 150px;
+        margin: 0 auto;
+        position: relative;
+    }
+    .save-cart-bg {
+        border-radius: 8px;
+    }
+    .save-cart-main {
+        position: absolute;
+        width: 68%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .row-actions { padding-top: 0; }
+    .save-cart-actions .btn-primary3 {
+        align-items: center;
+        flex: 0 0 auto;
+        width: 200px;
+        max-width: 200px;
+        box-sizing: border-box;
+        margin: 0;
+        background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+        color: #fff;
+        border: none;
+        border-radius: 200px;
+        height: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+/* Mobile and desktop polish for Save-to-Cart drawer */
+.row-sub .save-cart-sub {
+    font-weight: 400;
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.save-cart-frame-mobile {
+    padding-right: 5px;
+    max-width: 420px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+}
+.save-cart-frame-mobile .save-cart-bg {
+    border-radius: 8px;
+}
+.save-cart-frame-mobile .save-cart-main {
+    position: absolute;
+    width: 68%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.row-actions {
+    padding-top: 0;
+}
+
+@media (min-width: 501px) {
+    .save-cart-drawer-content {
+        width: 100%;
+        max-width: 400px;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 16px 0 16px 16px;
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+        position: relative;
+        margin: 0 auto;
+        display: grid;
+        grid-template-rows: auto auto auto auto 1fr auto;
+        gap: 6px;
+        align-items: center;
+        text-align: center;
+    }
+    .row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .row-close {
+        justify-content: flex-end;
+        padding-right: 6px;
+    }
+    .row-close .close-icon {
+        background: transparent;
+        border: none;
+        height: 40px;
+        width: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+            position: absolute;
+            right: 16px;
+            top: -4px;
+        z-index: 3;
+        font-weight: 600;
+    }
+    .row-symbol .save-cart-symbol {
+        width: 56px;
+        height: 40px;
+        object-fit: contain;
+    }
+    .row-title .save-cart-title {
+        font-size: 18px;
+        margin: 0 0 -2px 0;
+        font-weight: 600;
+    }
+    .row-sub .save-cart-sub {
+        font-weight: 400;
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+    }
+    .row.row-illustration {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .save-cart-frame {
+        max-width: 400px;
+        height: 150px;
+        margin: 0 auto;
+        position: relative;
+    }
+    .save-cart-bg {
+        border-radius: 8px;
+    }
+    .save-cart-main {
+        position: absolute;
+        width: 68%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .row-actions { padding-top: 0; }
+    .save-cart-actions .btn-primary3 {
+        align-items: center;
+        flex: 0 0 auto;
+        width: 200px;
+        max-width: 200px;
+        box-sizing: border-box;
+        margin: 0;
+        background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+        color: #fff;
+        border: none;
+        border-radius: 200px;
+        height: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+/* Save-cart drawer action button and layout (copied from personal-form) */
+.save-cart-actions .btn-primary3 {
+    align-items: center;
+    flex: 1 1 45%;
+    min-width: 200px;
+    max-width: 200px;
+    box-sizing: border-box;
+    margin: 0;
+    background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+    color: #fff;
+    border: none;
+    border-radius: 200px;
+    height: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-cart-drawer-content {
+    display: grid;
+    grid-template-rows: auto auto auto auto 1fr auto;
+    gap: 8px;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.save-cart-drawer-content .row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row-close {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 6px;
+    margin-bottom: 0;
+}
+
+.row-symbol {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.row-close {
+    justify-content: flex-end;
+    padding-right: 6px;
+}
+
+.close-icon {
+    background: transparent;
+    border: none;
+    height: 40px;
+    width: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    position: absolute;
+    right: 24px;
+    top: -12px;
+    z-index: 3;
+    font-weight: 600px;
+}
+
+.close-icon img {
+    width: 12px;
+    height: 12px;
+}
+
+.row-symbol .save-cart-symbol {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+.row-title .save-cart-title {
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: -2px;
+}
+/* Save-to-cart modal/drawer styles (full copy from personal-form) */
+.save-cart-overlay,
+.save-cart-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.save-cart-modal {
+    width: 720px;
+    max-width: 94vw;
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 28px 28px 32px 28px;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+    position: relative;
+    text-align: center;
+}
+
+.save-cart-close,
+.close-icon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.save-cart-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 8px 0 6px 0;
+}
+
+.save-cart-sub {
+    font-size: 16px;
+    color: #333;
+    margin: 0 0 14px 0;
+}
+
+.save-cart-frame {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    height: 220px;
+    margin: 8px auto 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-cart-bg {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+.save-cart-main {
+    position: absolute;
+    width: 66%;
+    max-width: 460px;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.save-cart-arrow {
+    position: absolute;
+    width: 80px;
+    height: auto;
+    right: 18%;
+    top: 30%;
+}
+
+.save-cart-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.save-cart-actions .btn-primary {
+    width: 340px;
+    height: 40px;
+    border-radius: 200px;
+    font-size: 18px;
+    padding: 0 28px;
+}
+
+.save-cart-symbol {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto;
+    display: block;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.row-close {
+    justify-content: flex-end;
+    margin-bottom: 0;
+}
+.row-symbol {
+    margin-bottom: 0;
+}
+.row-title {
+    margin-bottom: 0;
+}
+.row-sub {
+    margin-bottom: 0;
+}
+.row-illustration {
+    margin-bottom: 0;
+}
+
+@media (max-width: 500px) {
+    .save-cart-overlay {
+        display: none;
+    }
+
+    .save-cart-drawer {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .save-cart-drawer-content {
+        width: 100%;
+        max-width: none;
+        background: #ffffff;
+        border-radius: 12px 12px 0 0;
+        padding: 16px;
+        box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.2);
+        position: relative;
+        padding-right: 0;
+    }
+
+    .save-cart-frame {
+        height: 170px;
+    }
+
+    .save-cart-main {
+        width: 68%;
+    }
+
+    .save-cart-arrow {
+        width: 56px;
+        right: 20%;
+        top: 26%;
+    }
+}
+/* Save-to-cart modal/drawer styles (copied from personal-form) */
+.save-cart-overlay,
+.save-cart-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.save-cart-modal {
+    width: 720px;
+    max-width: 94vw;
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 28px 28px 32px 28px;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+    position: relative;
+    text-align: center;
+}
+
+.save-cart-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+}
+
+.save-cart-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 8px 0 6px 0;
+}
+
+.save-cart-sub {
+    font-size: 16px;
+    color: #333;
+    margin: 0 0 14px 0;
+}
+
+.save-cart-frame {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    height: 220px;
+    margin: 8px auto 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-cart-bg {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+.save-cart-main {
+    position: absolute;
+    width: 66%;
+    max-width: 460px;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.save-cart-arrow {
+    position: absolute;
+    width: 80px;
+    height: auto;
+    right: 18%;
+    top: 30%;
+}
+
+.save-cart-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.save-cart-actions .btn-primary {
+    width: 340px;
+    height: 40px;
+    border-radius: 200px;
+    font-size: 18px;
+    padding: 0 28px;
+}
+
+@media (max-width: 500px) {
+    .save-cart-overlay {
+        display: none;
+    }
+
+    .save-cart-drawer {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .save-cart-drawer-content {
+        width: 100%;
+        max-width: none;
+        background: #ffffff;
+        border-radius: 12px 12px 0 0;
+        padding: 16px;
+        box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.2);
+        position: relative;
+        padding-right: 0;
+    }
+
+    .save-cart-frame {
+        height: 170px;
+    }
+
+    .save-cart-main {
+        width: 68%;
+    }
+
+    .save-cart-arrow {
+        width: 56px;
+        right: 20%;
+        top: 26%;
+    }
+}
 .page-container {
     display: flex;
     flex-direction: column;
@@ -341,7 +1027,7 @@
 
 /* Highlight when all filled (excluding focus) */
 .vehicle-form.highlight-all-filled .form-row input:not(:focus) {
-    background: #FFF5DA;
+    background: #fff;
     border-color: #999999;
     box-shadow: none;
 }
@@ -421,16 +1107,11 @@
 
 
 /* Override highlight-all-filled and focus states so errors remain red */
-.vehicle-form.highlight-all-filled .form-row input.ng-invalid.ng-touched:not(:focus) {
-    border-color: #B40000 !important;
-    background: #FFF;
-    /* keep normal background to distinguish from valid highlight */
-}
 
-.form-row input.ng-invalid.ng-touched:focus {
-    border-color: #B40000 !important;
-    background: #FFECEC;
-    /* subtle error focus background */
+/* Remove red border highlight from error fields when typing */
+.vehicle-form .form-row input.ng-invalid.ng-touched {
+    border-color: #999999 !important;
+    background: #FFF !important;
 }
 
 .required-mark {
