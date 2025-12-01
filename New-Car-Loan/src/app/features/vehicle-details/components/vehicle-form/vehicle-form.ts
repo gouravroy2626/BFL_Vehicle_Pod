@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { DrawerService } from '../../../../shared/service/drawer/drawer.service';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
 import { Modal } from 'bootstrap';
@@ -77,7 +76,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly ngZone = inject(NgZone);
   private readonly router = inject(Router);
-  private readonly drawerService = inject(DrawerService);
   private loaderNavigationTimer: number | null = null;
   readonly form = this.formBuilder.group({
     brand: ['', Validators.required],
