@@ -19,6 +19,8 @@
     flex-direction: column;
     align-items: center;
     gap: clamp(20px, 6vh, 36px);
+    /* slight downward offset for visual alignment with surrounding content */
+    margin-top: -260px;
 }
 
 .aa-title {

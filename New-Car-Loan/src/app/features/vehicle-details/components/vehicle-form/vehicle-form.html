@@ -189,42 +189,46 @@
                 </div>
         </div>
 
-        <!-- Manual SAVE TO CART Drawer (vehicle-form) -->
-        <div *ngIf="showSaveCartDrawer" class="save-cart-drawer" (click)="closeSaveCartDrawer()">
-            <div class="save-cart-drawer-content" (click)="$event.stopPropagation()">
-                <!-- Row 1: Close button (aligned right) -->
-                <div class="row row-close">
-                    <button class="close-icon" aria-label="Close" (click)="closeSaveCartDrawer()">
-                        <img src="/Vector copy 2.svg" alt="Close" />
-                    </button>
-                </div>
-                <!-- Row 2: Green success symbol -->
-                <div class="row row-symbol">
-                    <img src="/Subtract copy.svg" alt="Success" class="save-cart-symbol" />
-                </div>
-                <!-- Row 3: Title -->
-                <div class="row row-title">
-                    <h3 class="save-cart-title">Details saved successfully</h3>
-                </div>
-                <!-- Row 4: Subtitle / helper text -->
-                <div class="row row-sub">
-                    <p class="save-cart-sub">If you exit, visit the <strong>Cart</strong> to pick up where you left off</p>
-                </div>
-                <!-- Row 5: Illustration frame (background + main image) -->
-                <div class="row row-illustration">
-                    <div class="save-cart-frame save-cart-frame-mobile">
-                        <img class="save-cart-bg" src="/Rectangle 32554.svg" alt="frame bg" />
-                        <img class="save-cart-main" src="/Frame 57058.svg" alt="main" />
+                <!-- Unified SAVE TO CART Drawer (responsive: mobile + desktop) -->
+                <div *ngIf="showSaveCartDrawer" class="save-cart-drawer" (click)="closeSaveCartDrawer()">
+                    <div class="save-cart-drawer-content" (click)="$event.stopPropagation()">
+                        <!-- Row 1: Close button (aligned right) -->
+                        <div class="row row-close">
+                            <button class="close-icon" aria-label="Close" (click)="closeSaveCartDrawer()">
+                                <img src="/Vector copy 2.svg" alt="Close" />
+                            </button>
+                        </div>
+                        <!-- Row 2: Green success symbol -->
+                        <div class="row row-symbol">
+                            <img src="/Subtract copy.svg" alt="Success" class="save-cart-symbol" />
+                        </div>
+                        <!-- Row 3: Title -->
+                        <div class="row row-title">
+                            <h3 class="save-cart-title">Details saved successfully</h3>
+                        </div>
+                        <!-- Row 4: Subtitle / helper text -->
+                        <div class="row row-sub">
+                            <p class="save-cart-sub">If you exit, visit the <strong>Cart</strong> to pick up where you left off</p>
+                        </div>
+                        <!-- Row 5: Illustration frame (background + main image) -->
+                        <div class="hero">
+                            <!-- Background is set via CSS on .hero (uses /Rectangle 32554.svg) -->
+                            <!-- Mobile foreground -->
+                            <img class="mobile" src="/Frame 57058.svg" alt="Mobile Image">
+                            <!-- Desktop foreground -->
+                            <div class="desktop">
+                                <img class="header" src="/Header_top.svg" alt="Header Top">
+                                <img class="path" src="/Path 5.svg" alt="Path 5">
+                            </div>
+                        </div>
+                        <!-- Row 6: Action button -->
+                        <div class="row row-actions">
+                            <div class="save-cart-actions">
+                                <button class="btn-primary3" (click)="closeSaveCartDrawer()">GOT IT</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                            <!-- Row 6: Action button -->
-                            <div class="row row-actions">
-                                <div class="save-cart-actions">
-                                    <button class="btn-primary3" (click)="closeSaveCartDrawer()">GOT IT</button>
-                                </div>
-                            </div>
-            </div>
-        </div>
 
         <div *ngIf="isLoading" class="loader-overlay">
                 <!-- The loader is now handled by the vehicle-loader route -->
