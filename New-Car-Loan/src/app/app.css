@@ -1,14 +1,25 @@
+/* Global theme tokens (light by default) */
+:root {
+  --app-bg: #ffffff;          /* page background */
+  --app-surface: #ffffff;     /* cards / form shells */
+  --app-text: #1A1A1A;        /* primary text */
+  --app-text-muted: #6B7280;  /* secondary text */
+  --app-input-bg: #ffffff;    /* inputs */
+  --app-border: #D1D5DB;      /* neutral borders */
+  --app-overlay: rgba(0, 0, 0, 0.45);
+  --app-brand: #FF6700;       /* existing brand orange */
+}
+
 /* Wrapper for the tracker component to control its layout */
 app-tracker {
   width: 100%;
   max-width: 800px;
   margin: 0 auto 0 0;
-  background-color: Canvas; /* system background color */
-  color: CanvasText;        /* system text color */
+  background-color: var(--app-surface);
+  color: var(--app-text);
   z-index: 1;
   display: block;
   box-sizing: border-box;
-  color-scheme: light dark; /* respect browser/system theme */
 }
 
 /* removed separator pseudo-element below tracker; using CSS gap instead */
@@ -18,9 +29,8 @@ app-tracker {
   display: flex;
   flex-direction: column;
   gap: 4px; /* exact 4px separation between tracker and content */
-  background-color: Canvas; /* adapts to light/dark */
-  color: CanvasText;     
-  color-scheme: light dark;
+  background-color: var(--app-bg);
+  color: var(--app-text);
 }
 
 @media (min-width: 769px) {
@@ -34,5 +44,30 @@ app-tracker {
   app-tracker::after {
     width: 100%;
     margin: 0;
+  }
+}
+
+/* Dark theme overrides when system prefers dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-bg: #050814;
+    --app-surface: #0B1220;
+    --app-text: #E5E7EB;
+    --app-text-muted: #9CA3AF;
+    --app-input-bg: #020617;
+    --app-border: rgba(148, 163, 184, 0.6);
+    --app-overlay: rgba(0, 0, 0, 0.65);
+    --app-brand: #FF8A2B;
+  }
+
+  body {
+    background-color: var(--app-bg);
+    color: var(--app-text);
+  }
+
+  app-tracker,
+  .app-body {
+    background-color: var(--app-bg);
+    color: var(--app-text);
   }
 }
