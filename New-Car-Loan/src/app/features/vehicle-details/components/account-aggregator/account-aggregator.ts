@@ -25,6 +25,11 @@ export class AccountAggregator implements OnInit, OnDestroy {
     // Add class to lock body scroll
     this.renderer.addClass(this.document.documentElement, 'no-scroll');
     this.renderer.addClass(this.document.body, 'no-scroll');
+
+    // Navigate to application-submission after 5 seconds
+    setTimeout(() => {
+      this.router.navigate(['/application-submission']);
+    }, 5000);
   }
 
   ngOnDestroy() {
