@@ -13,7 +13,8 @@
   <div class="form-field">
     <label for="pan-input">Full Name on PAN Card <span class="required">*</span></label>
     <input type="text" class="form-control" id="pan-input" placeholder="Enter full name" [(ngModel)]="fullName"
-      (input)="onFullNameInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)" [disabled]="!!fullNameFromDrawer">
+      (input)="onFullNameInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)"
+      [disabled]="!!fullNameFromDrawer">
     @if (showErrors && !fullName.trim()) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your full name</span></div>
     }
@@ -57,9 +58,10 @@
 
   <div class="form-field">
     <label for="pan-number-input">PAN Card Number <span class="required">*</span>
-      <img src="/Vector copy.svg" alt="PAN info" class="pan-info-icon" (click)="openDrawerForPan()"/></label>
+      <img src="/Vector copy.svg" alt="PAN info" class="pan-info-icon" (click)="openDrawerForPan()" /></label>
     <input type="text" class="form-control" id="pan-number-input" placeholder="Enter 10-character alphanumeric PAN"
-      [(ngModel)]="pan" (input)="onPanInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)" maxlength="10">
+      [(ngModel)]="pan" (input)="onPanInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)"
+      maxlength="10">
     @if (showErrors && !isPanValid()) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Invalid PAN card number. Please enter a
         valid 10-character alphanumeric PAN</span></div>
@@ -88,7 +90,8 @@
     <div class="salary-field">
       <label for="salary-input">Net Monthly Salary <span class="required">*</span></label>
       <input id="salary-input" type="text" class="form-control" placeholder="Enter monthly take-home salary"
-        [(ngModel)]="monthlySalaryDisplay" (input)="onSalaryInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)">
+        [(ngModel)]="monthlySalaryDisplay" (input)="onSalaryInput($event); setTyping($event)"
+        (blur)="onBlurRemoveTyping($event)">
       @if (showErrors && !isSalaryValid()) {
       <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter salary between 15000 to
           75000</span></div>
@@ -125,7 +128,8 @@
   <div class="form-field">
     <label for="pincode-input">Current Residential PIN Code <span class="required">*</span></label>
     <input type="text" class="form-control" id="pincode-input" placeholder="Enter 6-digit current residential PIN code"
-      [(ngModel)]="pincode" (input)="onPincodeInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)" maxlength="6">
+      [(ngModel)]="pincode" (input)="onPincodeInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)"
+      maxlength="6">
     @if (showErrors && !isPincodeValidLocal()) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter a valid 6-digit PIN
         code</span></div>
@@ -147,7 +151,7 @@
           <a target="_blank" href="https://www.bajajfinserv.in/tnc-retail-lending" class="link">Terms and
             Conditions.</a></span></span>
     </label>
-  <hr [hidden]="showErrors && !tncAccepted">
+    <hr [hidden]="showErrors && !tncAccepted">
     <!-- Credit consent -->
     <label class="consent-item" [ngClass]="{'tnc-error': showErrors && !creditConsent}">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="creditConsent" (change)="onConsentChange()" />
@@ -156,7 +160,7 @@
         (TU CIBIL)
         ("Product") through Bajaj Finance Limited (referred to as the "Agent").</span>
     </label>
-  <hr [hidden]="showErrors && !creditConsent">
+    <hr [hidden]="showErrors && !creditConsent">
     <!-- Optional marketing consent -->
     <label class="consent-item optional">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="marketingOptIn" />
@@ -197,7 +201,8 @@
   <div class="save-cart-drawer-content" (click)="$event.stopPropagation()">
     <!-- Row 1: Close button (aligned right) -->
     <div class="row row-close">
-      <button class="close-icon" aria-label="Close" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
+      <button class="close-icon" aria-label="Close"
+        (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
         <img src="/Vector copy 2.svg" alt="Close" />
       </button>
     </div>
@@ -214,16 +219,29 @@
       <p class="save-cart-sub">If you exit, visit the <strong>Cart</strong> to pick up where you left off</p>
     </div>
     <!-- Row 5: Illustration frame (background + main image) -->
-    <div class="row row-illustration">
+    <div class="hero">
+      <!-- Background is set via CSS on .hero (uses /Rectangle 32554.svg) -->
+
+      <!-- Mobile foreground -->
+      <img class="mobile" src="/Frame 57058.svg" alt="Mobile Image">
+
+      <!-- Desktop foreground -->
+      <div class="desktop">
+        <img class="header" src="/Header_top.svg" alt="Header Top">
+        <img class="path" src="/Path 5.svg" alt="Path 5">
+      </div>
+    </div>
+    <!-- <div class="row row-illustration">
       <div class="save-cart-frame save-cart-frame-mobile">
         <img class="save-cart-bg" src="/Rectangle 32554.svg" alt="frame bg" />
         <img class="save-cart-main" src="/Frame 57058.svg" alt="main" />
       </div>
-    </div>
+    </div> -->
     <!-- Row 6: Action button -->
     <div class="row row-actions">
       <div class="save-cart-actions">
-        <button class="btn-primary3" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">GOT IT</button>
+        <button class="btn-primary3" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">GOT
+          IT</button>
       </div>
     </div>
   </div>
@@ -255,8 +273,8 @@
   <div class="pan-drawer-content" (click)="$event.stopPropagation()">
     <div class="drawer-row-1">
       <span class="close-button"></span>
-        <img src="/Vector copy 2.svg" alt="Close" (click)="closePanDrawer()" />
-      
+      <img src="/Vector copy 2.svg" alt="Close" (click)="closePanDrawer()" />
+
     </div>
     <p class="pan-heading">Permanent Account Number (PAN)</p>
     <p class="pan-sub">Enter your 10-character alphanumeric PAN.</p>
