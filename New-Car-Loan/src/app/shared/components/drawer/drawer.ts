@@ -21,10 +21,10 @@ export class DrawerComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.apiCall();
+    this.AemApiCall();
   }
 
-  private apiCall() {
+  private AemApiCall() {
     
     this.apiService.getData(this.url).subscribe({
       next: (data) => {

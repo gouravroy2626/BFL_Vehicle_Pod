@@ -61,6 +61,21 @@ export class PersonalForm implements OnDestroy {
   private readonly url =
     'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/personal-details';
 
+    private AemApiCall(){
+      this.subscription = this.apiService.getData(this.url).subscribe({
+      next: (data) => {
+        const screenContent = data?.content?.[0]?.screenContent ?? [];
+        this.formData = screenContent;
+
+        screenContent.forEach((item: any) => {
+          if (item?.key) {
+            this.fieldMap[item.key] = item;
+          }
+        });
+      },
+      error: (err) => console.error('Error fetching data', err)
+    });
+    }
   // Error / validation state
   showErrors = false;
   isPincodeValid() {
@@ -121,20 +136,7 @@ export class PersonalForm implements OnDestroy {
   }
   // Reset drawer state on navigation (Angular lifecycle)
   ngOnInit() {
-    this.subscription = this.apiService.getData(this.url).subscribe({
-      next: (data) => {
-        const screenContent = data?.content?.[0]?.screenContent ?? [];
-        this.formData = screenContent;
-
-        screenContent.forEach((item: any) => {
-          if (item?.key) {
-            this.fieldMap[item.key] = item;
-          }
-        });
-      },
-      error: (err) => console.error('Error fetching data', err)
-    });
-
+    this.AemApiCall();
     // Listen for save to cart drawer trigger from vehicle-form
     this.isDrawerOpen = true;
     console.log('PersonalForm ngOnInit: isDrawerOpen set to', this.isDrawerOpen);
@@ -303,7 +305,7 @@ onDobInput(e: Event) {
   try {
     const caretPos = input.selectionStart || formatted.length;
     input.setSelectionRange(caretPos, caretPos);
-  } catch { /* noop */ }
+  } catch { }
 }
 
   // Input handlers to enforce constraints
