@@ -1,20 +1,53 @@
 // drawer.component.ts
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../service/Api-service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-drawer',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf],
   templateUrl: './drawer.html',
   styleUrls: ['./drawer.css']
 })
-export class DrawerComponent {
-  ngOnChanges(changes: any) {
-    if (changes.isOpen) {
-      console.log('DrawerComponent ngOnChanges: isOpen', changes.isOpen.currentValue);
-      if (changes.isOpen.currentValue === false) {
+export class DrawerComponent implements OnInit, OnChanges, OnDestroy {
+  formData: any;
+  screenMap: { [key: string]: any } = {};
+
+  private url = 'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/two-wheeler-finance/v1/experian';
+
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit(): void {
+    this.apiCall();
+  }
+
+  private apiCall() {
+    
+    this.apiService.getData(this.url).subscribe({
+      next: (data) => {
+        const screenContent = data?.content?.[0]?.screenContent ?? [];
+        const map: { [key: string]: any } = {};
+
+        screenContent.forEach((item: any) => {
+          if (item?.key) {
+            map[item.key] = item;
+          }
+        });
+
+        this.screenMap = map;
+        this.formData = this.screenMap['select-an-option'] ?? null;
+      },
+      error: (err) => console.error('Error fetching data', err)
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['isOpen']) {
+      console.log('DrawerComponent ngOnChanges: isOpen', changes['isOpen'].currentValue);
+      if (changes['isOpen'].currentValue === false) {
         // Reset internal state when drawer closes
         this.showNameError = false;
         this.fullName = '';
@@ -27,7 +60,7 @@ export class DrawerComponent {
           // noop in environments without document (server-side)
         }
       }
-      if (changes.isOpen.currentValue === true) {
+  if (changes['isOpen'].currentValue === true) {
         // add no-scroll to body when drawer opens
         try {
           document && document.body && document.body.classList && document.body.classList.add('no-scroll');
@@ -37,6 +70,7 @@ export class DrawerComponent {
       }
     }
   }
+
   @Input() isOpen = true;
   @Input() selectedOption: string = '';
   @Input() showError: boolean = false;

@@ -11,9 +11,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Fetch data from a given URL with caching
-   */
+  
   getData(url: string): Observable<any> {
     // If cached, return existing observable
     if (this.cache[url]) {
