@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DrawerComponent } from '../../../../shared/components/drawer/drawer';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../../../shared/service/Api-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-personal-form',
@@ -17,7 +19,11 @@ export class PersonalForm implements OnDestroy {
   isGstinDrawerOpen = false;
   isPanDrawerOpen = false;
   // Debug log for initial state
-  constructor(private router: Router, private cd: ChangeDetectorRef) {
+  constructor(
+    private router: Router,
+    private cd: ChangeDetectorRef,
+    private apiService: ApiService
+  ) {
     console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
   }
   // resize handler reference so we can remove listener on destroy
@@ -47,6 +53,13 @@ export class PersonalForm implements OnDestroy {
   tncAccepted = false;
   creditConsent = false;
   marketingOptIn = false; // optional
+
+  // CMS data holders
+  formData: any;
+  fieldMap: { [key: string]: any } = {};
+  private subscription: Subscription | null = null;
+  private readonly url =
+    'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/personal-details';
 
   // Error / validation state
   showErrors = false;
@@ -108,6 +121,20 @@ export class PersonalForm implements OnDestroy {
   }
   // Reset drawer state on navigation (Angular lifecycle)
   ngOnInit() {
+    this.subscription = this.apiService.getData(this.url).subscribe({
+      next: (data) => {
+        const screenContent = data?.content?.[0]?.screenContent ?? [];
+        this.formData = screenContent;
+
+        screenContent.forEach((item: any) => {
+          if (item?.key) {
+            this.fieldMap[item.key] = item;
+          }
+        });
+      },
+      error: (err) => console.error('Error fetching data', err)
+    });
+
     // Listen for save to cart drawer trigger from vehicle-form
     this.isDrawerOpen = true;
     console.log('PersonalForm ngOnInit: isDrawerOpen set to', this.isDrawerOpen);
@@ -139,6 +166,10 @@ export class PersonalForm implements OnDestroy {
       window.removeEventListener('resize', this.resizeHandler);
       this.resizeHandler = null;
     }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+    }
   }
 
   // Employment modal controls
@@ -162,6 +193,27 @@ export class PersonalForm implements OnDestroy {
       this.gstin = '';
     }
     this.closeEmploymentModal();
+  }
+
+  getEmploymentLabel(type: string): string {
+    const options = this.fieldMap['employment-type-wrapper']?.group?.[1]?.['dropdown-text-box'];
+    if (Array.isArray(options)) {
+      const match = options.find((opt: any) => {
+        const value = (opt?.['dropdown-values'] || opt?.['event-prop-value'] || '').toLowerCase();
+        if (!value) return false;
+        if (type === 'self-employed') {
+          return value.includes('self');
+        }
+        if (type === 'salaried') {
+          return value.includes('salar');
+        }
+        return false;
+      });
+      if (match) {
+        return match['dropdown-values'] || match['event-prop-value'] || type;
+      }
+    }
+    return '';
   }
 
   // Validation helpers
