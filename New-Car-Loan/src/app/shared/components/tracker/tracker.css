@@ -90,7 +90,7 @@
 
 .label {
   margin-top: 8px;
-  font-size: 0.85rem;
+  font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
 }
@@ -145,6 +145,10 @@
 
 /* Small visual nudge for the last step on large screens */
 @media (min-width: 1024px) {
+  .tracker-container {
+    max-width: 420px;
+  }
+
   .step:last-child {
     transform: translateX(-6px);
   }

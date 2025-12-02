@@ -7,34 +7,37 @@
 
 
 <div class="form-container" [class.blurred]="isDrawerOpen">
-  <p class="p-title">Personal details</p>
-  <p class="p-discription">Enter your personal details and start with your loan application.</p>
+  <p class="p-title">
+    {{ fieldMap['title']?.title }}
+  </p>
+  <p class="p-discription">
+    {{ fieldMap['title']?.subtitle }}
+  </p>
 
   <div class="form-field">
-    <label for="pan-input">Full Name on PAN Card <span class="required">*</span></label>
-    <input type="text" class="form-control" id="pan-input" placeholder="Enter full name" [(ngModel)]="fullName"
-      (input)="onFullNameInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)"
-      [disabled]="!!fullNameFromDrawer">
+    <label for="pan-input">
+      {{ fieldMap['full-name']?.title }}  <span class="required">*</span>
+    </label>
+
+  <input type="text" class="form-control" id="pan-input"
+  [attr.placeholder]="fieldMap['full-name']?.placeholder || 'Enter full name'"
+    [(ngModel)]="fullName" (input)="onFullNameInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)"
+    [disabled]="!!fullNameFromDrawer">
     @if (showErrors && !fullName.trim()) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your full name</span></div>
     }
   </div>
 
   <div class="form-field">
-    <label>Select Gender <span class="required">*</span></label>
+    <label>{{ fieldMap['gender-tab']?.['field-label-main'] }} <span class="required">*</span></label>
     <div class="gender-selector">
+      @for (option of fieldMap['gender-tab']?.['radio-group']; track option?.['field-item-key']) {
       <label>
-        <input type="radio" name="gender" value="male" class="gender-radio" [(ngModel)]="gender">
-        Male
+        <input type="radio" name="gender" [value]="option?.['field-item-key']" class="gender-radio"
+          [(ngModel)]="gender">
+        {{ option?.['field-item-text'] || option?.['event-prop-value'] }}
       </label>
-      <label>
-        <input type="radio" name="gender" value="female" class="gender-radio" [(ngModel)]="gender">
-        Female
-      </label>
-      <label>
-        <input type="radio" name="gender" value="third" class="gender-radio" [(ngModel)]="gender">
-        Third Gender
-      </label>
+      }
     </div>
     @if (showErrors && !gender) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please select Gender</span></div>
@@ -42,9 +45,10 @@
   </div>
 
   <div class="form-field">
-    <label for="dob-input">Date of Birth <span class="required">*</span></label>
-    <input type="text" class="form-control" id="dob-input" placeholder="dd/mm/yyyy" [(ngModel)]="dob" maxlength="10"
-      pattern="\d{2}/\d{2}/\d{4}" (input)="onDobInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)">
+    <label for="dob-input">{{ fieldMap['date-of-birth']?.title }} <span class="required">*</span></label>
+  <input type="text" class="form-control" id="dob-input" [attr.placeholder]="fieldMap['date-of-birth']?.placeholder || 'dd/mm/yyyy'"
+      [(ngModel)]="dob" maxlength="10" pattern="\d{2}/\d{2}/\d{4}" (input)="onDobInput($event); setTyping($event)"
+      (blur)="onBlurRemoveTyping($event)">
 
     @if (showErrors && !dob) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter your date of birth</span>
@@ -57,28 +61,40 @@
   </div>
 
   <div class="form-field">
-    <label for="pan-number-input">PAN Card Number <span class="required">*</span>
-      <img src="/Vector copy.svg" alt="PAN info" class="pan-info-icon" (click)="openDrawerForPan()" /></label>
-    <input type="text" class="form-control" id="pan-number-input" placeholder="Enter 10-character alphanumeric PAN"
-      [(ngModel)]="pan" (input)="onPanInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)"
-      maxlength="10">
+    @let panInfo = fieldMap['pan-wrapper']?.group?.[0];
+    <label for="pan-number-input">
+      {{ panInfo?.title || panInfo?.icontitle || panInfo?.['event-prop-value'] }}
+      <span class="required">*</span>
+      @if (panInfo?.['iconimage-android']) {
+      <img [src]="panInfo?.['iconimage-android']"
+        [attr.alt]="panInfo?.icontitle || panInfo?.['event-prop-value']" 
+        class="pan-info-icon"
+        (click)="openDrawerForPan()" />
+      }
+    </label>
+
+    <input type="text" class="form-control" id="pan-number-input"
+      [attr.placeholder]="panInfo?.placeholder || 'Enter 10-character alphanumeric PAN'" [(ngModel)]="pan"
+      (input)="onPanInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)" maxlength="10">
     @if (showErrors && !isPanValid()) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Invalid PAN card number. Please enter a
         valid 10-character alphanumeric PAN</span></div>
     }
   </div>
   <div class="form-field">
-    <label for="employment-type-display">Employment Type (Salaried and Self-employed) <span
+    <label for="employment-type-display">
+      {{ fieldMap['employment-type-wrapper']?.group?.[0]?.title }}
+       <span
         class="required">*</span></label>
     <div id="employment-type-display" class="form-control employment-display" (click)="openEmploymentModal()">
       @if (!employmentType) {
-      <span class="placeholder1">Select employment type</span>
+      <span class="placeholder1">{{ fieldMap['employment-type-wrapper']?.group?.[1]?.['field-label-main'] }}</span>
       }
       @if (employmentType==='salaried') {
-      <span>Salaried</span>
+      <span>{{ getEmploymentLabel('salaried') }}</span>
       }
       @if (employmentType==='self-employed') {
-      <span>Self Employed</span>
+      <span>{{ getEmploymentLabel('self-employed') }}</span>
       }
       <img class="chevron" src="/Icon (Stroke).svg" alt="Chevron" />
     </div>
@@ -88,10 +104,10 @@
     }
     @if (employmentType === 'salaried') {
     <div class="salary-field">
-      <label for="salary-input">Net Monthly Salary <span class="required">*</span></label>
-      <input id="salary-input" type="text" class="form-control" placeholder="Enter monthly take-home salary"
-        [(ngModel)]="monthlySalaryDisplay" (input)="onSalaryInput($event); setTyping($event)"
-        (blur)="onBlurRemoveTyping($event)">
+      <label for="salary-input">{{ fieldMap['net-monthly-salary']?.title }} <span class="required">*</span></label>
+      <input id="salary-input" type="text" class="form-control"
+        [attr.placeholder]="fieldMap['net-monthly-salary']?.placeholder || 'Enter monthly take-home salary'" [(ngModel)]="monthlySalaryDisplay"
+        (input)="onSalaryInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)">
       @if (showErrors && !isSalaryValid()) {
       <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter salary between 15000 to
           75000</span></div>
@@ -100,10 +116,16 @@
     }
     @else if (employmentType==='self-employed') {
     <div class="salary-field">
-      <label for="gstin-input">GSTIN Number (Optional)
-        <img src="/Vector copy.svg" alt="GST info" class="pan-info-icon" (click)="openDrawerForGstin()" />
+      @let gstInfo = fieldMap['gst-wrapper']?.group?.[0];
+      <label for="gstin-input">{{ gstInfo?.title || gstInfo?.icontitle || gstInfo?.['event-prop-value'] }}
+        @if (gstInfo?.['iconimage-android']) {
+        <img [src]="gstInfo?.['iconimage-android']"
+          [attr.alt]="gstInfo?.icontitle || gstInfo?.['event-prop-value']" class="pan-info-icon"
+          (click)="openDrawerForGstin()" />
+        }
       </label>
-      <input id="gstin-input" type="text" class="form-control" placeholder="Enter your GSTIN" [(ngModel)]="gstin"
+      <input id="gstin-input" type="text" class="form-control"
+        [attr.placeholder]="gstInfo?.placeholder || 'Enter your GSTIN'" [(ngModel)]="gstin"
         (input)="onGstInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)">
     </div>
     }
@@ -113,23 +135,28 @@
   <div class="employment-modal-wrapper" role="dialog" aria-modal="true">
     <div class="employment-modal">
       <div class="employment-modal-header">
-        <h5>Select employment type</h5>
+        <h5>{{ fieldMap['employment-type-wrapper']?.group?.[1]?.['field-label-main'] }}</h5>
         <button type="button" class="close-x" (click)="closeEmploymentModal()" aria-label="Close">&times;</button>
       </div>
       <ul class="employment-options">
-        <li (click)="selectEmploymentType('self-employed')" [class.active]="employmentType==='self-employed'">Self
-          employed</li>
-        <li (click)="selectEmploymentType('salaried')" [class.active]="employmentType==='salaried'">Salaried</li>
+        @for (option of fieldMap['employment-type-wrapper']?.group?.[1]?.['dropdown-text-box']; track
+        option?.['dropdown-values']) {
+        <li
+          (click)="selectEmploymentType((option?.['dropdown-values'] || option?.['event-prop-value'] || '').toLowerCase().includes('self') ? 'self-employed' : 'salaried')"
+          [class.active]="employmentType===((option?.['dropdown-values'] || option?.['event-prop-value'] || '').toLowerCase().includes('self') ? 'self-employed' : 'salaried')">
+          {{ option?.['dropdown-values'] || option?.['event-prop-value'] }}
+        </li>
+        }
       </ul>
     </div>
     <div class="employment-backdrop" (click)="closeEmploymentModal()"></div>
   </div>
   }
   <div class="form-field">
-    <label for="pincode-input">Current Residential PIN Code <span class="required">*</span></label>
-    <input type="text" class="form-control" id="pincode-input" placeholder="Enter 6-digit current residential PIN code"
-      [(ngModel)]="pincode" (input)="onPincodeInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)"
-      maxlength="6">
+    <label for="pincode-input">{{ fieldMap['residential-pin']?.title }} <span class="required">*</span></label>
+    <input type="text" class="form-control" id="pincode-input"
+      [attr.placeholder]="fieldMap['residential-pin']?.placeholder || 'Enter 6-digit current PIN code'" [(ngModel)]="pincode"
+      (input)="onPincodeInput($event); setTyping($event)" (blur)="onBlurRemoveTyping($event)" maxlength="6">
     @if (showErrors && !isPincodeValidLocal()) {
     <div class="field-error"><img src="/Frame 1707485144.svg" alt="Error"><span>Please enter a valid 6-digit PIN
         code</span></div>
@@ -137,8 +164,9 @@
   </div>
   @if (isPincodeValid()) {
   <div class="form-field">
-    <label for="city-input">City</label>
-    <input type="text" class="form-control" id="city-input" placeholder="City" [value]="city" disabled>
+    <label for="city-input">{{ fieldMap['residential-city']?.title }}</label>
+    <input type="text" class="form-control" id="city-input"
+      [attr.placeholder]="fieldMap['residential-city']?.placeholder || 'City'" [value]="city" disabled>
   </div>
   }
   <div class="consent-group">
@@ -146,31 +174,26 @@
     <label class="consent-item" [ngClass]="{'tnc-error': showErrors && !tncAccepted}">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="tncAccepted" (change)="onConsentChange()" />
       <span class="consent-visual" aria-hidden="true"></span>
-      <span class="consent-text">I have read, understood, and hereby accept the product
+      <span class="consent-text">
+        I have read, understood, and hereby accept the product
         <span class="terms-conditions">
-          <a target="_blank" href="https://www.bajajfinserv.in/tnc-retail-lending" class="link">Terms and
-            Conditions.</a></span></span>
+          <a target="_blank" rel="noopener noreferrer" href="https://www.bajajfinserv.in/tnc-retail-lending" class="link">Terms and Conditions.</a>
+        </span>
+      </span>
     </label>
     <hr [hidden]="showErrors && !tncAccepted">
     <!-- Credit consent -->
     <label class="consent-item" [ngClass]="{'tnc-error': showErrors && !creditConsent}">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="creditConsent" (change)="onConsentChange()" />
       <span class="consent-visual" aria-hidden="true"></span>
-      <span class="consent-text">I hereby consent to receiving my credit information offered by TransUnion CIBIL Limited
-        (TU CIBIL)
-        ("Product") through Bajaj Finance Limited (referred to as the "Agent").</span>
+      <span class="consent-text" [innerHTML]="fieldMap['tnc-two']?.description"></span>
     </label>
     <hr [hidden]="showErrors && !creditConsent">
     <!-- Optional marketing consent -->
     <label class="consent-item optional">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="marketingOptIn" />
       <span class="consent-visual" aria-hidden="true"></span>
-      <span class="consent-text">I hereby expressly authorize BFL, its group companies, affiliates and/or business
-        associates and their
-        respective representatives to send me information about its/their promotional communications regarding fixed
-        deposit, loans, insurance and their respective products and/or services ("Products/Services") by telephone calls
-        / SMSs / emails / WhatsApp / bitly/ Chatbots/ In-App Notifications or any other electronic modes.
-        <em><b>(Optional)</b></em></span>
+      <span class="consent-text" [innerHTML]="fieldMap['tnc-three']?.description"></span>
     </label>
   </div>
 
@@ -190,8 +213,10 @@
   </div>
   }
   <div class="button-row">
-    <button type="button" class="btn-outline" (click)="saveToCart()">SAVE TO CART</button>
-    <button type="button" class="btn-primary" (click)="onContinue()">CONTINUE</button>
+    <button type="button" class="btn-outline" (click)="saveToCart()">{{ fieldMap['button-section']?.ctalabel1
+      }}</button>
+    <button type="button" class="btn-primary" (click)="onContinue()">{{ fieldMap['button-section']?.ctalabel2
+      }}</button>
   </div>
 </div>
 
@@ -231,12 +256,7 @@
         <img class="path" src="/Path 5.svg" alt="Path 5">
       </div>
     </div>
-    <!-- <div class="row row-illustration">
-      <div class="save-cart-frame save-cart-frame-mobile">
-        <img class="save-cart-bg" src="/Rectangle 32554.svg" alt="frame bg" />
-        <img class="save-cart-main" src="/Frame 57058.svg" alt="main" />
-      </div>
-    </div> -->
+    
     <!-- Row 6: Action button -->
     <div class="row row-actions">
       <div class="save-cart-actions">
@@ -259,10 +279,11 @@
         <img src="/Vector copy 2.svg" alt="Close" (click)="closeGstinDrawer()" />
       </span>
     </div>
-    <p class="drawer-label">GSTIN</p>
-    <p class="gst-p">Enter the 15-character alphanumeric GSTIN for your business as per GST certificate. </p>
+    <p class="drawer-label">{{ fieldMap['gst-wrapper']?.group?.[1]?.title }}</p>
+    <p class="gst-p" [innerHTML]="fieldMap['gst-wrapper']?.group?.[1]?.description"></p>
     <div class="drawer-button-wrapper">
-      <button type="button" class="btn-primary1" (click)="closeGstinDrawer()">Got it</button>
+      <button type="button" class="btn-primary1" (click)="closeGstinDrawer()">{{
+        fieldMap['gst-wrapper']?.group?.[1]?.ctalabel1 }}</button>
     </div>
   </div>
 </div>
@@ -276,13 +297,14 @@
       <img src="/Vector copy 2.svg" alt="Close" (click)="closePanDrawer()" />
 
     </div>
-    <p class="pan-heading">Permanent Account Number (PAN)</p>
-    <p class="pan-sub">Enter your 10-character alphanumeric PAN.</p>
-    <div class="pan-sample-wrapper">
-      <img src="/Pan Image.png" alt="Sample PAN" class="pan-sample-img" />
+    <p class="pan-heading">{{ fieldMap['pan-wrapper']?.group?.[1]?.title }}</p>
+    <p class="pan-sub" [innerHTML]="fieldMap['pan-wrapper']?.group?.[1]?.description"></p>
+    <div class="pan-sample-wrapper" *ngIf="fieldMap['pan-wrapper']?.group?.[1]?.['image-android'] as panImage">
+      <img [src]="panImage" [attr.alt]="fieldMap['pan-wrapper']?.group?.[1]?.title" class="pan-sample-img" />
     </div>
     <div class="drawer-button-wrapper pan-btn-wrapper">
-      <button type="button" class="btn-primary2" (click)="closePanDrawer()">GOT IT</button>
+      <button type="button" class="btn-primary2" (click)="closePanDrawer()">{{
+        fieldMap['pan-wrapper']?.group?.[1]?.ctalabel1 }}</button>
     </div>
   </div>
 </div>

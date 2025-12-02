@@ -1456,7 +1456,7 @@
 }
 
 .vehicle-details-content__header h2 {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 600;
     color: #1a1a1a;
     margin: 0 0 2px 0;
@@ -1464,7 +1464,7 @@
 }
 
 .vehicle-details-content__subtitle {
-    font-size: 16px;
+    font-size: 14px;
     color: #6b7280;
     margin: 0;
     /* align subtitle with labels below */
@@ -1870,7 +1870,7 @@
 
     /* Push the whole vehicle details section 141px from the viewport left */
     .vehicle-details-page {
-        padding-left: 141px;
+        padding-left: 147px;
     }
 
     /* Remove auto-centering so header + form align with the new left offset */

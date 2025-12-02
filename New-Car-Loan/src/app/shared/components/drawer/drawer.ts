@@ -36,7 +36,6 @@ export class DrawerComponent implements OnInit, OnChanges, OnDestroy {
             map[item.key] = item;
           }
         });
-
         this.screenMap = map;
         this.formData = this.screenMap['select-an-option'] ?? null;
       },
