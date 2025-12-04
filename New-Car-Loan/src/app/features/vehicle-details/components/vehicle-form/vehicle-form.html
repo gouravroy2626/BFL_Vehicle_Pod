@@ -20,20 +20,18 @@
                                     stroke-linecap="round" />
                             </svg>
                         </span>
-                            <input id="brand" type="text" formControlName="brand" placeholder="Enter brand name"
-                                autocomplete="off" (click)="openBrandDrawer()" (input)="onBrandInput($event)"
-                                [style.padding-left.px]="brandInputPaddingLeft" [class.filled-input]="isBrandFilled"
-                                [placeholder]="fieldMap['brand']?.placeholder || 'Enter brand name'"
-                                class="brand-input-mobile" />
+                        <input id="brand" type="text" formControlName="brand" placeholder="Enter brand name"
+                            autocomplete="off" (click)="openBrandDrawer()" (input)="onBrandInput($event)"
+                            [style.padding-left.px]="brandInputPaddingLeft" [class.filled-input]="isBrandFilled"
+                            [placeholder]="fieldMap['brand']?.placeholder || 'Enter brand name'"
+                            class="brand-input-mobile" />
                         <ul *ngIf="brandFieldFocused && currentBrandQuery.trim().length"
                             class="suggestions-list brand-autocomplete-list" tabindex="0"
                             (keydown)="onBrandKeydown($event)" style="max-height:156px;overflow-y:auto;">
                             <li *ngFor="let b of filteredBrands; let i = index" (mousedown)="$event.preventDefault()"
                                 (mouseup)="onBrandSelect(b)" [class.focused]="i === brandHighlightIndex"
                                 [attr.tabindex]="i === brandHighlightIndex ? 0 : -1"
-                                (mouseenter)="brandHighlightIndex = i"
-                                (focus)="brandHighlightIndex = i"
-                                >{{ b }}</li>
+                                (mouseenter)="brandHighlightIndex = i" (focus)="brandHighlightIndex = i">{{ b }}</li>
                             <li *ngIf="filteredBrands.length === 0" class="no-results-message">No record found</li>
                         </ul>
                     </div>
@@ -68,20 +66,18 @@
                                     stroke-linecap="round" />
                             </svg>
                         </span>
-                            <input id="model" type="text" formControlName="model" placeholder="Enter model name"
-                                autocomplete="off" (click)="openModelDrawer()" (input)="onModelInput($event)"
-                                [style.padding-left.px]="modelInputPaddingLeft" [class.filled-input]="isModelFilled"
-                                [placeholder]="fieldMap['model']?.placeholder || 'Enter model name'"
-                                class="model-input-mobile" />
+                        <input id="model" type="text" formControlName="model" placeholder="Enter model name"
+                            autocomplete="off" (click)="openModelDrawer()" (input)="onModelInput($event)"
+                            [style.padding-left.px]="modelInputPaddingLeft" [class.filled-input]="isModelFilled"
+                            [placeholder]="fieldMap['model']?.placeholder || 'Enter model name'"
+                            class="model-input-mobile" />
                         <ul *ngIf="modelFieldFocused && currentModelQuery.trim().length"
                             class="suggestions-list model-autocomplete-list" tabindex="0"
                             (keydown)="onModelKeydown($event)" style="max-height:156px;overflow-y:auto;">
                             <li *ngFor="let m of filteredModels; let i = index" (mousedown)="$event.preventDefault()"
                                 (mouseup)="onModelSelect(m)" [class.focused]="i === modelHighlightIndex"
                                 [attr.tabindex]="i === modelHighlightIndex ? 0 : -1"
-                                (mouseenter)="modelHighlightIndex = i"
-                                (focus)="modelHighlightIndex = i"
-                                >{{ m }}</li>
+                                (mouseenter)="modelHighlightIndex = i" (focus)="modelHighlightIndex = i">{{ m }}</li>
                             <li *ngIf="filteredModels.length === 0" class="no-results-message">No record found</li>
                         </ul>
                     </div>

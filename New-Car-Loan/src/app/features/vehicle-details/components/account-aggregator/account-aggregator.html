@@ -1,8 +1,19 @@
 <div class="aa-wrapper">
     <div class="aa-card">
-        <h1 class="aa-title">Your offer is being created</h1>
-        <img src="https://bflcodepush.bajajfinserv.in/bflfiles/assets/img/cal_loader.gif" alt="Loading animation"
-            class="loader-gif" />
-        <p class="aa-subtitle">It usually takes a few seconds. We appreciate your patience.</p>
+        <ng-container *ngIf="loaderContent.length; else defaultAA">
+            <div *ngIf="loaderContent[1] as item">
+                <h1 *ngIf="item.title" class="aa-title">{{ item.title }}</h1>
+                <img *ngIf="item.iconimageAndroid; else fallbackGif" [src]="item.iconimageAndroid" alt="Loading animation" class="loader-gif" />
+                <ng-template #fallbackGif>
+                  <img src="https://bflcodepush.bajajfinserv.in/bflfiles/assets/img/cal_loader.gif" alt="Loading animation" class="loader-gif" />
+                </ng-template>
+                <p *ngIf="item.description" class="aa-subtitle">{{ item.description }}</p>
+            </div>
+        </ng-container>
+        <ng-template #defaultAA>
+            <h1 class="aa-title">Your offer is being created</h1>
+            <img src="https://bflcodepush.bajajfinserv.in/bflfiles/assets/img/cal_loader.gif" alt="Loading animation" class="loader-gif" />
+            <p class="aa-subtitle">It usually takes a few seconds. We appreciate your patience.</p>
+        </ng-template>
     </div>
 </div>

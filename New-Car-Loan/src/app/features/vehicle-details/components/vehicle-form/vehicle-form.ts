@@ -85,7 +85,7 @@ export class VehicleForm implements OnInit, OnDestroy {
   modelList: any;
   fieldMap: { [key: string]: any } = {};
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
   // Save-to-cart is handled by the shared component; forms should only trigger it.
   dealerHighlightIndex = 0;
   @ViewChild('dealerList') dealerList?: ElementRef<HTMLUListElement>;
@@ -419,15 +419,15 @@ export class VehicleForm implements OnInit, OnDestroy {
   }
 
   searchBrands(query: string): string[] {
-  if (!query || query.trim() === '') return this.filteredBrands.slice();
-  const lowerQuery = query.toLowerCase();
-  return this.filteredBrands.filter((b: string) => b.toLowerCase().includes(lowerQuery));
+    if (!query || query.trim() === '') return this.filteredBrands.slice();
+    const lowerQuery = query.toLowerCase();
+    return this.filteredBrands.filter((b: string) => b.toLowerCase().includes(lowerQuery));
   }
 
   searchModels(query: string): string[] {
-  if (!query || query.trim() === '') return this.allModels.slice();
-  const lowerQuery = query.toLowerCase();
-  return this.allModels.filter((m: string) => m.toLowerCase().includes(lowerQuery));
+    if (!query || query.trim() === '') return this.allModels.slice();
+    const lowerQuery = query.toLowerCase();
+    return this.allModels.filter((m: string) => m.toLowerCase().includes(lowerQuery));
   }
 
   onBrandSelect(brand: string) {
@@ -473,8 +473,8 @@ export class VehicleForm implements OnInit, OnDestroy {
     if (!dealer) return;
     this.form.get('dealer')?.setValue(dealer);
     this.selectedDealer = dealer;
-  const allDealers = this.filteredDealers.slice();
-  this.dealerHighlightIndex = allDealers.findIndex((d: string) => d === dealer);
+    const allDealers = this.filteredDealers.slice();
+    this.dealerHighlightIndex = allDealers.findIndex((d: string) => d === dealer);
     // Ensure modal closes
     if (this.dealerModalElement) {
       const modal = Modal.getInstance(this.dealerModalElement.nativeElement);
@@ -555,9 +555,9 @@ export class VehicleForm implements OnInit, OnDestroy {
   }
 
   searchDealers(query: string): string[] {
-  if (!query || query.trim() === '') return this.filteredDealers.slice();
-  const q = query.toLowerCase();
-  return this.filteredDealers.filter((d: string) => d.toLowerCase().includes(q));
+    if (!query || query.trim() === '') return this.filteredDealers.slice();
+    const q = query.toLowerCase();
+    return this.filteredDealers.filter((d: string) => d.toLowerCase().includes(q));
   }
 
   onBrandKeydown(event: KeyboardEvent): void {
@@ -668,24 +668,24 @@ export class VehicleForm implements OnInit, OnDestroy {
   }
 
   get isBrandFilled(): boolean {
-  const value = (this.form.get('brand')?.value ?? '').trim();
-  if (!value.length) return false;
-  const lowerValue = value.toLowerCase();
-  return this.filteredBrands.some((brand: string) => brand.toLowerCase() === lowerValue);
+    const value = (this.form.get('brand')?.value ?? '').trim();
+    if (!value.length) return false;
+    const lowerValue = value.toLowerCase();
+    return this.filteredBrands.some((brand: string) => brand.toLowerCase() === lowerValue);
   }
 
   get isModelFilled(): boolean {
-  const value = (this.form.get('model')?.value ?? '').trim();
-  if (!value.length) return false;
-  const lowerValue = value.toLowerCase();
-  return this.filteredModels.some((model: string) => model.toLowerCase() === lowerValue);
+    const value = (this.form.get('model')?.value ?? '').trim();
+    if (!value.length) return false;
+    const lowerValue = value.toLowerCase();
+    return this.filteredModels.some((model: string) => model.toLowerCase() === lowerValue);
   }
 
   get isDealerFilled(): boolean {
-  const value = (this.form.get('dealer')?.value ?? '').trim();
-  if (!value.length) return false;
-  const lowerValue = value.toLowerCase();
-  return this.filteredDealers.some((dealer: string) => dealer.toLowerCase() === lowerValue);
+    const value = (this.form.get('dealer')?.value ?? '').trim();
+    if (!value.length) return false;
+    const lowerValue = value.toLowerCase();
+    return this.filteredDealers.some((dealer: string) => dealer.toLowerCase() === lowerValue);
   }
 
 }
