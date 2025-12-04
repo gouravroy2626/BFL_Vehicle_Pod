@@ -223,6 +223,7 @@
 }
 
 .veh-exit-actions .btn-outline {
+  font-size: 14px;
   height: 40px;
   border: 2px solid #FF6600;
   color: #FF6600;
@@ -240,6 +241,7 @@
 }
 
 .veh-exit-actions .btn-primary {
+  font-size: 14px;
   height: 40px;
   border: none;
   color: #FFFFFF;
@@ -317,7 +319,7 @@
   border-radius: 12px;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
   /* remove horizontal inner padding per request */
-  padding: 10px 24px 16px 24px;
+  padding: 10px 16px 16px 16px;
   text-align: center;
   position: relative;
 }
@@ -466,7 +468,7 @@
   /* margin: 0 0 12px 0; */
 }
 .exitDrawer .drawer-row-3 .exit-icon {
-  margin-top: 6px;
+  margin-top: 10px;
 }
 .exit-cart-bg {
   width: 100%;
@@ -474,10 +476,11 @@
   margin: 8px auto 4px auto;
   background: url('/Rectangle 32554.svg') center/cover no-repeat;
   border-radius: 12px;
-  min-height: 80%;
+  min-height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* allow absolutely-positioned path overlay */
   box-sizing: border-box;
 }
 .exit-cart-bg .exit-icon {
@@ -486,6 +489,108 @@
   object-fit: contain;
   margin: 0;
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+}
+
+/* Mobile-first: hide desktop wrapper by default, show mobile wrapper */
+.exit-cart-bg .desktop-wrapper {
+  display: none;
+}
+.exit-cart-bg .mobile-wrapper {
+  display: block;
+}
+
+/* Mobile-only: overlay the decorative path above the cart screenshot
+   without changing desktop (>=769px) layout. This keeps the path
+   visually over the image on small screens. */
+@media (max-width: 768px) {
+  .exit-cart-bg {
+    /* allow overflow so the path can extend beyond the rounded frame if needed */
+    overflow: visible;
+    padding-top: 8px;
+    
+    min-height: 140px;
+  
+    align-items: center;
+    justify-content: center;
+  }
+
+  .exit-cart-bg .image-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .exit-cart-bg .exit-icon {
+    width: 220px;
+    height: auto;
+    max-width: 86%;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  .exit-cart-bg .path-wrapper {
+    position: absolute;
+    top: 18px;
+    left: 51%;
+    transform: translateX(-50%);
+    z-index: 2; /* above the cart image */
+    pointer-events: none;
+    display: block;
+    width: 60px;
+  }
+
+  .exit-cart-bg .path-wrapper .path,
+  .exit-cart-bg .path {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* Desktop: show the desktop artwork inside the frame and hide the mobile wrapper */
+@media (min-width: 769px) {
+  .exit-cart-bg {
+    overflow: hidden; /* keep artwork clipped inside the light-green frame */
+    min-height: 100px;
+    padding: 12px 12px;
+  }
+
+  .exit-cart-bg .desktop-wrapper {
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .exit-cart-bg .desktop-image .exit-icon {
+    width: 100%;
+    height: auto;
+    max-width: 420px;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    z-index: 1;
+  }
+
+  .exit-cart-bg .desktop-path {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    left: 88%;
+    top: -60%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+  }
+
+  .exit-cart-bg .mobile-wrapper {
+    display: none;
+  }
 }
 .exitDrawer .feedback-box {
   margin-top: 12px;

@@ -1,0 +1,52 @@
+
+<!-- Unified SAVE TO CART Drawer (responsive: mobile + desktop) -->
+@if (showSaveCartModal || showSaveCartDrawer) {
+<div class="save-cart-drawer" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
+  <div class="save-cart-drawer-content" (click)="$event.stopPropagation()">
+    <!-- Row 1: Close button (aligned right) -->
+    <div class="row row-close">
+      <button class="close-icon" aria-label="Close"
+        (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
+        <img src="/Vector copy 2.svg" alt="Close" />
+      </button>
+    </div>
+    <!-- Row 2: Success icon from AEM -->
+    @if (detailsSavedData?.['iconimage-android']) {
+    <div class="row row-symbol">
+      <img [src]="detailsSavedData?.['iconimage-android']"
+        [attr.alt]="detailsSavedData?.title || 'Success icon'" class="save-cart-symbol" />
+    </div>
+    }
+   
+    <!-- Row 3: Title -->
+    <div class="row row-title">
+      <h3 class="save-cart-title">{{ detailsSavedData?.title }}</h3>
+    </div>
+    <!-- Row 4: Subtitle / helper text -->
+    <div class="row row-sub">
+      <p class="save-cart-sub">{{ detailsSavedData?.description }}</p>
+    </div>
+    
+    <!-- Row 5: Illustration frame -->
+    @if (detailsSavedData?.['image-android']) {
+    <div class="hero">
+      <img class="mobile" [src]="detailsSavedData?.['image-android']"
+        [attr.alt]="detailsSavedData?.title || 'Details saved illustration'" />
+      <div class="desktop">
+        <img class="header" [src]="detailsSavedData?.['image-desktop'] || '/Header_top.svg'"
+             [attr.alt]="detailsSavedData?.title || 'Header Top'" />
+        <img class="path" [src]="detailsSavedData?.['image-path'] || '/Path 5.svg'" alt="Path 5" />
+      </div>
+    </div>
+    }
+    <!-- Row 6: Action button -->
+    <div class="row row-actions">
+      <div class="save-cart-actions">
+        <button class="btn-primary3" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
+          {{ detailsSavedData?.ctalabel1 || 'GOT IT' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}

@@ -30,22 +30,26 @@
 
     <!-- Row 2: title -->
     <div class="vehicle-row vehicle-row-2">
-      <h3 class="veh-exit-title">Confirm exit</h3>
+      <h3 class="veh-exit-title">{{ vehicleExitData?.title || 'Confirm exit' }}</h3>
     </div>
 
     <!-- Row 3: warning -->
     <div class="vehicle-row vehicle-row-3">
       <div class="veh-exit-warning">
-        <img src="/Mask group.svg" alt="Warning" class="veh-warning-icon" />
-        <p>Click on 'YES, LEAVE' to exit the application process.</p>
+        <img
+          class="veh-warning-icon"
+          [src]="vehicleExitData?.['icon-android'] || '/Mask group.svg'"
+          [attr.alt]="vehicleExitData?.title || 'Warning'"
+        />
+        <p>{{ vehicleExitData?.description || "Click on 'YES, LEAVE' to exit the application process." }}</p>
       </div>
     </div>
 
     <!-- Row 4: actions -->
     <div class="vehicle-row vehicle-row-4">
       <div class="veh-exit-actions">
-        <button class="btn-outline" (click)="closeVehicleExit()">NO</button>
-        <button class="btn-primary" (click)="yesLeaveVehicle()">YES, LEAVE</button>
+        <button class="btn-outline" (click)="closeVehicleExit()">{{ vehicleExitData?.ctalabel1 || 'NO' }}</button>
+        <button class="btn-primary" (click)="yesLeaveVehicle()">{{ vehicleExitData?.ctalabel2 || 'YES, LEAVE' }}</button>
       </div>
     </div>
   </div>
@@ -64,17 +68,21 @@
 
     <!-- Row 2: title -->
     <div class="drawer-row drawer-row-2">
-      <h3 class="exit-title">Get your loan today</h3>
+      <h3 class="exit-title">{{ currentSlide?.title || 'Get your loan today' }}</h3>
     </div>
 
     <!-- Row 3: money bag icon -->
     <div class="drawer-row drawer-row-3">
-      <img class="exit-icon" [src]="carousel[carouselIndex]?.src || '/money-bag-percentage.svg'" alt="Carousel image" />
+      <img
+        class="exit-icon"
+        [src]="currentSlide?.src"
+        [attr.alt]="currentSlide?.title || 'Carousel image'"
+      />
     </div>
 
     <!-- Row 4: subtitle -->
     <div class="drawer-row drawer-row-4">
-      <p class="exit-subtext">{{ carousel[carouselIndex]?.caption || 'No hidden charges' }}</p>
+      <p class="exit-subtext">{{ currentSlide?.description || 'No hidden charges' }}</p>
     </div>
 
     <!-- Row 5: dots (separate row above buttons) -->
@@ -87,8 +95,8 @@
     <!-- Row 5: buttons -->
     <div class="drawer-row drawer-row-6">
       <div class="exit-buttons">
-        <button class="btn-outline" (click)="closeExitFeedback()">STAY AND CONTINUE</button>
-        <button class="btn-primary" (click)="exitAnyway()">EXIT ANYWAY</button>
+        <button class="btn-outline" (click)="closeExitFeedback()">{{ currentSlide?.stayLabel || 'STAY AND CONTINUE' }}</button>
+        <button class="btn-primary" (click)="exitAnyway()">{{ currentSlide?.exitLabel || 'EXIT ANYWAY' }}</button>
       </div>
     </div>
   </div>
@@ -103,22 +111,30 @@
     </div>
 
     <div class="drawer-row drawer-row-2">
-      <h3 class="exit-title1">We are sorry to see you go</h3>
+      <h3 class="exit-title1">{{ exitFeedbackFormData?.title || 'We are sorry to see you go' }}</h3>
     </div>
 
     <div class="drawer-row drawer-row-3">
-      <p class="exit-subtext1">Help us improve by providing your feedback</p>
+      <p class="exit-subtext1">{{ exitFeedbackFormData?.subtitle || 'Help us improve by providing your feedback' }}</p>
     </div>
 
     <div class="drawer-row drawer-row-4">
       <div class="feedback-box">
-        <legend>Please tell us what made you leave? (optional)</legend>
-        <label class="fb-row"><input type="checkbox"/> Issues filling the details</label>
-        <label class="fb-row"><input type="checkbox"/> Technical issue - not able to proceed</label>
-        <label class="fb-row"><input type="checkbox"/> Loan not required now</label>
-        <label class="fb-row"><input type="checkbox"/> Others</label>
+        <legend>{{ exitFeedbackCheckboxData?.['field-label-main'] || 'Please tell us what made you leave? (optional)' }}</legend>
+        @if (exitFeedbackCheckboxes.length) {
+        <label class="fb-row" *ngFor="let option of exitFeedbackCheckboxes; index as idx">
+          <input type="checkbox" [id]="'exit-feedback-' + option.key" />
+          {{ option.text || ('Option ' + (idx + 1)) }}
+        </label>
+        }
+        @else {
+        <label class="fb-row"><input type="checkbox" /> Issues filling the details</label>
+        <label class="fb-row"><input type="checkbox" /> Technical issue - not able to proceed</label>
+        <label class="fb-row"><input type="checkbox" /> Loan not required now</label>
+        <label class="fb-row"><input type="checkbox" /> Others</label>
+        }
         <div class="fb-submit-row">
-         <button class="btn-primary"  (click)="closeExitFeedbackForm()">SUBMIT</button>
+          <button class="btn-primary" (click)="closeExitFeedbackForm()">{{ exitFeedbackFormData?.ctalabel1 || 'SUBMIT' }}</button>
         </div>
       </div>
     </div>
@@ -136,28 +152,62 @@
     </div>
 
     <div class="drawer-row drawer-row-2">
-      <h3 class="exit-title">Pick up where you left off</h3>
+      <h3 class="exit-title">{{ pickupData?.title || 'Pick up where you left off' }}</h3>
     </div>
 
     <div class="drawer-row drawer-row-3">
-      <p class="exit-subtext">Find your last saved application details in the Cart</p>
+      <p class="exit-subtext">{{ pickupData?.description || 'Find your last saved application details in the Cart' }}</p>
     </div>
 
     <div class="drawer-row drawer-row-3">
       <div class="exit-cart-bg">
-        <img class="exit-icon" src="/Frame 57058.svg" alt="Cart screenshot" />
+        <!-- Desktop wrapper: use image-desktop if provided by AEM, fallback to Header_top.svg and show path inside frame -->
+        <div class="desktop-wrapper">
+          <div class="desktop-path">
+            <img class="path" src="/Path 5.svg" alt="Path 5" />
+          </div>
+          <div class="desktop-image">
+            <img
+              class="exit-icon"
+              [src]="pickupData?.['image-desktop'] || '/Header_top.svg'"
+              [attr.alt]="pickupData?.title || 'Cart screenshot'"
+            />
+          </div>
+        </div>
+
+        <!-- Mobile wrapper: keep existing android artwork and overlay path via CSS -->
+        <div class="mobile-wrapper">
+          <div class="path-wrapper">
+            <img class="path" src="/Path 5.svg" alt="Path 5" />
+          </div>
+          <div class="image-wrapper">
+            <img
+              class="exit-icon"
+              [src]="pickupData?.['image-android']"
+              [attr.alt]="pickupData?.title || 'Cart screenshot'"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="drawer-row drawer-row-4">
       <div class="feedback-box">
-        <legend>We are sorry to see you go. Please tell us what made you leave? (optional)</legend>
-        <label class="fb-row"><input type="checkbox"/> Loan amount</label>
-        <label class="fb-row"><input type="checkbox"/> Interest rate</label>
-        <label class="fb-row"><input type="checkbox"/> Not required now</label>
-        <label class="fb-row"><input type="checkbox"/> Others</label>
+        <legend>{{ pickupFeedbackData?.['field-label-main'] || 'We are sorry to see you go. Please tell us what made you leave? (optional)' }}</legend>
+        @if (pickupCheckboxes.length) {
+        <label class="fb-row" *ngFor="let option of pickupCheckboxes; index as idx">
+          <input type="checkbox" [id]="'pickup-feedback-' + option.key" />
+          {{ option.text || ('Option ' + (idx + 1)) }}
+        </label>
+        }
+        <!-- @else {
+        <label class="fb-row"><input type="checkbox" /> Loan amount</label>
+        <label class="fb-row"><input type="checkbox" /> Interest rate</label>
+        <label class="fb-row"><input type="checkbox" /> Not required now</label>
+        <label class="fb-row"><input type="checkbox" /> Others</label>
+        } -->
         <div class="fb-submit-row">
-          <button class="btn-primary" (click)="closeExitFeedbackForm()">SUBMIT</button>
+          <button class="btn-primary" (click)="closeExitFeedbackForm()">{{ pickupData?.ctalabel1 || 'SUBMIT' }}</button>
         </div>
       </div>
     </div>

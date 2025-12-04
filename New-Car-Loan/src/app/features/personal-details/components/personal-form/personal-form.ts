@@ -1,9 +1,10 @@
-import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DrawerComponent } from '../../../../shared/components/drawer/drawer';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../../shared/service/Api-service';
+import { ExitNudgeService } from '../../../../shared/service/exit-nudge.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './personal-form.html',
   styleUrl: './personal-form.css',
 })
-export class PersonalForm implements OnDestroy {
+export class PersonalForm implements OnInit, OnDestroy {
   // Drawer state and UI flags
   isDrawerOpen = true;
   isGstinDrawerOpen = false;
@@ -22,7 +23,8 @@ export class PersonalForm implements OnDestroy {
   constructor(
     private router: Router,
     private cd: ChangeDetectorRef,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private exitNudgeService: ExitNudgeService
   ) {
     console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
   }
@@ -53,6 +55,7 @@ export class PersonalForm implements OnDestroy {
   tncAccepted = false;
   creditConsent = false;
   marketingOptIn = false; // optional
+  
 
   // CMS data holders
   formData: any;
@@ -60,22 +63,6 @@ export class PersonalForm implements OnDestroy {
   private subscription: Subscription | null = null;
   private readonly url =
     'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/personal-details';
-
-    private AemApiCall(){
-      this.subscription = this.apiService.getData(this.url).subscribe({
-      next: (data) => {
-        const screenContent = data?.content?.[0]?.screenContent ?? [];
-        this.formData = screenContent;
-
-        screenContent.forEach((item: any) => {
-          if (item?.key) {
-            this.fieldMap[item.key] = item;
-          }
-        });
-      },
-      error: (err) => console.error('Error fetching data', err)
-    });
-    }
   // Error / validation state
   showErrors = false;
   isPincodeValid() {
@@ -136,38 +123,29 @@ export class PersonalForm implements OnDestroy {
   }
   // Reset drawer state on navigation (Angular lifecycle)
   ngOnInit() {
+    // existing initialization
     this.AemApiCall();
-    // Listen for save to cart drawer trigger from vehicle-form
     this.isDrawerOpen = true;
     console.log('PersonalForm ngOnInit: isDrawerOpen set to', this.isDrawerOpen);
-    // listen for viewport size changes to keep save-cart overlay visible when crossing the 500px breakpoint
-    this.resizeHandler = () => {
-      try {
-        const w = window.innerWidth || 1024;
-        // If a desktop modal is open and viewport shrinks to mobile, switch to mobile drawer
-        if (this.showSaveCartModal && w <= 500) {
-          this.showSaveCartModal = false;
-          this.showSaveCartDrawer = true;
-          try { this.cd.detectChanges(); } catch (e) { /* noop */ }
-        }
-        // If mobile drawer is open and viewport grows beyond mobile, switch to desktop modal
-        else if (this.showSaveCartDrawer && w > 500) {
-          this.showSaveCartDrawer = false;
-          this.showSaveCartModal = true;
-          try { this.cd.detectChanges(); } catch (e) { /* noop */ }
-        }
-      } catch (e) {
-        // ignore
-      }
-    };
-    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  private AemApiCall() {
+    this.subscription = this.apiService.getData(this.url).subscribe({
+      next: (data) => {
+        const screenContent = data?.content?.[0]?.screenContent ?? [];
+        this.formData = screenContent;
+
+        screenContent.forEach((item: any) => {
+          if (item?.key) {
+            this.fieldMap[item.key] = item;
+          }
+        });
+      },
+      error: (err) => console.error('Error fetching data', err),
+    });
   }
 
   ngOnDestroy() {
-    if (this.resizeHandler) {
-      window.removeEventListener('resize', this.resizeHandler);
-      this.resizeHandler = null;
-    }
     if (this.subscription) {
       this.subscription.unsubscribe();
       this.subscription = null;
@@ -267,16 +245,58 @@ export class PersonalForm implements OnDestroy {
   }
   isAgeValid(): boolean {
     if (!this.dob) return true; // age error only if DOB filled
+    if (this.dob.length !== 10) return false; // incomplete date
     const age = this.calculateAge(this.dob);
     return age >= 18 && age <= 65;
   }
 
-  calculateAge(dateStr: string): number {
-    const dobDate = new Date(dateStr);
-    if (isNaN(dobDate.getTime())) return 0;
-    const diff = Date.now() - dobDate.getTime();
-    const ageDate = new Date(diff);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  private calculateAge(dateStr: string): number {
+    const dobDate = this.parseDob(dateStr);
+    if (!dobDate) return -1;
+
+    const today = new Date();
+    let age = today.getFullYear() - dobDate.getFullYear();
+    const monthDiff = today.getMonth() - dobDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  }
+
+  private parseDob(dateStr: string): Date | null {
+    const parts = dateStr.split('/');
+    if (parts.length !== 3) return null;
+
+    const [dayStr, monthStr, yearStr] = parts;
+    const day = parseInt(dayStr, 10);
+    const month = parseInt(monthStr, 10);
+    const year = parseInt(yearStr, 10);
+
+    if (
+      !Number.isInteger(day) ||
+      !Number.isInteger(month) ||
+      !Number.isInteger(year) ||
+      day <= 0 ||
+      month <= 0 ||
+      month > 12 ||
+      year < 1900 ||
+      year > new Date().getFullYear()
+    ) {
+      return null;
+    }
+
+    const candidate = new Date(year, month - 1, day);
+    if (
+      candidate.getFullYear() !== year ||
+      candidate.getMonth() !== month - 1 ||
+      candidate.getDate() !== day
+    ) {
+      return null;
+    }
+
+    return candidate;
   }
 
 onDobInput(e: Event) {
@@ -415,24 +435,8 @@ onDobInput(e: Event) {
       return;
     }
 
-    // Unified: always open the responsive drawer markup; CSS handles desktop vs mobile presentation
-    this.showSaveCartDrawer = true;
-    this.showSaveCartModal = false;
-    try { this.cd.detectChanges(); } catch (e) { /* noop */ }
-  }
-
-  // Save-to-cart overlay flags
-  showSaveCartModal = false;
-  showSaveCartDrawer = false;
-
-  closeSaveCartModal() {
-    // Close unified drawer when modal flag used
-    this.showSaveCartModal = false;
-    this.showSaveCartDrawer = false;
-  }
-
-  closeSaveCartDrawer() {
-    this.showSaveCartDrawer = false;
+    // Trigger the centralized SaveToCart component (shared) via global event
+    try { window.dispatchEvent(new Event('open-save-cart')); } catch (e) { /* noop */ }
   }
 
   onContinue() {

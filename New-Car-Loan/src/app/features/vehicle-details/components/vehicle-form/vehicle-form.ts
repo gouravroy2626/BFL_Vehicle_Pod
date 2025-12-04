@@ -3,29 +3,22 @@ import { Component, ViewEncapsulation, inject, OnInit, AfterViewInit, OnDestroy,
 import { Router } from '@angular/router';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf, NgForOf } from '@angular/common';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
 import { Modal } from 'bootstrap';
+import { ExitNudgeService } from './../../../../shared/service/exit-nudge.service';
 
 @Component({
   selector: 'app-vehicle-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NgIf, NgForOf],
   templateUrl: './vehicle-form.html',
   styleUrls: ['./vehicle-form.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
-  showSaveCartDrawer = false;
-
-  openSaveCartDrawer() {
-    this.showSaveCartDrawer = true;
-  }
-
-  closeSaveCartDrawer() {
-    this.showSaveCartDrawer = false;
-  }
+  // Save-to-cart is handled by the shared component; forms should only trigger it.
   dealerHighlightIndex = 0;
   @ViewChild('dealerList') dealerList?: ElementRef<HTMLUListElement>;
   private dealerModalElement?: ElementRef<HTMLDivElement>;
@@ -76,6 +69,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly ngZone = inject(NgZone);
   private readonly router = inject(Router);
+  private readonly exitNudgeService = inject(ExitNudgeService);
   private loaderNavigationTimer: number | null = null;
   readonly form = this.formBuilder.group({
     brand: ['', Validators.required],
@@ -126,6 +120,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   private modelQuery$ = new BehaviorSubject<string>('');
 
   ngOnInit() {
+    // Save-to-cart content is now fetched by the shared SaveToCart component.
     this.brandQuery$.pipe(
       debounceTime(300),
       switchMap(query => of(this.searchBrands(query)))
@@ -529,8 +524,8 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
         this.form.get(key)?.markAsTouched();
       });
     } else {
-      // Show save to cart drawer in vehicle-form
-      this.openSaveCartDrawer();
+      // Trigger the shared SaveToCart component via global event
+      try { window.dispatchEvent(new Event('open-save-cart')); } catch (e) { /* noop */ }
     }
     // Remove error highlight on input
     Object.keys(this.form.controls).forEach(key => {

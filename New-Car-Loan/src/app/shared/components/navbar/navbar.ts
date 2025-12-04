@@ -2,6 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgFor, Location } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { ExitNudgeService } from '../../service/exit-nudge.service';
+
+interface ExitSlide {
+  src: string;
+  title: string;
+  description: string;
+  stayLabel: string;
+  exitLabel: string;
+}
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +20,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class Navbar implements OnInit {
+export class Navbar implements OnInit, OnDestroy {
  onBackButton=false;
   showExitFeedback = false;
   showExitFeedbackForm = false;
@@ -19,23 +29,35 @@ export class Navbar implements OnInit {
   private currentUrl: string = '';
   // carousel
   carouselIndex = 0;
-  carousel: Array<{ src: string; caption: string }> = [];
+  carousel: ExitSlide[] = [];
+  vehicleExitData: any = null;
+  pickupData: any = null;
+  pickupFeedbackData: any = null;
+  pickupCheckboxes: Array<{ key: string; text: string }> = [];
+  exitFeedbackFormData: any = null;
+  exitFeedbackCheckboxData: any = null;
+  exitFeedbackCheckboxes: Array<{ key: string; text: string }> = [];
+  private subscriptions = new Subscription();
+  private readonly slideOrder = ['no-hidden-charges', 'hassle-free-process', 'instant-approvals'];
+  private exitSlidesMap = new Map<string, ExitSlide>();
 
-  constructor(private router: Router, private location: Location) { }
+  constructor(
+    private router: Router,
+    private location: Location,
+    private exitNudgeService: ExitNudgeService
+  ) { }
 
   ngOnInit(): void {
     this.currentUrl = this.router.url;
-    // initialize carousel items
-    this.carousel = [
-      { src: '/money-bag-percentage.svg', caption: 'No hidden charges' },
-      { src: '/Subtract.svg', caption: 'Hassle free process' },
-      { src: '/Frame 1707481964.svg', caption: 'Instant approvals' },
-    ];
+    // initialize carousel items with local fallbacks
+    this.carousel = this.buildFallbackSlides();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.currentUrl = (event as NavigationEnd).urlAfterRedirects || (event as NavigationEnd).url;
       });
+
+    this.loadExitNudgeContent();
   }
 
   showBackButton(): boolean {
@@ -141,12 +163,150 @@ export class Navbar implements OnInit {
   stopCarousel() { this.clearCarouselTimers(); }
 
   selectCarousel(index: number) {
-    if (index >= 0 && index < this.carousel.length) {
+    if (this.carousel.length && index >= 0 && index < this.carousel.length) {
       this.carouselIndex = index;
     }
   }
 
   ngOnDestroy(): void {
     this.stopCarousel();
+    this.subscriptions.unsubscribe();
+  }
+
+  get currentSlide(): ExitSlide | null {
+    if (!this.carousel.length) {
+      return null;
+    }
+    const safeIndex = this.carouselIndex % this.carousel.length;
+    return this.carousel[safeIndex];
+  }
+
+  private loadExitNudgeContent(): void {
+    this.subscriptions.add(
+      this.exitNudgeService.getByKey('confirm-exit').subscribe({
+        next: (data) => (this.vehicleExitData = data ?? null),
+        error: (err) => console.error('Error fetching confirm-exit data', err),
+      })
+    );
+
+    this.subscriptions.add(
+      this.exitNudgeService.getByKey('pick-up-wrapper').subscribe({
+        next: (data) => {
+          const group = Array.isArray(data?.group) ? data.group : [];
+          this.pickupData = group.find((item: any) => item?.key === 'pick-up-where') ?? null;
+          this.pickupFeedbackData = group.find((item: any) => item?.key === 'we-are-sorry') ?? null;
+          this.pickupCheckboxes = Array.isArray(this.pickupFeedbackData?.['checkbox-group'])
+            ? this.pickupFeedbackData['checkbox-group'].map((option: any, idx: number) => ({
+                key: option?.['field-item-key'] || `pickup-${idx}`,
+                text: option?.['field-item-text'] || option?.['event-prop-value'] || '',
+              }))
+            : [];
+        },
+        error: (err) => console.error('Error fetching pick-up-wrapper data', err),
+      })
+    );
+
+    this.subscriptions.add(
+      this.exitNudgeService.getByKey('see-you-go-wrapper').subscribe({
+        next: (data) => {
+          const group = Array.isArray(data?.group) ? data.group : [];
+          this.exitFeedbackFormData = group.find((item: any) => item?.key === 'see-you-go') ?? null;
+          this.exitFeedbackCheckboxData = group.find((item: any) => item?.key === 'leave') ?? null;
+          this.exitFeedbackCheckboxes = Array.isArray(this.exitFeedbackCheckboxData?.['checkbox-group'])
+            ? this.exitFeedbackCheckboxData['checkbox-group'].map((option: any, idx: number) => ({
+                key: option?.['field-item-key'] || `feedback-${idx}`,
+                text: option?.['field-item-text'] || option?.['event-prop-value'] || '',
+              }))
+            : [];
+        },
+        error: (err) => console.error('Error fetching see-you-go-wrapper data', err),
+      })
+    );
+
+    this.slideOrder.forEach((key) => {
+      this.subscriptions.add(
+        this.exitNudgeService.getByKey(key).subscribe({
+          next: (data) => {
+            if (data) {
+              this.exitSlidesMap.set(key, {
+                src: data['image-android'] || this.getFallbackImage(key),
+                title: data.title || this.getFallbackTitle(key),
+                description: data.description || this.getFallbackDescription(key),
+                stayLabel: data.ctalabel1 || 'STAY AND CONTINUE',
+                exitLabel: data.ctalabel2 || 'EXIT ANYWAY',
+              });
+              this.rebuildSlidesFromMap();
+            }
+          },
+          error: (err) => console.error(`Error fetching exit slide data for ${key}`, err),
+        })
+      );
+    });
+  }
+
+  private rebuildSlidesFromMap(): void {
+    const slides: ExitSlide[] = [];
+    this.slideOrder.forEach((key) => {
+      const slide = this.exitSlidesMap.get(key);
+      if (slide) {
+        slides.push(slide);
+      }
+    });
+    if (slides.length) {
+      this.carousel = slides;
+      this.carouselIndex = 0;
+    }
+  }
+
+  private buildFallbackSlides(): ExitSlide[] {
+    return [
+      {
+        src: '/money-bag-percentage.svg',
+        title: 'Get your loan today',
+        description: 'No hidden charges',
+        stayLabel: 'STAY AND CONTINUE',
+        exitLabel: 'EXIT ANYWAY',
+      },
+      {
+        src: '/Subtract.svg',
+        title: 'Get your loan today',
+        description: 'Hassle free process',
+        stayLabel: 'STAY AND CONTINUE',
+        exitLabel: 'EXIT ANYWAY',
+      },
+      {
+        src: '/Frame 1707481964.svg',
+        title: 'Get your loan today',
+        description: 'Instant approvals',
+        stayLabel: 'STAY AND CONTINUE',
+        exitLabel: 'EXIT ANYWAY',
+      },
+    ];
+  }
+
+  private getFallbackImage(key: string): string {
+    switch (key) {
+      case 'hassle-free-process':
+        return '/Subtract.svg';
+      case 'instant-approvals':
+        return '/Frame 1707481964.svg';
+      default:
+        return '/money-bag-percentage.svg';
+    }
+  }
+
+  private getFallbackTitle(_key: string): string {
+    return 'Get your loan today';
+  }
+
+  private getFallbackDescription(key: string): string {
+    switch (key) {
+      case 'hassle-free-process':
+        return 'Hassle free process';
+      case 'instant-approvals':
+        return 'Instant approvals';
+      default:
+        return 'No hidden charges';
+    }
   }
 }

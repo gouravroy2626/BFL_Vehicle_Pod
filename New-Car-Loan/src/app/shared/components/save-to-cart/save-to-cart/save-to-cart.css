@@ -1,0 +1,721 @@
+
+
+/* Save-to-cart modal/drawer styles */
+.save-cart-overlay,
+.save-cart-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.save-cart-modal {
+  width: 720px;
+  max-width: 94vw;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 28px 28px 32px 28px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: center;
+}
+
+.save-cart-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
+
+.close-icon {
+  background: transparent;
+  border: none;
+  height: 40px;
+  width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  z-index: 3;
+}
+
+.close-icon img {
+  width: 12px;
+  height: 12px;
+}
+
+.save-cart-title {
+  font-size: 18px;
+  font-weight: 600;
+  /* margin: 8px 0 6px 0; */
+
+  margin: 0; /* remove default margins */
+}
+
+.save-cart-sub {
+  font-size: 14px;
+  color: #333;
+  /* margin: 0 0 14px 0; */
+}
+
+/* Remove extra spacing under title and subtitle rows */
+.row-title { margin-bottom: 0; padding-bottom: 0; }
+.row-sub { margin-bottom: 0; padding-bottom: 0; }
+
+/* Bring actions closer to subtitle */
+.save-cart-actions { margin-top: 8px; }
+
+.save-cart-frame {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  height: 220px;
+  /* slightly taller to accommodate larger main image */
+  margin: 8px auto 0 auto;
+  /* tighten vertical spacing on desktop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-cart-bg {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  /* fill the frame vertically to remove top/bottom gap */
+  /* object-fit: cover; */
+  display: block;
+  border-radius: 8px;
+}
+
+.save-cart-main {
+  position: absolute;
+  width: 66%;
+  /* make main image slightly bigger */
+  max-width: 460px;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* perfectly centered */
+}
+
+.save-cart-arrow {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  right: 18%;
+  top: 30%;
+}
+
+.save-cart-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  /* compact spacing on desktop */
+}
+
+.save-cart-actions .btn-primary {
+  width: 340px;
+  height: 40px;
+  border-radius: 200px;
+  font-size: 18px;
+  padding: 0 28px;
+}
+
+/* Mobile: bottom sheet drawer */
+@media (max-width: 500px) {
+
+  /*     display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 68%;
+    height: auto;
+    max-width: 460px;
+    z-index: 2;
+} */
+  .hero{
+    margin-bottom: -10px;
+  }
+  .save-cart-overlay {
+    display: none;
+  }
+
+  .save-cart-drawer {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .save-cart-drawer-content {
+    width: 100%;
+    max-width: none;
+    background: #ffffff;
+    border-radius: 12px 12px 0 0;
+    padding: 16px 12px; /* symmetric horizontal padding to keep content centered */
+    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+
+  }
+
+  .save-cart-frame {
+    height: 170px;
+    /* slightly taller on mobile for larger image */
+  }
+
+  .save-cart-main {
+    width: 68%;
+  }
+
+  .save-cart-arrow {
+    width: 56px;
+    right: 20%;
+    top: 26%;
+  }
+
+  .save-cart-actions .btn-primary3 {
+    align-items: center;
+    flex: 1 1 45%;
+    min-width: 200px;
+    max-width: 200px;
+    box-sizing: border-box;
+    margin: 0;
+    background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+    color: #fff;
+    border: none;
+    border-radius: 200px;
+    height: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile: 6-row grid layout inside the drawer content */
+  .save-cart-drawer-content {
+    display: grid;
+    grid-template-rows: auto auto auto auto 1fr auto;
+    gap: 8px;
+    /* 4px between rows visually, but 8px for touch spacing */
+    align-items: center;
+    text-align: center;
+    /* padding-top: 12px; */
+    padding-bottom: 20px;
+  }
+
+  /* Row-specific tweaks: remove left-only padding so rows are centered */
+  .save-cart-drawer-content .row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 8px; /* small symmetric horizontal padding for breathing room */
+  }
+
+  .save-cart-title{
+    margin-bottom: -5px;
+  }
+
+  .save-cart-sub{
+    margin-bottom: 4px;
+  }
+}
+
+@media (min-width: 769px) {
+
+  /* Make desktop drawer visually identical to mobile, centered */
+  .save-cart-drawer-content {
+    width: 100%;
+    min-width: 550px;
+  }
+
+  /* Make hero smaller and center the header artwork inside it on desktop */
+  .save-cart-drawer-content .hero {
+    max-width: 920px;
+    /* width: 500px; */
+    /* height: 50px; */
+    margin: 0 auto;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+  }
+
+  /* Center desktop artwork inside hero */
+  .save-cart-drawer-content .hero .desktop {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: auto;
+    z-index: 2;
+  }
+
+  .save-cart-drawer-content .hero .desktop .header {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    transform: none;
+  }
+
+  .save-cart-drawer-content .hero .desktop .path {
+    position: absolute;
+    top: -25px;
+    left: 88%;
+    transform: translateX(-50%);
+    width: 10%;
+    height: auto;
+    z-index: 3;
+  }
+
+  .row-close {
+    justify-content: flex-end;
+    padding-right: 6px;
+  }
+
+  .close-icon {
+    background: transparent;
+    border: none;
+    /* padding: 6px; */
+    height: 40px;
+    width: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    z-index: 3;
+    font-weight: 600px;
+  }
+
+  .close-icon img {
+    width: 12px;
+    height: 12px;
+  }
+
+  
+
+  
+  .row-title .save-cart-title {
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: -2px;
+    padding-right: 0;
+  }
+
+  .row-sub .save-cart-sub {
+    padding-right: 0;
+    font-weight: 400;
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .save-cart-frame-mobile {
+    /* width: 86%; */
+    padding-right: 5px;
+    max-width: 420px;
+    height: 150px;
+    /* slightly taller for centering */
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .save-cart-frame-mobile .save-cart-bg {
+    border-radius: 8px;
+  }
+
+  .save-cart-frame-mobile .save-cart-main {
+    position: absolute;
+    width: 80%;
+    /* slightly bigger on mobile */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* perfectly centered in frame */
+  }
+
+  .row-actions {
+    padding-top: 0;
+  }
+
+  .save-cart-actions .btn-primary3 {
+    align-items: center;
+    flex: 1 1 45%;
+    min-width: 200px;
+    max-width: 200px;
+    box-sizing: border-box;
+    margin: 0;
+    background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+    color: #fff;
+    border: none;
+    border-radius: 200px;
+    height: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
+
+/* Final centering override: ensure the drawer content and its rows are perfectly centered
+   regardless of earlier media-specific rules (prevents residual left/right shift). */
+.save-cart-drawer-content {
+  box-sizing: border-box !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.save-cart-drawer-content .row,
+.save-cart-drawer-content .save-cart-frame,
+.save-cart-drawer-content .hero {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ensure absolute-positioned artwork is centered relative to hero container */
+.save-cart-drawer-content .hero .desktop {
+  left: 50% !important;
+  transform: translateX(-50%) translateY(-50%) !important;
+}
+
+/* Desktop layout polish for Save-to-Cart drawer */
+@media (min-width: 501px) {
+
+  /* Make desktop drawer visually identical to mobile, centered */
+  .save-cart-drawer-content {
+    width: 100%;
+    max-width: 400px;
+    /* tighten horizontal space */
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 0 16px 0;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+    position: relative;
+    margin: 0 auto;
+    /* center in viewport */
+    display: grid;
+    grid-template-rows: auto auto auto auto 1fr auto;
+    /* same as mobile */
+    gap: 6px;
+    /* slightly tighter row gaps */
+    align-items: center;
+    text-align: center;
+  }
+
+  .row {
+    /* normalize rows like mobile */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 8px;
+  }
+
+  .row-close {
+    justify-content: flex-end;
+    padding-right: 6px;
+  }
+
+  .row-close .close-icon {
+    background: transparent;
+    border: none;
+    height: 40px;
+    width: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    z-index: 3;
+    font-weight: 600;
+  }
+
+ 
+
+  .row-title .save-cart-title {
+    font-size: 18px;
+    /* match mobile */
+    margin: 0 0 -2px 0;
+    font-weight: 600;
+  }
+
+  .row-sub .save-cart-sub {
+    font-weight: 400;
+    margin: 0;
+    font-size: 14px;
+    /* match mobile */
+    color: #333;
+  }
+
+  .row.row-illustration {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* Use mobile frame variant on desktop to keep identical look */
+  .save-cart-frame {
+    max-width: 400px;
+    /* small reduction to fit tighter card */
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .save-cart-bg {
+    border-radius: 8px;
+  }
+
+  .save-cart-main {
+    position: absolute;
+    width: 88%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .row-actions {
+    padding-top: 0;
+  }
+
+  .save-cart-actions .btn-primary3 {
+    align-items: center;
+    flex: 0 0 auto;
+    width: 200px;
+    /* consistent with mobile min/max */
+    max-width: 200px;
+    box-sizing: border-box;
+    margin: 0;
+    background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
+    color: #fff;
+    border: none;
+    border-radius: 200px;
+    height: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+.hero {
+  position: relative;
+  /* use rectangle SVG as background */
+  background-image: url('/Rectangle 32554.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  width: 100%;
+  max-width: 560px;
+  height: 80%;
+  /* margin: 0 16px 0 auto; */
+}
+
+.mobile {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 55%;
+  height: auto;
+  max-width: 460px;
+  z-index: 2;
+}
+
+.desktop {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: auto;
+  z-index: 2;
+}
+
+.mobile {
+  display: none;
+}
+
+.desktop {
+  display: none;
+  position: relative;
+}
+
+.desktop .header {
+  position: relative;
+  z-index: 1;
+  /* below */
+}
+
+.desktop .path {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  /* above */
+}
+
+
+
+@media (max-width: 768px) {
+  .mobile {
+    display: block;
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  .hero {
+    
+    height: 160px;
+    display: block;
+  }
+  /* Ensure the decorative path is visible on smaller screens even when .desktop is hidden
+     (we only show the path image and keep desktop header hidden). This keeps desktop
+     layout unchanged for >=769px. */
+  .hero {
+    position: relative; /* make hero the containing block for absolute overlay */
+  }
+
+  .hero .desktop {
+    display: block !important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -40%);
+    width: 90%;
+    z-index: 2;
+    pointer-events: none; /* avoid intercepting touch/clicks */
+  }
+
+  .hero .desktop .header {
+    display: none; /* keep header hidden on mobile */
+  }
+
+  /* Anchor the path relative to the .desktop artwork using percent offsets.
+     Avoid large translateY hacks which break on resize. We set a small
+     transform to adjust for the arrow tip alignment, and use explicit
+     width in px on small screens so it doesn't scale unexpectedly. */
+  .hero .desktop .path {
+    display: block;
+    position: absolute;
+    /* anchor to the right-middle of the header artwork by percent */
+    left: 52%;
+    top: 28%;
+    transform: translate(-50%, -150%);
+    width: 56px; /* fixed visual size on small screens */
+    height: auto;
+    z-index: 3;
+    pointer-events: auto;
+  }
+
+}
+
+@media (min-width: 769px) {
+  .mobile {
+    display: none;
+  }
+
+  .desktop {
+    display: block;
+    width: 66%;
+  }
+
+ 
+  .hero {
+    width: 520px;
+    background-size: contain;
+    /* match vehicle-form desktop height so artwork fits inside the light-green frame */
+    height: 100px;
+    overflow: hidden;
+  }
+
+
+}
+
+/* Ensure desktop header/path artwork mirrors vehicle-form layout so Header_top.svg is visible and positioned correctly */
+@media (min-width: 769px) {
+  .hero .desktop {
+    display: block !important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: auto;
+    z-index: 2;
+  }
+
+  .hero .desktop .header {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero .desktop .path {
+    position: absolute;
+    /* Desktop: anchor the arrow to a stable point over the header artwork.
+       Use percent offsets so it tracks as the header scales. width uses a
+       percent to scale with the artwork but clamp to reasonable bounds with
+       max-width below. */
+    top: 40%;
+    left: 50%;
+    transform: translate(-12%, -40%);
+    width: 22%;
+    max-width: 120px;
+    height: auto;
+    z-index: 3;
+  }
+
+
+@media (min-width: 421px) and (max-width: 768px) {
+  .hero .desktop .path {
+    left: 62%;
+    top: 30%;
+    transform: translate(-40%, -30%);
+    width: 64px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero .desktop .path {
+    left: 48%;
+    top: 36%;
+    transform: translate(-10%, -42%);
+    width: 140px;
+  }
+}
+}
+
+.save-cart-symbol{
+  height: 32px;
+  width: 56px;
+}
