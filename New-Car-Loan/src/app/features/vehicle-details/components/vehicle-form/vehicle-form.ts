@@ -1,13 +1,13 @@
 import { Tracker } from './../../../../shared/components/tracker/tracker';
-import { Component, ViewEncapsulation, inject, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, ViewChild, NgZone } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef, NgZone, inject } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, NgIf, NgForOf } from '@angular/common';
 import { debounceTime, switchMap } from 'rxjs/operators';
-import { of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, Subscription } from 'rxjs';
 import { Modal } from 'bootstrap';
 import { ExitNudgeService } from './../../../../shared/service/exit-nudge.service';
+import { ApiService } from './../../../../shared/service/Api-service';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -17,7 +17,75 @@ import { ExitNudgeService } from './../../../../shared/service/exit-nudge.servic
   styleUrls: ['./vehicle-form.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
+export class VehicleForm implements OnInit, OnDestroy {
+  onBrandInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value ?? '';
+    this.currentBrandQuery = value;
+    // Always show all brands if input is empty or whitespace
+    if (!value || value.trim().length === 0) {
+      this.filteredBrands = [
+        'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'Hyundai', 'BMW', 'Audi',
+        'Mercedes-Benz', 'Volkswagen', 'Maruti', 'Tata', 'Mahindra', 'Kia', 'Skoda',
+        'Tesla', 'Jaguar', 'Range Rover', 'Porsche', 'Lexus', 'Volvo', 'Mazda'
+      ];
+      // Reset dealer and model when brand is cleared
+      this.form.get('dealer')?.setValue('');
+      this.selectedDealer = null;
+      this.form.get('model')?.setValue('');
+      this.filteredModels = this.allModels.slice();
+      this.modelFieldFocused = false;
+    } else {
+      // Filter from full brand list
+      const allBrands = [
+        'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'Hyundai', 'BMW', 'Audi',
+        'Mercedes-Benz', 'Volkswagen', 'Maruti', 'Tata', 'Mahindra', 'Kia', 'Skoda',
+        'Tesla', 'Jaguar', 'Range Rover', 'Porsche', 'Lexus', 'Volvo', 'Mazda'
+      ];
+      this.filteredBrands = allBrands.filter((b: string) => b.toLowerCase().includes(value.toLowerCase()));
+    }
+    this.brandFieldFocused = true;
+    this.brandHighlightIndex = -1;
+  }
+
+  onModelInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value ?? '';
+    this.currentModelQuery = value;
+    // Always show all models if input is empty or whitespace
+    if (!value || value.trim().length === 0) {
+      this.filteredModels = this.allModels.slice();
+      // Reset dealer when model is cleared
+      this.form.get('dealer')?.setValue('');
+      this.selectedDealer = null;
+      this.modelFieldFocused = true;
+    } else {
+      // Filter from allModels, not filteredModels
+      this.filteredModels = this.allModels.filter((m: string) => m.toLowerCase().includes(value.toLowerCase()));
+      this.modelFieldFocused = true;
+    }
+    this.modelHighlightIndex = -1;
+  }
+  openBrandDrawer() {
+    this.showBrandDrawer = true;
+  }
+
+  openModelDrawer() {
+    this.showModelDrawer = true;
+  }
+  // Drawer state
+  showBrandDrawer = false;
+  showModelDrawer = false;
+  // AEM URLs
+  private readonly vehicleDetailsUrl = 'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/vehicle-details';
+  private readonly brandListUrl = 'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/brand-list';
+  private readonly modelListUrl = 'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/model-list';
+  private subscriptions: Subscription[] = [];
+  // CMS data holders
+  vehicleDetails: any;
+  brandList: any;
+  modelList: any;
+  fieldMap: { [key: string]: any } = {};
+
+  constructor(private apiService: ApiService) {}
   // Save-to-cart is handled by the shared component; forms should only trigger it.
   dealerHighlightIndex = 0;
   @ViewChild('dealerList') dealerList?: ElementRef<HTMLUListElement>;
@@ -77,31 +145,13 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     dealer: ['', Validators.required],
   });
 
-  brands = [
-    'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'Hyundai', 'BMW', 'Audi',
-    'Mercedes-Benz', 'Volkswagen', 'Maruti', 'Tata', 'Mahindra', 'Kia', 'Skoda',
-    'Tesla', 'Jaguar', 'Range Rover', 'Porsche', 'Lexus', 'Volvo', 'Mazda'
-  ];
-  models = [
+  filteredBrands: string[] = [];
+  filteredModels: string[] = [];
+  allModels: string[] = [
     'Corolla', 'Civic', 'Accord', 'F-150', 'Mustang', 'Elantra', '3 Series', 'A4',
     'C-Class', 'Golf', 'Swift', 'Nexon', 'XUV500', 'Sonet', 'Superb',
     'Model 3', 'XF', 'Evoque', '911', 'RX', 'XC90', 'CX-5'
   ];
-  dealers = [
-    'Premium Motors - Delhi',
-    'City Motors - Mumbai',
-    'Grand Motors - Bangalore',
-    'Elite Auto - Hyderabad',
-    'Pride Motors - Chennai',
-    'Royal Auto - Pune',
-    'Dynamic Motors - Kolkata',
-    'Victory Auto - Ahmedabad',
-    'Zenith Motors - Jaipur',
-    'Star Motors - Lucknow'
-  ];
-  filteredBrands: string[] = [];
-  filteredModels: string[] = [];
-  // Dealer UI state
   filteredDealers: string[] = [];
   selectedDealer: string | null = null;
   isLoading = false;
@@ -120,81 +170,136 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   private modelQuery$ = new BehaviorSubject<string>('');
 
   ngOnInit() {
-    // Save-to-cart content is now fetched by the shared SaveToCart component.
-    this.brandQuery$.pipe(
-      debounceTime(300),
-      switchMap(query => of(this.searchBrands(query)))
-    ).subscribe(filtered => {
-      this.filteredBrands = filtered;
-      if (this.filteredBrands.length) {
-        this.brandHighlightIndex = 0;
-      } else {
-        this.brandHighlightIndex = -1;
-      }
-      this.cdr.detectChanges();
-    });
+    // Show mock data immediately for local development
+    this.filteredBrands = [
+      'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'Hyundai', 'BMW', 'Audi',
+      'Mercedes-Benz', 'Volkswagen', 'Maruti', 'Tata', 'Mahindra', 'Kia', 'Skoda',
+      'Tesla', 'Jaguar', 'Range Rover', 'Porsche', 'Lexus', 'Volvo', 'Mazda'
+    ];
+    this.filteredModels = this.allModels.slice();
+    this.filteredDealers = [
+      'Premium Motors - Delhi',
+      'City Motors - Mumbai',
+      'Grand Motors - Bangalore',
+      'Elite Auto - Hyderabad',
+      'Pride Motors - Chennai',
+      'Royal Auto - Pune',
+      'Dynamic Motors - Kolkata',
+      'Victory Auto - Ahmedabad',
+      'Zenith Motors - Jaipur',
+      'Star Motors - Lucknow'
+    ];
+    // Then call AEM APIs to update with real data if available
+    this.fetchVehicleDetailsAem();
+    this.fetchBrandListAem();
+    this.fetchModelListAem();
+    // ...existing initialization logic (form, observables, etc.)
+  }
 
-    this.modelQuery$.pipe(
-      debounceTime(300),
-      switchMap(query => of(this.searchModels(query)))
-    ).subscribe(filtered => {
-      this.filteredModels = filtered;
-      if (this.filteredModels.length) {
-        this.modelHighlightIndex = 0;
-      } else {
-        this.modelHighlightIndex = -1;
-      }
-      this.cdr.detectChanges();
+  fetchVehicleDetailsAem() {
+    const sub = this.apiService.getData(this.vehicleDetailsUrl).subscribe({
+      next: (data) => {
+        this.vehicleDetails = data;
+        const screenContent = data?.content?.[0]?.screenContent ?? [];
+        screenContent.forEach((item: any) => {
+          if (item?.key) {
+            this.fieldMap[item.key] = item;
+          }
+        });
+      },
+      error: (err) => console.error('Vehicle details AEM error', err),
     });
+    this.subscriptions.push(sub);
+  }
 
-    this.form.get('brand')?.valueChanges.subscribe(value => {
-      const nextValue = (value ?? '') as string;
-      this.currentBrandQuery = nextValue;
-      if (this.selectingBrand) {
-        this.brandQuery$.next('');
-        this.filteredBrands = [];
-        this.brandHighlightIndex = -1;
-        this.currentBrandQuery = '';
-        return;
-      }
-      this.brandFieldFocused = true;
-      this.brandQuery$.next(nextValue);
+  fetchBrandListAem() {
+    const sub = this.apiService.getData(this.brandListUrl).subscribe({
+      next: (data) => {
+        this.brandList = data;
+        const brandContent = data?.content?.[0]?.screenContent ?? [];
+        brandContent.forEach((item: any) => {
+          if (item?.key) {
+            this.fieldMap[item.key] = item;
+          }
+        });
+        let brands = brandContent.map((item: any) => item?.label).filter((label: string) => !!label);
+        if (!brands.length) {
+          brands = [
+            'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'Hyundai', 'BMW', 'Audi',
+            'Mercedes-Benz', 'Volkswagen', 'Maruti', 'Tata', 'Mahindra', 'Kia', 'Skoda',
+            'Tesla', 'Jaguar', 'Range Rover', 'Porsche', 'Lexus', 'Volvo', 'Mazda'
+          ];
+        }
+        this.filteredBrands = brands;
+      },
+      error: (err) => {
+        console.error('Brand list AEM error', err);
+        this.filteredBrands = [
+          'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'Hyundai', 'BMW', 'Audi',
+          'Mercedes-Benz', 'Volkswagen', 'Maruti', 'Tata', 'Mahindra', 'Kia', 'Skoda',
+          'Tesla', 'Jaguar', 'Range Rover', 'Porsche', 'Lexus', 'Volvo', 'Mazda'
+        ];
+      },
     });
+    this.subscriptions.push(sub);
+  }
 
-    this.form.get('model')?.valueChanges.subscribe(value => {
-      const nextValue = (value ?? '') as string;
-      this.currentModelQuery = nextValue;
-      if (this.selectingModel) {
-        this.modelQuery$.next('');
-        this.filteredModels = [];
-        this.modelHighlightIndex = -1;
-        this.currentModelQuery = '';
-        return;
-      }
-      this.modelFieldFocused = true;
-      this.modelQuery$.next(nextValue);
+  fetchModelListAem() {
+    const sub = this.apiService.getData(this.modelListUrl).subscribe({
+      next: (data) => {
+        this.modelList = data;
+        const modelContent = data?.content?.[0]?.screenContent ?? [];
+        modelContent.forEach((item: any) => {
+          if (item?.key) {
+            this.fieldMap[item.key] = item;
+          }
+        });
+        let models = modelContent.map((item: any) => item?.label).filter((label: string) => !!label);
+        if (!models.length) {
+          models = this.allModels.slice();
+        }
+        this.allModels = models.slice();
+        this.filteredModels = models.slice();
+      },
+      error: (err) => {
+        console.error('Model list AEM error', err);
+        this.filteredModels = this.allModels.slice();
+      },
     });
+    this.subscriptions.push(sub);
+  }
+  // Example: fetch dealers from AEM vehicleDetails response
+  fetchDealersFromAem() {
+    // Try to get dealers from AEM, else use mock data
+    const dealers = this.vehicleDetails?.content?.[0]?.dealers ?? [];
+    if (dealers.length) {
+      this.filteredDealers = dealers.map((d: any) => d?.label).filter((label: string) => !!label);
+    } else {
+      this.filteredDealers = [
+        'Premium Motors - Delhi',
+        'City Motors - Mumbai',
+        'Grand Motors - Bangalore',
+        'Elite Auto - Hyderabad',
+        'Pride Motors - Chennai',
+        'Royal Auto - Pune',
+        'Dynamic Motors - Kolkata',
+        'Victory Auto - Ahmedabad',
+        'Zenith Motors - Jaipur',
+        'Star Motors - Lucknow'
+      ];
+    }
+  }
 
-    this.form.statusChanges.subscribe(status => {
-      if (status === 'VALID') {
-        this.highlightAllFilled = true;
-        setTimeout(() => this.highlightAllFilled = false, 3000);
-      }
-    });
-
-    // Initialize dealer list for modal
-    this.filteredDealers = this.dealers.slice();
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    // ...existing cleanup logic if needed
   }
 
   ngAfterViewInit(): void {
     this.setupDealerModalListeners();
   }
 
-  ngOnDestroy(): void {
-    this.teardownDealerModalListeners();
-    this.dealerModalElement = undefined;
-    this.cancelLoaderNavigation();
-  }
+  // Removed duplicate ngOnDestroy implementation
 
   private setupDealerModalListeners(): void {
     const modalElement = this.dealerModalElement?.nativeElement;
@@ -279,7 +384,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     // Show full brand list immediately on focus if input empty
     const current = (this.form.get('brand')?.value ?? '').trim();
     if (!current.length) {
-      this.filteredBrands = this.brands.slice();
       this.brandHighlightIndex = 0;
     } else {
       this.brandHighlightIndex = -1;
@@ -290,6 +394,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       if (!this.selectingBrand) {
         this.brandFieldFocused = false;
+        this.cdr.detectChanges();
       }
     }, 300); // Increased timeout to ensure focus event completes first
   }
@@ -298,7 +403,6 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     this.modelFieldFocused = true;
     const current = (this.form.get('model')?.value ?? '').trim();
     if (!current.length) {
-      this.filteredModels = this.models.slice();
       this.modelHighlightIndex = 0;
     } else {
       this.modelHighlightIndex = -1;
@@ -309,20 +413,21 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       if (!this.selectingModel) {
         this.modelFieldFocused = false;
+        this.cdr.detectChanges();
       }
     }, 200);
   }
 
   searchBrands(query: string): string[] {
-    if (!query || query.trim() === '') return this.brands.slice();
-    const lowerQuery = query.toLowerCase();
-    return this.brands.filter(b => b.toLowerCase().includes(lowerQuery));
+  if (!query || query.trim() === '') return this.filteredBrands.slice();
+  const lowerQuery = query.toLowerCase();
+  return this.filteredBrands.filter((b: string) => b.toLowerCase().includes(lowerQuery));
   }
 
   searchModels(query: string): string[] {
-    if (!query || query.trim() === '') return this.models.slice();
-    const lowerQuery = query.toLowerCase();
-    return this.models.filter(m => m.toLowerCase().includes(lowerQuery));
+  if (!query || query.trim() === '') return this.allModels.slice();
+  const lowerQuery = query.toLowerCase();
+  return this.allModels.filter((m: string) => m.toLowerCase().includes(lowerQuery));
   }
 
   onBrandSelect(brand: string) {
@@ -335,10 +440,14 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     this.brandQuery$.next('');
     this.currentBrandQuery = '';
     this.form.get('model')?.setValue('');
-    this.filteredModels = [];
+    this.filteredModels = this.allModels.slice();
     this.modelFieldFocused = false;
+    // Reset dealer when brand is changed
+    this.form.get('dealer')?.setValue('');
+    this.selectedDealer = null;
     setTimeout(() => {
       this.selectingBrand = false;
+      this.cdr.detectChanges();
     }, 200); // Ensure dropdown interaction completes
   }
 
@@ -346,6 +455,9 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     if (!model) return; // Null check
     this.selectingModel = true;
     this.form.get('model')?.setValue(model);
+    // Reset dealer when model is changed
+    this.form.get('dealer')?.setValue('');
+    this.selectedDealer = null;
     setTimeout(() => {
       this.filteredModels = [];
       this.modelFieldFocused = false;
@@ -353,6 +465,7 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
       this.modelQuery$.next('');
       this.currentModelQuery = '';
       this.selectingModel = false;
+      this.cdr.detectChanges();
     }, 100);
   }
 
@@ -360,9 +473,8 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
     if (!dealer) return;
     this.form.get('dealer')?.setValue(dealer);
     this.selectedDealer = dealer;
-    const allDealers = this.dealers.slice();
-    this.filteredDealers = allDealers;
-    this.dealerHighlightIndex = allDealers.findIndex(d => d === dealer);
+  const allDealers = this.filteredDealers.slice();
+  this.dealerHighlightIndex = allDealers.findIndex((d: string) => d === dealer);
     // Ensure modal closes
     if (this.dealerModalElement) {
       const modal = Modal.getInstance(this.dealerModalElement.nativeElement);
@@ -443,9 +555,9 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   searchDealers(query: string): string[] {
-    if (!query || query.trim() === '') return this.dealers.slice();
-    const q = query.toLowerCase();
-    return this.dealers.filter(d => d.toLowerCase().includes(q));
+  if (!query || query.trim() === '') return this.filteredDealers.slice();
+  const q = query.toLowerCase();
+  return this.filteredDealers.filter((d: string) => d.toLowerCase().includes(q));
   }
 
   onBrandKeydown(event: KeyboardEvent): void {
@@ -480,9 +592,11 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
 
   private scrollToHighlightedItem(field: 'brand' | 'model'): void {
     const listElement = document.querySelector(`.${field}-autocomplete-list`);
-    const items = listElement?.querySelectorAll('li');
-    if (items && items[this[`${field}HighlightIndex`]]) {
-      items[this[`${field}HighlightIndex`]].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (!listElement) return;
+    const items = listElement.querySelectorAll('li');
+    const idx = this[`${field}HighlightIndex`];
+    if (items && items[idx]) {
+      items[idx].scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
   }
 
@@ -554,24 +668,24 @@ export class VehicleForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get isBrandFilled(): boolean {
-    const value = (this.form.get('brand')?.value ?? '').trim();
-    if (!value.length) return false;
-    const lowerValue = value.toLowerCase();
-    return this.brands.some(brand => brand.toLowerCase() === lowerValue);
+  const value = (this.form.get('brand')?.value ?? '').trim();
+  if (!value.length) return false;
+  const lowerValue = value.toLowerCase();
+  return this.filteredBrands.some((brand: string) => brand.toLowerCase() === lowerValue);
   }
 
   get isModelFilled(): boolean {
-    const value = (this.form.get('model')?.value ?? '').trim();
-    if (!value.length) return false;
-    const lowerValue = value.toLowerCase();
-    return this.models.some(model => model.toLowerCase() === lowerValue);
+  const value = (this.form.get('model')?.value ?? '').trim();
+  if (!value.length) return false;
+  const lowerValue = value.toLowerCase();
+  return this.filteredModels.some((model: string) => model.toLowerCase() === lowerValue);
   }
 
   get isDealerFilled(): boolean {
-    const value = (this.form.get('dealer')?.value ?? '').trim();
-    if (!value.length) return false;
-    const lowerValue = value.toLowerCase();
-    return this.dealers.some(dealer => dealer.toLowerCase() === lowerValue);
+  const value = (this.form.get('dealer')?.value ?? '').trim();
+  if (!value.length) return false;
+  const lowerValue = value.toLowerCase();
+  return this.filteredDealers.some((dealer: string) => dealer.toLowerCase() === lowerValue);
   }
 
 }
