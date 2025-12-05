@@ -562,9 +562,9 @@
     min-width: 0;
     max-width: 260px;
     height: 44px;
-    padding: 12px 24px;
+    padding: 16px;
     border-radius: 200px;
-    font-size: 1rem;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     box-sizing: border-box;
@@ -928,7 +928,7 @@
         padding: 16px;
         background: #FFFFFF;
         border-top: 1px solid #E0E0E0;
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.213);
         z-index: 1200;
         /* lower than modal/overlay backdrops so it won't overlap */
         gap: 12px;
@@ -1060,8 +1060,8 @@
     }
 
     .form-actions {
-        gap: 10px;
-        padding: 16px 12px 16px;
+        gap: 8px;
+        padding: 16px 16px 16px;
     }
 
     .save-btn,
