@@ -7,6 +7,12 @@ import { shareReplay, switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ApiService {
+
+  // Mock saveToCart method for demo
+  saveToCart(data: any): Observable<any> {
+    // Simulate a backend call
+    return of({ success: true });
+  }
   private cache: { [url: string]: Observable<any> } = {};
 
   constructor(private http: HttpClient) {}

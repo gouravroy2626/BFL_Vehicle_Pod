@@ -10,13 +10,5 @@ import { Router } from '@angular/router';
     styleUrls: ['./application-submission.css']
 })
 export class VehicleApplicationSubmissionComponent {
-    showDocumentsModal = false;
 
-    openDocumentsModal() {
-        this.showDocumentsModal = true;
-    }
-
-    closeDocumentsModal() {
-        this.showDocumentsModal = false;
-    }
 }

@@ -1,288 +1,3 @@
-/* Custom Modal and Backdrop Styles */
-.custom-modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(60, 60, 60, 0.65);
-    /* neutral grey */
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.custom-modal .modal-title {
-    margin-bottom: 8px;
-}
-
-.custom-modal .modal-header+.modal-body>div {
-    margin-top: 8px;
-}
-
-.custom-modal {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    max-width: 400px;
-    width: 90vw;
-    padding: 32px 24px 24px 24px;
-    position: relative;
-}
-
-.custom-modal .btn-close {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    background: none;
-    border: none;
-    font-size: 24px;
-}
-
-/* Add 2px left padding for store card inside div 2 */
-.class-two .store-card {
-    padding-left: 14px !important;
-}
-
-@media (max-width: 600px) {
-
-    /* --- MOBILE VIEW: Existing styles for .carousel-card --- */
-    .carousel-card {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        width: 100vw !important;
-        max-width: 100vw !important;
-        min-width: 180px !important;
-        overflow: visible !important;
-    }
-
-
-
-    /* Add gap below the entire carousel scroll area */
-    /* Visually extend carousel images beyond div 5 to below scroll bar of div 4 */
-    .carousel-scroll {
-        margin-top: -79px !important;
-        margin-bottom: 0px !important;
-        z-index: 0 !important;
-        position: relative !important;
-    }
-}
-
-/* Add gap between carousel image and scroll bar of div 4 */
-
-/* Debug: force .carousel-img styles with high specificity and !important */
-.carousel-card>.carousel-img {
-    height: 860px !important;
-    object-fit: cover !important;
-    margin: 0 !important;
-    display: block !important;
-}
-
-/* Mobile view: carousel card images flush to bottom using flexbox and cover */
-.carousel-card {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-end !important;
-    align-items: stretch !important;
-    height: 250px !important;
-    padding: 0px !important;
-    gap: 0 !important;
-    box-sizing: border-box !important;
-}
-
-
-
-/* Move product-section left for mobile view */
-.product-section {
-    margin-left: -16px !important;
-    margin-right: -29px;
-}
-
-.step:nth-child(2) {
-    margin-top: -12px;
-}
-
-.mobile-nav-header {
-    position: relative;
-}
-
-.mobile-nav-arrow {
-    width: 25px !important;
-    height: 25px !important;
-    object-fit: contain;
-    position: absolute !important;
-    left: 45%;
-    top: -8px;
-    transform: translateX(-50%);
-    z-index: 2;
-}
-
-
-.mobile-break {
-    display: none;
-}
-
-@media (max-width: 600px) {
-
-    .mobile-break {
-        display: inline;
-    }
-}
-
-@media (max-width: 600px) {
-    .steps {
-        width: auto;
-        max-width: 100%;
-        margin-left: 0;
-        padding-right: 0;
-    }
-
-    .step {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 16px;
-        width: 100%;
-        margin-bottom: 16px;
-    }
-
-    .step-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
-        margin-top: 2px;
-        margin-right: 0;
-        flex-shrink: 0;
-    }
-
-    .step-title {
-        font-size: 17px;
-        font-weight: 700;
-        margin-bottom: 2px;
-    }
-
-    .step-desc {
-        font-size: 15px;
-        line-height: 1.3;
-        white-space: normal;
-        word-break: break-word;
-        margin-bottom: 0;
-        padding: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .steps {
-        width: 100vw;
-        max-width: 100vw;
-        margin-left: -16px;
-        padding-right: 8px;
-    }
-
-    .step-desc {
-        font-size: 15px;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 100vw;
-        max-width: 100vw;
-        margin-bottom: 0;
-        padding: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .step-desc {
-        font-size: 16px;
-        line-height: 1.4;
-        white-space: normal;
-        word-break: break-word;
-        margin-bottom: 0;
-        padding: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .step-desc {
-        white-space: normal;
-        overflow: visible;
-        text-overflow: unset;
-        display: block;
-    }
-}
-
-@media (max-width: 600px) {
-    .cart-card {
-        margin-top: -20px !important;
-    }
-
-    .cart-status {
-        font-size: 6px;
-        text-align: left;
-        padding-left: 25px;
-
-    }
-}
-
-/* See list of documents inline only on mobile */
-.step-link-mobile {
-    display: none;
-}
-
-.step-link-desktop {
-    display: inline;
-}
-
-@media (max-width: 600px) {
-    .step-link-mobile {
-        display: inline;
-        margin-left: 6px;
-    }
-
-    .step-link-desktop {
-        display: none;
-    }
-
-    .step-link-desktop+br.step-link-desktop {
-        display: none;
-    }
-}
-
-/* Show mobile nav header only on mobile */
-.mobile-nav-header {
-    display: none;
-}
-
-@media (max-width: 600px) {
-    .mobile-nav-header {
-        display: block;
-        width: 150px;
-        height: 40px;
-        margin: -8px auto 8px auto;
-        text-align: center;
-    }
-
-    .mobile-nav-header img {
-        width: 100%;
-        height: 44px;
-        object-fit: contain;
-    }
-
-    .mobile-nav-header img {
-        width: 100%;
-        height: auto;
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-
-    .searchbar-with-arrow {
-        display: none;
-    }
-}
-
 .whats-next {
     margin-top: 0px;
     margin-left: 16px;
@@ -860,7 +575,6 @@
 .approved-card {
     width: 539px;
     gap: 16px;
-    ;
     padding: 8px;
     border-radius: 1px;
     background: #E5EAF799;
@@ -1270,113 +984,55 @@
         height: 80px;
     }
 
-    .product-sub {
-        margin-top: -12px;
-    }
-
-    /* Mobile view styles for heading 'Other financial products' */
+    .product-title,
     .product-title-top {
-        font-size: 14px;
-        margin-bottom: 2px;
-        font-weight: 700;
-        font-size: 18px;
-    }
-
-    .product-title {
-        font-size: 14px;
-        margin-bottom: 2px;
+        font-size: 13px;
     }
 
     .product-price {
         font-size: 14px;
-        margin-bottom: 10px;
-        font-weight: 500;
-        font-size: 19px;
     }
 
-
-    .product-scroll {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        gap: 12px !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-        padding-bottom: 16px !important;
-        -webkit-overflow-scrolling: touch !important;
-    }
-
-    .product-card {
-        flex: 0 0 160px !important;
-        width: 259px !important;
-        height: 275px !important;
-        margin-left: 0 !important;
-        margin-bottom: 0 !important;
-        box-sizing: border-box !important;
-        background: #fff !important;
-        border-radius: 8px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        padding: 8px 4px 12px 4px !important;
-        margin-right: -22px;
-    }
-
-    .product-img {
-        width: 145px !important;
-        height: 134 !important;
-        border: #F2F2F2 solid 1px !important;
-        object-fit: contain !important;
-        margin-bottom: 8px !important;
+    .product-section {
+        padding: 12px 0 0 0;
     }
 }
 
 @media (max-width: 420px) {
+  /* Override earlier forced 1710px widths so elements can shrink on mobile */
+  .application-page .class-two,
+  .application-page .class-three,
+  .application-page .class-four,
+  .application-page .class-five,
+  .container,
+  .container .class-two,
+  .container .class-three,
+  .container .class-four,
+  .container .class-five {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    margin: 0 auto !important;
+    overflow-x: visible !important;
+  }
 
-    /* Override earlier forced 1710px widths so elements can shrink on mobile */
-    .application-page .class-two,
-    .application-page .class-three,
-    .application-page .class-four,
-    .application-page .class-five,
-    .container,
-    .container .class-two,
-    .container .class-three,
-    .container .class-four {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100vw !important;
-        box-sizing: border-box !important;
-        margin-left: 2px !important;
-        overflow-x: visible !important;
-    }
+  /* Ensure product/carousel scrolls horizontally but doesn't force parent width */
+  .application-page .product-scroll,
+  .application-page .carousel-scroll {
+    width: auto !important;
+    max-width: none !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
 
-    /* Only remove left/right padding for div 5 in mobile view */
-    .container .class-five {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100vw !important;
-        box-sizing: border-box !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin: 0 auto !important;
-        overflow-x: visible !important;
-    }
-
-    /* Ensure product/carousel scrolls horizontally but doesn't force parent width */
-    .application-page .product-scroll,
-    .application-page .carousel-scroll {
-        width: auto !important;
-        max-width: none !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-    }
-
-    /* Shrink large inner elements to fit mobile */
-    .application-page .offer-amount,
-    .application-page .success-title {
-        font-size: 18px !important;
-    }
+  /* Shrink large inner elements to fit mobile */
+  .application-page .offer-amount,
+  .application-page .success-title {
+    font-size: 18px !important;
+  }
 
     /* Additional mobile-safe overrides to prevent horizontal trimming */
     /* Make frequently fixed-width elements fluid */

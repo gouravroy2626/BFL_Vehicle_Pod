@@ -1,4 +1,19 @@
-/* Save-to-cart drawer parity with personal-form */
+/* Highlight all fields when all are filled */
+.vehicle-form.highlight-all-filled .form-row input:not(:focus),
+.vehicle-form.highlight-all-filled .form-row select:not(:focus),
+.vehicle-form.highlight-all-filled .form-row .dealer-input:not(:focus) {
+    background: #FFF5DA !important;
+    border-color: #999999 !important;
+    box-shadow: none !important;
+    transition: background 0.3s;
+}
+.vehicle-form.highlight-all-filled .dealer-controls:not(:focus-within) .dealer-input {
+    background: #FFF5DA !important;
+    border-color: #999999 !important;
+    box-shadow: none !important;
+    transition: background 0.3s;
+}
+
 .btn-primary {
     height: 40px;
     border-radius: 200px;
@@ -562,9 +577,9 @@
     min-width: 0;
     max-width: 260px;
     height: 44px;
-    padding: 16px;
+    padding: 12px 24px;
     border-radius: 200px;
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
     box-sizing: border-box;
@@ -928,7 +943,7 @@
         padding: 16px;
         background: #FFFFFF;
         border-top: 1px solid #E0E0E0;
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.213);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
         z-index: 1200;
         /* lower than modal/overlay backdrops so it won't overlap */
         gap: 12px;
@@ -1060,8 +1075,8 @@
     }
 
     .form-actions {
-        gap: 8px;
-        padding: 16px 16px 16px;
+        gap: 10px;
+        padding: 16px 12px 16px;
     }
 
     .save-btn,
