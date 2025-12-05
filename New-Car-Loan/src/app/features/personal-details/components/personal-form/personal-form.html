@@ -181,14 +181,14 @@
         </span>
       </span>
     </label>
-    <hr [hidden]="showErrors && !tncAccepted">
+    <hr>
     <!-- Credit consent -->
     <label class="consent-item" [ngClass]="{'tnc-error': showErrors && !creditConsent}">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="creditConsent" (change)="onConsentChange()" />
       <span class="consent-visual" aria-hidden="true"></span>
       <span class="consent-text" [innerHTML]="fieldMap['tnc-two']?.description"></span>
     </label>
-    <hr [hidden]="showErrors && !creditConsent">
+    <hr>
     <!-- Optional marketing consent -->
     <label class="consent-item optional">
       <input type="checkbox" class="consent-checkbox" [(ngModel)]="marketingOptIn" />
@@ -220,44 +220,9 @@
   </div>
 </div>
 
-<!-- (Removed separate mobile-only block; unified above) -->
+  <app-save-to-cart #saveToCartRef></app-save-to-cart>
+  <app-pan-drawer-service #panDrawerRef></app-pan-drawer-service>
+  <app-gst-drawer-service #gstDrawerRef></app-gst-drawer-service>
 
-<!-- Drawer for GSTIN info -->
-@if (isGstinDrawerOpen) {
-<div class="gstin-drawer" (click)="closeGstinDrawer()">
-  <div class="drawer-content" (click)="$event.stopPropagation()">
-    <div class="drawer-row-1">
-      <span class="close-button">
-        <img src="/Vector copy 2.svg" alt="Close" (click)="closeGstinDrawer()" />
-      </span>
-    </div>
-    <p class="drawer-label">{{ fieldMap['gst-wrapper']?.group?.[1]?.title }}</p>
-    <p class="gst-p" [innerHTML]="fieldMap['gst-wrapper']?.group?.[1]?.description"></p>
-    <div class="drawer-button-wrapper">
-      <button type="button" class="btn-primary1" (click)="closeGstinDrawer()">{{
-        fieldMap['gst-wrapper']?.group?.[1]?.ctalabel1 }}</button>
-    </div>
-  </div>
-</div>
-}
 
-@if (isPanDrawerOpen) {
-<div class="gstin-drawer" (click)="closePanDrawer()">
-  <div class="pan-drawer-content" (click)="$event.stopPropagation()">
-    <div class="drawer-row-1">
-      <span class="close-button"></span>
-      <img src="/Vector copy 2.svg" alt="Close" (click)="closePanDrawer()" />
 
-    </div>
-    <p class="pan-heading">{{ fieldMap['pan-wrapper']?.group?.[1]?.title }}</p>
-    <p class="pan-sub" [innerHTML]="fieldMap['pan-wrapper']?.group?.[1]?.description"></p>
-    <div class="pan-sample-wrapper" *ngIf="fieldMap['pan-wrapper']?.group?.[1]?.['image-android'] as panImage">
-      <img [src]="panImage" [attr.alt]="fieldMap['pan-wrapper']?.group?.[1]?.title" class="pan-sample-img" />
-    </div>
-    <div class="drawer-button-wrapper pan-btn-wrapper">
-      <button type="button" class="btn-primary2" (click)="closePanDrawer()">{{
-        fieldMap['pan-wrapper']?.group?.[1]?.ctalabel1 }}</button>
-    </div>
-  </div>
-</div>
-}

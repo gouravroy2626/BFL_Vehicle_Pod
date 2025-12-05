@@ -14,7 +14,7 @@
     @if (detailsSavedData?.['iconimage-android']) {
     <div class="row row-symbol">
       <img [src]="detailsSavedData?.['iconimage-android']"
-        [attr.alt]="detailsSavedData?.title || 'Success icon'" class="save-cart-symbol" />
+        [attr.alt]="detailsSavedData?.title" class="save-cart-symbol" />
     </div>
     }
    
@@ -31,11 +31,10 @@
     @if (detailsSavedData?.['image-android']) {
     <div class="hero">
       <img class="mobile" [src]="detailsSavedData?.['image-android']"
-        [attr.alt]="detailsSavedData?.title || 'Details saved illustration'" />
+        [attr.alt]="detailsSavedData?.title" />
       <div class="desktop">
-        <img class="header" [src]="detailsSavedData?.['image-desktop'] || '/Header_top.svg'"
-             [attr.alt]="detailsSavedData?.title || 'Header Top'" />
-        <img class="path" [src]="detailsSavedData?.['image-path'] || '/Path 5.svg'" alt="Path 5" />
+        <img class="header" src="/Header_top.svg"/>
+        <img class="path" src="/Path 5.svg" alt="Path 5" />
       </div>
     </div>
     }
@@ -43,7 +42,7 @@
     <div class="row row-actions">
       <div class="save-cart-actions">
         <button class="btn-primary3" (click)="showSaveCartModal ? closeSaveCartModal() : closeSaveCartDrawer()">
-          {{ detailsSavedData?.ctalabel1 || 'GOT IT' }}
+          {{ detailsSavedData?.ctalabel1}}
         </button>
       </div>
     </div>

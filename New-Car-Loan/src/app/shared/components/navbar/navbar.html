@@ -4,134 +4,138 @@
       <img class="nav-logo" src="assets/BFS_Digital_Logo_Reverse 01 1.svg" alt="Bajaj Finserv Logo" />
       <span class="nav-divider" aria-hidden="true"></span>
       @if (showBackButton()) {
-      <button type="button" class="back-button" (click)="goBack()" aria-label="Go back">
-        <img src="Path 4.svg" alt="Back" class="back-icon" />
-      </button>
+        <button type="button" class="back-button" (click)="goBack()" aria-label="Go back">
+          <img src="Path 4.svg" alt="Back" class="back-icon" />
+        </button>
       }
     </div>
     <span class="brand-text">New Car Loan</span>
     @if (showVehicleCartIcon()) {
-    <div class="nav-right">
-      <img class="nav-right-icon" src="/Vector copy 2.svg" alt="Close" (click)="openVehicleExit()" />
-    </div>
+      <div class="nav-right">
+        <img class="nav-right-icon" src="/Vector copy 2.svg" alt="Close" (click)="openVehicleExit()" />
+      </div>
     }
   </div>
 </nav>
 
 @if (showVehicleExit) {
-<div class="vehicleExitOverlay" (click)="closeVehicleExit()">
-  <div class="vehicleExitContent" (click)="$event.stopPropagation()">
-    <!-- Row 1: close button -->
-    <div class="vehicle-row vehicle-row-1">
-      <button class="veh-exit-close" aria-label="Close" (click)="closeVehicleExit()">
-        <img src="/Vector copy 2.svg" alt="Close" />
-      </button>
-    </div>
-
-    <!-- Row 2: title -->
-    <div class="vehicle-row vehicle-row-2">
-      <h3 class="veh-exit-title">{{ vehicleExitData?.title || 'Confirm exit' }}</h3>
-    </div>
-
-    <!-- Row 3: warning -->
-    <div class="vehicle-row vehicle-row-3">
-      <div class="veh-exit-warning">
-        <img
-          class="veh-warning-icon"
-          [src]="vehicleExitData?.['icon-android'] || '/Mask group.svg'"
-          [attr.alt]="vehicleExitData?.title || 'Warning'"
-        />
-        <p>{{ vehicleExitData?.description || "Click on 'YES, LEAVE' to exit the application process." }}</p>
+  <div class="vehicleExitOverlay" (click)="closeVehicleExit()">
+    <div class="vehicleExitContent" (click)="$event.stopPropagation()">
+      <!-- Row 1: close button -->
+      <div class="vehicle-row vehicle-row-1">
+        <button class="veh-exit-close" aria-label="Close" (click)="closeVehicleExit()">
+          <img src="/Vector copy 2.svg" alt="Close" />
+        </button>
       </div>
-    </div>
 
-    <!-- Row 4: actions -->
-    <div class="vehicle-row vehicle-row-4">
-      <div class="veh-exit-actions">
-        <button class="btn-outline" (click)="closeVehicleExit()">{{ vehicleExitData?.ctalabel1 || 'NO' }}</button>
-        <button class="btn-primary" (click)="yesLeaveVehicle()">{{ vehicleExitData?.ctalabel2 || 'YES, LEAVE' }}</button>
+      <!-- Row 2: title -->
+      <div class="vehicle-row vehicle-row-2">
+        <h3 class="veh-exit-title">{{ vehicleExitData?.title || 'Confirm exit' }}</h3>
+      </div>
+
+      <!-- Row 3: warning -->
+      <div class="vehicle-row vehicle-row-3">
+        <div class="veh-exit-warning">
+          <img
+            class="veh-warning-icon"
+            [src]="vehicleExitData?.['icon-android'] || '/Mask group.svg'"
+            [attr.alt]="vehicleExitData?.title || 'Warning'"
+            />
+          <p>{{ vehicleExitData?.description || "Click on 'YES, LEAVE' to exit the application process." }}</p>
+        </div>
+      </div>
+
+      <!-- Row 4: actions -->
+      <div class="vehicle-row vehicle-row-4">
+        <div class="veh-exit-actions">
+          <button class="btn-outline" (click)="closeVehicleExit()">{{ vehicleExitData?.ctalabel1 || 'NO' }}</button>
+          <button class="btn-primary" (click)="yesLeaveVehicle()">{{ vehicleExitData?.ctalabel2 || 'YES, LEAVE' }}</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 }
 
 @if (showExitFeedback) {
-<div class="exitDrawer" (click)="closeExitFeedback()">
-  <div class="drawer-content" (click)="$event.stopPropagation()">
-    <!-- Row 1: close button -->
-    <div class="drawer-row drawer-row-1">
-      <span class="close-button">
-        <img src="/Vector copy 2.svg" alt="Close" (click)="closeExitFeedback()" />
-      </span>
-    </div>
-
-    <!-- Row 2: title -->
-    <div class="drawer-row drawer-row-2">
-      <h3 class="exit-title">{{ currentSlide?.title || 'Get your loan today' }}</h3>
-    </div>
-
-    <!-- Row 3: money bag icon -->
-    <div class="drawer-row drawer-row-3">
-      <img
-        class="exit-icon"
-        [src]="currentSlide?.src"
-        [attr.alt]="currentSlide?.title || 'Carousel image'"
-      />
-    </div>
-
-    <!-- Row 4: subtitle -->
-    <div class="drawer-row drawer-row-4">
-      <p class="exit-subtext">{{ currentSlide?.description || 'No hidden charges' }}</p>
-    </div>
-
-    <!-- Row 5: dots (separate row above buttons) -->
-    <div class="drawer-row drawer-row-dots">
-      <div class="carousel-dots" aria-label="carousel controls">
-        <button *ngFor="let c of carousel; let i = index" class="dot-btn" [class.active]="i === carouselIndex" (click)="selectCarousel(i)" aria-label="Slide {{i+1}}"></button>
+  <div class="exitDrawer" (click)="closeExitFeedback()">
+    <div class="drawer-content" (click)="$event.stopPropagation()">
+      <!-- Row 1: close button -->
+      <div class="drawer-row drawer-row-1">
+        <span class="close-button">
+          <img src="/Vector copy 2.svg" alt="Close" (click)="closeExitFeedback()" />
+        </span>
       </div>
-    </div>
 
-    <!-- Row 5: buttons -->
-    <div class="drawer-row drawer-row-6">
-      <div class="exit-buttons">
-        <button class="btn-outline" (click)="closeExitFeedback()">{{ currentSlide?.stayLabel || 'STAY AND CONTINUE' }}</button>
-        <button class="btn-primary" (click)="exitAnyway()">{{ currentSlide?.exitLabel || 'EXIT ANYWAY' }}</button>
+      <!-- Row 2: title -->
+      <div class="drawer-row drawer-row-2">
+        <h3 class="exit-title">{{ currentSlide?.title }}</h3>
+      </div>
+
+      <!-- Row 3: money bag icon -->
+      <div class="drawer-row drawer-row-3">
+        <img
+          class="exit-icon"
+          [src]="currentSlide?.src"
+          [attr.alt]="currentSlide?.title"
+          />
+      </div>
+
+      <!-- Row 4: subtitle -->
+      <div class="drawer-row drawer-row-4">
+        <p class="exit-subtext">{{ currentSlide?.description }}</p>
+      </div>
+
+      <!-- Row 5: dots (separate row above buttons) -->
+      <div class="drawer-row drawer-row-dots">
+        <div class="carousel-dots" aria-label="carousel controls">
+          @for (c of carousel; track c; let i = $index) {
+            <button class="dot-btn" [class.active]="i === carouselIndex" (click)="selectCarousel(i)" aria-label="Slide {{i+1}}"></button>
+          }
+        </div>
+      </div>
+
+      <!-- Row 5: buttons -->
+      <div class="drawer-row drawer-row-6">
+        <div class="exit-buttons">
+          <button class="btn-outline" (click)="closeExitFeedback()">{{ currentSlide?.stayLabel }}</button>
+          <button class="btn-primary" (click)="exitAnyway()">{{ currentSlide?.exitLabel }}</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 }
 
 @if (showExitFeedbackForm) {
-<div class="exitDrawer exit-feedback-form" (click)="closeExitFeedbackForm()">
-  <div class="drawer-content feedback-content" (click)="$event.stopPropagation()">
-    <div class="drawer-row drawer-row-1">
-      <span class="close-button"><img src="/Vector copy 2.svg" alt="Close" (click)="closeExitFeedbackForm()" /></span>
-    </div>
+  <div class="exitDrawer exit-feedback-form" (click)="closeExitFeedbackForm()">
+    <div class="drawer-content feedback-content" (click)="$event.stopPropagation()">
+      <div class="drawer-row drawer-row-1">
+        <span class="close-button"><img src="/Vector copy 2.svg" alt="Close" (click)="closeExitFeedbackForm()" /></span>
+      </div>
 
-    <div class="drawer-row drawer-row-2">
-      <h3 class="exit-title1">{{ exitFeedbackFormData?.title || 'We are sorry to see you go' }}</h3>
-    </div>
+      <div class="drawer-row drawer-row-2">
+        <h3 class="exit-title1">{{ exitFeedbackFormData?.title || 'We are sorry to see you go' }}</h3>
+      </div>
 
-    <div class="drawer-row drawer-row-3">
-      <p class="exit-subtext1">{{ exitFeedbackFormData?.subtitle || 'Help us improve by providing your feedback' }}</p>
-    </div>
+      <div class="drawer-row drawer-row-3">
+        <p class="exit-subtext1">{{ exitFeedbackFormData?.subtitle || 'Help us improve by providing your feedback' }}</p>
+      </div>
 
-    <div class="drawer-row drawer-row-4">
-      <div class="feedback-box">
-        <legend>{{ exitFeedbackCheckboxData?.['field-label-main'] || 'Please tell us what made you leave? (optional)' }}</legend>
-        @if (exitFeedbackCheckboxes.length) {
-        <label class="fb-row" *ngFor="let option of exitFeedbackCheckboxes; index as idx">
-          <input type="checkbox" [id]="'exit-feedback-' + option.key" />
-          {{ option.text || ('Option ' + (idx + 1)) }}
-        </label>
-        }
-        @else {
-        <label class="fb-row"><input type="checkbox" /> Issues filling the details</label>
-        <label class="fb-row"><input type="checkbox" /> Technical issue - not able to proceed</label>
-        <label class="fb-row"><input type="checkbox" /> Loan not required now</label>
-        <label class="fb-row"><input type="checkbox" /> Others</label>
+      <div class="drawer-row drawer-row-4">
+        <div class="feedback-box">
+          <legend>{{ exitFeedbackCheckboxData?.['field-label-main'] || 'Please tell us what made you leave? (optional)' }}</legend>
+          @if (exitFeedbackCheckboxes.length) {
+            @for (option of exitFeedbackCheckboxes; track option; let idx = $index) {
+              <label class="fb-row">
+                <input type="checkbox" [id]="'exit-feedback-' + option.key" />
+                {{ option.text || ('Option ' + (idx + 1)) }}
+              </label>
+            }
+          }
+          @else {
+          <label class="fb-row"><input type="checkbox" /> Issues filling the details</label>
+          <label class="fb-row"><input type="checkbox" /> Technical issue - not able to proceed</label>
+          <label class="fb-row"><input type="checkbox" /> Loan not required now</label>
+          <label class="fb-row"><input type="checkbox" /> Others</label>
         }
         <div class="fb-submit-row">
           <button class="btn-primary" (click)="closeExitFeedbackForm()">{{ exitFeedbackFormData?.ctalabel1 || 'SUBMIT' }}</button>
@@ -143,74 +147,76 @@
 }
 
 @if (showPickupDrawer) {
-<div class="exitDrawer" (click)="closePickupDrawer()">
-  <div class="drawer-content" (click)="$event.stopPropagation()">
-    <div class="drawer-row drawer-row-1">
-      <span class="close-button">
-        <img src="/Vector copy 2.svg" alt="Close" (click)="closePickupDrawer()" />
-      </span>
-    </div>
+  <div class="exitDrawer" (click)="closePickupDrawer()">
+    <div class="drawer-content" (click)="$event.stopPropagation()">
+      <div class="drawer-row drawer-row-1">
+        <span class="close-button">
+          <img src="/Vector copy 2.svg" alt="Close" (click)="closePickupDrawer()" />
+        </span>
+      </div>
 
-    <div class="drawer-row drawer-row-2">
-      <h3 class="exit-title">{{ pickupData?.title || 'Pick up where you left off' }}</h3>
-    </div>
+      <div class="drawer-row drawer-row-2">
+        <h3 class="exit-title">{{ pickupData?.title || 'Pick up where you left off' }}</h3>
+      </div>
 
-    <div class="drawer-row drawer-row-3">
-      <p class="exit-subtext">{{ pickupData?.description || 'Find your last saved application details in the Cart' }}</p>
-    </div>
+      <div class="drawer-row drawer-row-3">
+        <p class="exit-subtext">{{ pickupData?.description || 'Find your last saved application details in the Cart' }}</p>
+      </div>
 
-    <div class="drawer-row drawer-row-3">
-      <div class="exit-cart-bg">
-        <!-- Desktop wrapper: use image-desktop if provided by AEM, fallback to Header_top.svg and show path inside frame -->
-        <div class="desktop-wrapper">
-          <div class="desktop-path">
-            <img class="path" src="/Path 5.svg" alt="Path 5" />
+      <div class="drawer-row drawer-row-3">
+        <div class="exit-cart-bg">
+          <!-- Desktop wrapper: use image-desktop if provided by AEM, fallback to Header_top.svg and show path inside frame -->
+          <div class="desktop-wrapper">
+            <div class="desktop-path">
+              <img class="path" src="/Path 5.svg" alt="Path 5" />
+            </div>
+            <div class="desktop-image">
+              <img
+                class="exit-icon"
+                [src]="pickupData?.['image-desktop'] || '/Header_top.svg'"
+                [attr.alt]="pickupData?.title || 'Cart screenshot'"
+                />
+            </div>
           </div>
-          <div class="desktop-image">
-            <img
-              class="exit-icon"
-              [src]="pickupData?.['image-desktop'] || '/Header_top.svg'"
-              [attr.alt]="pickupData?.title || 'Cart screenshot'"
-            />
+
+          <!-- Mobile wrapper: keep existing android artwork and overlay path via CSS -->
+          <div class="mobile-wrapper">
+            <div class="path-wrapper">
+              <img class="path" src="/Path 5.svg" alt="Path 5" />
+            </div>
+            <div class="image-wrapper">
+              <img
+                class="exit-icon"
+                [src]="pickupData?.['image-android']"
+                [attr.alt]="pickupData?.title || 'Cart screenshot'"
+                />
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Mobile wrapper: keep existing android artwork and overlay path via CSS -->
-        <div class="mobile-wrapper">
-          <div class="path-wrapper">
-            <img class="path" src="/Path 5.svg" alt="Path 5" />
-          </div>
-          <div class="image-wrapper">
-            <img
-              class="exit-icon"
-              [src]="pickupData?.['image-android']"
-              [attr.alt]="pickupData?.title || 'Cart screenshot'"
-            />
+      <div class="drawer-row drawer-row-4">
+        <div class="feedback-box">
+          <legend>{{ pickupFeedbackData?.['field-label-main'] || 'We are sorry to see you go. Please tell us what made you leave? (optional)' }}</legend>
+          @if (pickupCheckboxes.length) {
+            @for (option of pickupCheckboxes; track option; let idx = $index) {
+              <label class="fb-row">
+                <input type="checkbox" [id]="'pickup-feedback-' + option.key" />
+                {{ option.text || ('Option ' + (idx + 1)) }}
+              </label>
+            }
+          }
+          <!-- @else {
+          <label class="fb-row"><input type="checkbox" /> Loan amount</label>
+          <label class="fb-row"><input type="checkbox" /> Interest rate</label>
+          <label class="fb-row"><input type="checkbox" /> Not required now</label>
+          <label class="fb-row"><input type="checkbox" /> Others</label>
+          } -->
+          <div class="fb-submit-row">
+            <button class="btn-primary" (click)="closeExitFeedbackForm()">{{ pickupData?.ctalabel1 || 'SUBMIT' }}</button>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="drawer-row drawer-row-4">
-      <div class="feedback-box">
-        <legend>{{ pickupFeedbackData?.['field-label-main'] || 'We are sorry to see you go. Please tell us what made you leave? (optional)' }}</legend>
-        @if (pickupCheckboxes.length) {
-        <label class="fb-row" *ngFor="let option of pickupCheckboxes; index as idx">
-          <input type="checkbox" [id]="'pickup-feedback-' + option.key" />
-          {{ option.text || ('Option ' + (idx + 1)) }}
-        </label>
-        }
-        <!-- @else {
-        <label class="fb-row"><input type="checkbox" /> Loan amount</label>
-        <label class="fb-row"><input type="checkbox" /> Interest rate</label>
-        <label class="fb-row"><input type="checkbox" /> Not required now</label>
-        <label class="fb-row"><input type="checkbox" /> Others</label>
-        } -->
-        <div class="fb-submit-row">
-          <button class="btn-primary" (click)="closeExitFeedbackForm()">{{ pickupData?.ctalabel1 || 'SUBMIT' }}</button>
-        </div>
-      </div>
-    </div>
-  </div>
   </div>
 }

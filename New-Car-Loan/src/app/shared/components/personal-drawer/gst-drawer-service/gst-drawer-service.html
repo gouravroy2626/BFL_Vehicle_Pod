@@ -1,0 +1,22 @@
+@if (isOpen) {
+  <div class="gstin-drawer" (click)="close()">
+    <div class="drawer-content" (click)="$event.stopPropagation()">
+      <div class="drawer-row-1">
+        <span class="close-button">
+          <img src="/Vector copy 2.svg" alt="Close" (click)="close()" />
+        </span>
+      </div>
+      <p class="drawer-label">{{ gstContent?.title }}</p>
+      <p class="gst-p" [innerHTML]="gstContent?.description"></p>
+      @if (gstContent?.['image-android']; as gstImage) {
+        <div class="gst-image-wrapper">
+          <img [src]="gstImage" [attr.alt]="gstContent?.title" class="gst-image" />
+        </div>
+      }
+      <div class="drawer-button-wrapper">
+        <button type="button" class="btn-primary1" (click)="close()">{{
+          gstContent?.ctalabel1 }}</button>
+      </div>
+    </div>
+  </div>
+}

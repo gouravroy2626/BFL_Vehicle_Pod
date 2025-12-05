@@ -171,23 +171,6 @@ input[type="date"]::-moz-focus-inner {
   flex-direction: column;
 }
 
-/* When a consent item has an error (class tnc-error), hide the HR immediately after it
-   and add 16px top padding to the consent label that follows. This keeps the first
-   consent label unchanged but inserts breathing room before the next consent(s). */
-.consent-item.tnc-error+hr {
-  display: none !important;
-}
-
-.consent-item.tnc-error+hr+.consent-item {
-  padding-top: 16px !important;
-}
-
-/* If the second consent (credit) has an error, hide the HR after it and add padding
-   above the optional marketing consent label. */
-.consent-item.tnc-error+hr+.consent-item.optional {
-  padding-top: 16px !important;
-}
-
 
 
 .consent-group label.consent-item:first-child {
@@ -636,16 +619,35 @@ select.form-control:-webkit-autofill {
   padding: 16px;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 1;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.btn-outline:hover {
-  background: #FF6600;
-  color: #fff;
+@media (hover: hover) and (pointer: fine) {
+  .btn-outline:hover {
+    background: #FF6600;
+    color: #fff;
+  }
+}
+
+@media (hover: none) {
+  .btn-outline:hover {
+    background: #fff;
+    color: #FF6600;
+  }
+}
+
+.btn-outline:focus,
+.btn-outline:focus-visible,
+.btn-outline:active {
+  outline: none;
+  background: #fff;
+  color: #FF6600;
+  box-shadow: none;
 }
 
 .btn-primary {
@@ -676,9 +678,9 @@ select.form-control:-webkit-autofill {
   align-content: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 12px;
+ padding: 16px 0 10px 0;
   /* border-radius: 6px; */
-  margin-top: 8px;
+  /* margin-top: 8px; */
   /* tighter spacing above separator */
   font-size: 12px;
   color: #B40000;
@@ -809,18 +811,7 @@ select.form-control:-webkit-autofill {
 /* White tick when checked */
 /* Tick rendering unified in .consent-checkbox:checked::after */
 
-/* Added styles for GSTIN drawer */
-.gstin-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 1100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
-  background: rgba(0, 0, 0, 0.5);
-  /* Overlay effect */
-}
+
 
 .drawer-content {
   width: 360px;
@@ -932,25 +923,7 @@ select.form-control:-webkit-autofill {
   margin-top: 16px;
 }
 
-/* PAN drawer specific styling */
-.pan-drawer-content {
-  /* Default: flexible centered drawer for medium+ screens */
-  width: calc(100% - 48px);
-  /* leave comfortable side gutters */
-  max-width: 440px;
-  /* don't get too wide on very large screens */
-  background: #FFFFFF;
-  border-radius: 8px;
-  /* slight rounding for desktop */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  padding: 14px 18px;
-  font-family: Rubik, sans-serif;
-  position: relative;
-  animation: fadeInModal .18s ease-in;
-  box-sizing: border-box;
-  margin: 0 auto;
-  /* center horizontally */
-}
+
 
 .pan-heading {
   font-family: Rubik;
@@ -1019,17 +992,7 @@ select.form-control:-webkit-autofill {
   }
 }
 
-/* Tweak for narrow tablets / small desktops where a small gap appeared (500-600px) */
-@media (min-width: 501px) and (max-width: 640px) {
-  .pan-drawer-content {
-    width: calc(100% - 32px);
-    /* slightly smaller gutters to avoid visible gap */
-    /* max-width: 600px; */
-    padding: 14px 18px;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  }
-}
+
 
 /* Minimal explicit default state for consent checkboxes */
 .consent-checkbox {

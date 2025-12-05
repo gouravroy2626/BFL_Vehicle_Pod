@@ -2,17 +2,17 @@ import { Tracker } from './../../../../shared/components/tracker/tracker';
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef, NgZone, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule, NgIf, NgForOf } from '@angular/common';
+
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, BehaviorSubject, Subscription } from 'rxjs';
 import { Modal } from 'bootstrap';
-import { ExitNudgeService } from './../../../../shared/service/exit-nudge.service';
 import { ApiService } from './../../../../shared/service/Api-service';
+import { SaveToCart } from './../../../../shared/components/save-to-cart/save-to-cart/save-to-cart';
 
 @Component({
   selector: 'app-vehicle-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, NgIf, NgForOf],
+  imports: [ReactiveFormsModule, SaveToCart],
   templateUrl: './vehicle-form.html',
   styleUrls: ['./vehicle-form.css'],
   encapsulation: ViewEncapsulation.None,
@@ -87,6 +87,7 @@ export class VehicleForm implements OnInit, OnDestroy {
 
   constructor(private apiService: ApiService) { }
   // Save-to-cart is handled by the shared component; forms should only trigger it.
+  @ViewChild('saveToCartRef') private saveToCartComponent?: SaveToCart;
   dealerHighlightIndex = 0;
   @ViewChild('dealerList') dealerList?: ElementRef<HTMLUListElement>;
   private dealerModalElement?: ElementRef<HTMLDivElement>;
@@ -137,7 +138,6 @@ export class VehicleForm implements OnInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly ngZone = inject(NgZone);
   private readonly router = inject(Router);
-  private readonly exitNudgeService = inject(ExitNudgeService);
   private loaderNavigationTimer: number | null = null;
   readonly form = this.formBuilder.group({
     brand: ['', Validators.required],
@@ -638,8 +638,7 @@ export class VehicleForm implements OnInit, OnDestroy {
         this.form.get(key)?.markAsTouched();
       });
     } else {
-      // Trigger the shared SaveToCart component via global event
-      try { window.dispatchEvent(new Event('open-save-cart')); } catch (e) { /* noop */ }
+      this.saveToCartComponent?.open();
     }
     // Remove error highlight on input
     Object.keys(this.form.controls).forEach(key => {

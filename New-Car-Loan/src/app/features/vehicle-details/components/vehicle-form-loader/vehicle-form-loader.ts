@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT, NgIf, NgForOf } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { Component, OnInit, OnDestroy, inject, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
@@ -7,7 +7,7 @@ import { LoaderScreenService } from '../../../../shared/service/loader-scren-ser
 @Component({
   selector: 'app-vehicle-form-loader',
   standalone: true,
-  imports: [CommonModule, NgIf, NgForOf],
+  imports: [],
   templateUrl: './vehicle-form-loader.html',
   styleUrl: './vehicle-form-loader.css',
 })

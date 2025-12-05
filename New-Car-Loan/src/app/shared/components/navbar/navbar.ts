@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgFor, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { ExitNudgeService } from '../../service/exit-nudge.service';
+import { ApiService } from '../../service/Api-service';
 
 interface ExitSlide {
   src: string;
@@ -16,7 +16,7 @@ interface ExitSlide {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
@@ -38,19 +38,27 @@ export class Navbar implements OnInit, OnDestroy {
   exitFeedbackCheckboxData: any = null;
   exitFeedbackCheckboxes: Array<{ key: string; text: string }> = [];
   private subscriptions = new Subscription();
+  private exitNudgeSubscription: Subscription | null = null;
   private readonly slideOrder = ['no-hidden-charges', 'hassle-free-process', 'instant-approvals'];
   private exitSlidesMap = new Map<string, ExitSlide>();
+  panContent: any = null;
+  private exitNudgeMap: { [key: string]: any } = {};
 
   constructor(
     private router: Router,
     private location: Location,
-    private exitNudgeService: ExitNudgeService
+    private apiService: ApiService
   ) { }
 
+  formData: any;
+  fieldMap: { [key: string]: any } = {};
+  private subscription: Subscription | null = null;
+  private readonly url =
+    'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/personal-details';
+  private readonly exitNudgeUrl =
+    'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/exit-nudge';
   ngOnInit(): void {
     this.currentUrl = this.router.url;
-    // initialize carousel items with local fallbacks
-    this.carousel = this.buildFallbackSlides();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -71,6 +79,7 @@ export class Navbar implements OnInit, OnDestroy {
   // Vehicle details exit drawer handlers
   openVehicleExit(): void {
     if (this.currentUrl.startsWith('/vehicle-details')) {
+      this.AemApiCall();
       this.showVehicleExit = true;
     }
   }
@@ -85,6 +94,7 @@ export class Navbar implements OnInit, OnDestroy {
     this.showExitFeedback = false;
     this.showExitFeedbackForm = false;
     this.clearCarouselTimers();
+    this.AemApiCall();
     this.showPickupDrawer = true;
   }
 
@@ -101,6 +111,7 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   private openExitDrawer() {
+    this.AemApiCall();
     this.showExitFeedback = true;
     this.carouselIndex = 0; // reset to first image each time drawer opens
     // Start auto-scroll after 3 seconds (one cycle then every 3s)
@@ -135,6 +146,7 @@ export class Navbar implements OnInit, OnDestroy {
     this.onBackButton = false;
     this.showExitFeedback = false;
     this.clearCarouselTimers();
+    this.AemApiCall();
     this.showExitFeedbackForm = true;
   }
 
@@ -171,6 +183,8 @@ export class Navbar implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stopCarousel();
     this.subscriptions.unsubscribe();
+    this.subscription?.unsubscribe();
+    this.exitNudgeSubscription?.unsubscribe();
   }
 
   get currentSlide(): ExitSlide | null {
@@ -182,65 +196,50 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   private loadExitNudgeContent(): void {
-    this.subscriptions.add(
-      this.exitNudgeService.getByKey('confirm-exit').subscribe({
-        next: (data) => (this.vehicleExitData = data ?? null),
-        error: (err) => console.error('Error fetching confirm-exit data', err),
-      })
-    );
+    this.exitNudgeSubscription?.unsubscribe();
+    this.exitNudgeSubscription = this.apiService.getData(this.exitNudgeUrl).subscribe({
+      next: (data) => {
+        const screenContent = data?.content?.[0]?.screenContent ?? [];
+        this.exitNudgeMap = {};
+        this.mapContent(screenContent, this.exitNudgeMap);
 
-    this.subscriptions.add(
-      this.exitNudgeService.getByKey('pick-up-wrapper').subscribe({
-        next: (data) => {
-          const group = Array.isArray(data?.group) ? data.group : [];
-          this.pickupData = group.find((item: any) => item?.key === 'pick-up-where') ?? null;
-          this.pickupFeedbackData = group.find((item: any) => item?.key === 'we-are-sorry') ?? null;
-          this.pickupCheckboxes = Array.isArray(this.pickupFeedbackData?.['checkbox-group'])
-            ? this.pickupFeedbackData['checkbox-group'].map((option: any, idx: number) => ({
-                key: option?.['field-item-key'] || `pickup-${idx}`,
-                text: option?.['field-item-text'] || option?.['event-prop-value'] || '',
-              }))
-            : [];
-        },
-        error: (err) => console.error('Error fetching pick-up-wrapper data', err),
-      })
-    );
+        this.vehicleExitData = this.exitNudgeMap['confirm-exit'] ?? null;
+        this.pickupData = this.exitNudgeMap['pick-up-where'] ?? null;
+        this.pickupFeedbackData = this.exitNudgeMap['we-are-sorry'] ?? null;
+        const pickupCheckboxGroup = Array.isArray(this.pickupFeedbackData?.['checkbox-group'])
+          ? this.pickupFeedbackData['checkbox-group']
+          : [];
+        this.pickupCheckboxes = pickupCheckboxGroup.map((option: any, idx: number) => ({
+          key: option?.['field-item-key'],
+          text: option?.['field-item-text'],
+        }));
 
-    this.subscriptions.add(
-      this.exitNudgeService.getByKey('see-you-go-wrapper').subscribe({
-        next: (data) => {
-          const group = Array.isArray(data?.group) ? data.group : [];
-          this.exitFeedbackFormData = group.find((item: any) => item?.key === 'see-you-go') ?? null;
-          this.exitFeedbackCheckboxData = group.find((item: any) => item?.key === 'leave') ?? null;
-          this.exitFeedbackCheckboxes = Array.isArray(this.exitFeedbackCheckboxData?.['checkbox-group'])
-            ? this.exitFeedbackCheckboxData['checkbox-group'].map((option: any, idx: number) => ({
-                key: option?.['field-item-key'] || `feedback-${idx}`,
-                text: option?.['field-item-text'] || option?.['event-prop-value'] || '',
-              }))
-            : [];
-        },
-        error: (err) => console.error('Error fetching see-you-go-wrapper data', err),
-      })
-    );
+        this.exitFeedbackFormData = this.exitNudgeMap['see-you-go'] ?? null;
+        this.exitFeedbackCheckboxData = this.exitNudgeMap['leave'] ?? null;
+        const exitCheckboxGroup = Array.isArray(this.exitFeedbackCheckboxData?.['checkbox-group'])
+          ? this.exitFeedbackCheckboxData['checkbox-group']
+          : [];
+        this.exitFeedbackCheckboxes = exitCheckboxGroup.map((option: any, idx: number) => ({
+          key: option?.['field-item-key'],
+          text: option?.['field-item-text'],
+        }));
 
-    this.slideOrder.forEach((key) => {
-      this.subscriptions.add(
-        this.exitNudgeService.getByKey(key).subscribe({
-          next: (data) => {
-            if (data) {
-              this.exitSlidesMap.set(key, {
-                src: data['image-android'] || this.getFallbackImage(key),
-                title: data.title || this.getFallbackTitle(key),
-                description: data.description || this.getFallbackDescription(key),
-                stayLabel: data.ctalabel1 || 'STAY AND CONTINUE',
-                exitLabel: data.ctalabel2 || 'EXIT ANYWAY',
-              });
-              this.rebuildSlidesFromMap();
-            }
-          },
-          error: (err) => console.error(`Error fetching exit slide data for ${key}`, err),
-        })
-      );
+        this.exitSlidesMap.clear();
+        this.slideOrder.forEach((key) => {
+          const dataForKey = this.exitNudgeMap[key];
+          if (dataForKey) {
+            this.exitSlidesMap.set(key, {
+              src: dataForKey['image-android'],
+              title: dataForKey.title,
+              description: dataForKey.description,
+              stayLabel: dataForKey.ctalabel1,
+              exitLabel: dataForKey.ctalabel2,
+            });
+          }
+        });
+        this.rebuildSlidesFromMap();
+      },
+      error: (err) => console.error('Error fetching exit nudge data', err),
     });
   }
 
@@ -258,55 +257,51 @@ export class Navbar implements OnInit, OnDestroy {
     }
   }
 
-  private buildFallbackSlides(): ExitSlide[] {
-    return [
-      {
-        src: '/money-bag-percentage.svg',
-        title: 'Get your loan today',
-        description: 'No hidden charges',
-        stayLabel: 'STAY AND CONTINUE',
-        exitLabel: 'EXIT ANYWAY',
-      },
-      {
-        src: '/Subtract.svg',
-        title: 'Get your loan today',
-        description: 'Hassle free process',
-        stayLabel: 'STAY AND CONTINUE',
-        exitLabel: 'EXIT ANYWAY',
-      },
-      {
-        src: '/Frame 1707481964.svg',
-        title: 'Get your loan today',
-        description: 'Instant approvals',
-        stayLabel: 'STAY AND CONTINUE',
-        exitLabel: 'EXIT ANYWAY',
-      },
-    ];
-  }
-
-  private getFallbackImage(key: string): string {
-    switch (key) {
-      case 'hassle-free-process':
-        return '/Subtract.svg';
-      case 'instant-approvals':
-        return '/Frame 1707481964.svg';
-      default:
-        return '/money-bag-percentage.svg';
+  private AemApiCall(force: boolean = false) {
+    if (force) {
+      this.subscription?.unsubscribe();
+      this.subscription = null;
+      const cache = (this.apiService as any)?.cache;
+      if (cache && cache[this.url]) {
+        delete cache[this.url];
+      }
     }
+
+    this.subscription = this.apiService.getData(this.url).subscribe({
+      next: (data) => {
+        const screenContent = data?.content?.[0]?.screenContent ?? [];
+        this.formData = screenContent;
+        this.fieldMap = {};
+        this.mapContent(screenContent, this.fieldMap);
+        this.panContent = this.fieldMap['pan-bottom-drawer'] || this.panContent;
+      },
+      error: (err) => console.error('Error fetching data', err),
+    });
   }
 
-  private getFallbackTitle(_key: string): string {
-    return 'Get your loan today';
-  }
-
-  private getFallbackDescription(key: string): string {
-    switch (key) {
-      case 'hassle-free-process':
-        return 'Hassle free process';
-      case 'instant-approvals':
-        return 'Instant approvals';
-      default:
-        return 'No hidden charges';
+  private mapContent(items: any[], target: { [key: string]: any }): void {
+    if (!Array.isArray(items)) {
+      return;
     }
+
+    items.forEach((item: any) => {
+      if (!item || typeof item !== 'object') {
+        return;
+      }
+
+      const key = item.key ?? item['field-item-key'];
+      if (key) {
+        target[key] = item;
+      }
+
+      if (Array.isArray(item.group)) {
+        this.mapContent(item.group, target);
+      }
+
+      if (Array.isArray(item['checkbox-group'])) {
+        this.mapContent(item['checkbox-group'], target);
+      }
+    });
   }
+  
 }
