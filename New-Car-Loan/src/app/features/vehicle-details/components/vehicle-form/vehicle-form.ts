@@ -34,7 +34,7 @@ export class VehicleForm implements OnInit, OnDestroy {
       // Reset dealer and model when brand is cleared
       this.form.get('dealer')?.setValue('');
       this.selectedDealer = null;
-      // If user has ever interacted with dealer modal, mark as touched
+      // Mark dealer as touched to show error if user has interacted with dealer modal
       if (this.dealerModalEverOpened) {
         this.form.get('dealer')?.markAsTouched();
         this.form.get('dealer')?.updateValueAndValidity();
@@ -64,11 +64,9 @@ export class VehicleForm implements OnInit, OnDestroy {
       // Reset dealer when model is cleared
       this.form.get('dealer')?.setValue('');
       this.selectedDealer = null;
-      // If user has ever interacted with dealer modal, mark as touched
-      if (this.dealerModalEverOpened) {
-        this.form.get('dealer')?.markAsTouched();
-        this.form.get('dealer')?.updateValueAndValidity();
-      }
+      // Always mark dealer as touched when model is cleared to show error
+      this.form.get('dealer')?.markAsTouched();
+      this.form.get('dealer')?.updateValueAndValidity();
       this.modelFieldFocused = true;
     } else {
       // Filter from allModels, not filteredModels
@@ -376,13 +374,9 @@ export class VehicleForm implements OnInit, OnDestroy {
       const now = Date.now();
       const openDuration = this.dealerModalOpenedAt ? now - this.dealerModalOpenedAt : 0;
       if ((!dealerValue || dealerValue.trim() === '') && openDuration > 300) {
-        console.log('Dealer modal closed with no selection, marking as touched');
+        // Mark as touched to show error
         this.form.get('dealer')?.markAsTouched();
         this.form.get('dealer')?.updateValueAndValidity();
-      } else if (openDuration <= 300) {
-        console.log('Dealer modal closed too quickly, not marking as touched');
-      } else if (dealerValue && dealerValue.trim() !== '') {
-        console.log('Dealer modal closed with selection, not marking as touched');
       }
       this.dealerModalWasOpened = false;
       this.dealerModalOpenedAt = null;
@@ -505,6 +499,7 @@ export class VehicleForm implements OnInit, OnDestroy {
     if (!dealer) {
       this.form.get('dealer')?.setValue('');
       this.selectedDealer = null;
+      // Mark as touched to show error if user resets dealer
       this.form.get('dealer')?.markAsTouched();
       this.form.get('dealer')?.updateValueAndValidity();
       this.cdr.detectChanges();
@@ -602,7 +597,8 @@ export class VehicleForm implements OnInit, OnDestroy {
     if (this.apiService && typeof this.apiService.saveToCart === 'function') {
       this.apiService.saveToCart(this.form.value).subscribe({
         next: () => {
-          // Optionally reset form or update UI
+          // Show SaveToCart modal/drawer after successful save
+          this.saveToCartComponent?.open();
         },
         error: (err: any) => {
           // Optionally handle error
@@ -617,8 +613,8 @@ export class VehicleForm implements OnInit, OnDestroy {
       this.cdr.detectChanges();
       return;
     }
-    // Navigate to next step (e.g., loader or next route)
-    this.router.navigate(['/vehicle-details/loader']);
+      // Navigate to correct loader route (main branch logic)
+      this.router.navigate(['/vehicle-loader']);
   }
   // --- END: HTML template support stubs ---
     // Stub for missing method to fix error
