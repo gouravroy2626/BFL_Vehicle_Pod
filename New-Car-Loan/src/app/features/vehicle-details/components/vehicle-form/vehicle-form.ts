@@ -566,7 +566,6 @@ export class VehicleForm implements OnInit, OnDestroy {
       return;
     }
 
-<<<<<<< HEAD
     const item = items[index];
     if (item) {
       item.scrollIntoView({ block: 'nearest', inline: 'start' });
@@ -574,39 +573,9 @@ export class VehicleForm implements OnInit, OnDestroy {
       setTimeout(() => {
         item.focus({ preventScroll: true });
       }, 100);
-=======
-    const { brand, model, dealer } = this.form.getRawValue();
-    this.submittedData = {
-      brand: brand ?? '',
-      model: model ?? '',
-      dealer: dealer ?? this.selectedDealer ?? ''
-    };
-
-    this.isLoading = true;
-    this.cancelLoaderNavigation();
-    this.ngZone.run(() => {
-      this.router.navigate(['/vehicle-loader'], {
-        state: this.submittedData
-      }).then(success => {
-        if (!success) {
-          this.isLoading = false;
-        }
-      }).catch(err => {
-        this.isLoading = false;
-      });
-    });
-  }
-
-  onSaveToCart() {
-    if (this.form.invalid) {
-      Object.keys(this.form.controls).forEach(key => {
-        this.form.get(key)?.markAsTouched();
-      });
-    } else {
-      this.saveToCartComponent?.open();
->>>>>>> main
     }
   }
+
 
   private getDealerItems(): HTMLLIElement[] {
     return Array.from(this.dealerList?.nativeElement.querySelectorAll('li') || []);
