@@ -1,233 +1,273 @@
 <div class="application-page container">
-    <div class="class-one">
-        <div class="loan-success">
-            <img src="/assets/Frame 1410090150.svg" alt="success" class="success-icon" />
-            <div class="success-content">
-                <div class="success-title"><b>Loan application successful</b></div>
-                <div class="success-subtext">Confirmation details will be sent to ******8974</div>
-            </div>
-        </div>
-        <div class="approved-card">
-            <div class="approved-offer">
-                <div class="offer-content">
-                    <div class="offer-title">Approved loan offer</div>
-                    <div class="offer-amount"><b>₹2,00,000*</b></div>
-                </div>
-                <div class="validity-pill">*Valid for 30 days. Expires on 30 Sept 2024.</div>
-            </div>
-        </div>
-
-        <div style="height:16px;"></div>
-
-        <div class="in-principle">
-            <div class="in-principle-left">
-                <div class="icon-wrap"><img src="/assets/envelope-open-email-message-welcome-letter.svg" alt="mail" />
-                </div>
-                <div class="in-principle-text">In-principle eligibility letter</div>
-            </div>
-            <div class="in-principle-action">Download</div>
-        </div>
+  <div class="class-one">
+    <div class="loan-success">
+      <img src="/assets/Frame 1410090150.svg" alt="success" class="success-icon" />
+      <div class="success-content">
+        <div class="success-title"><b>Loan application successful</b></div>
+        <div class="success-subtext">Confirmation details will be sent to ******8974</div>
+      </div>
     </div>
-    <div class="class-two">
-        <div class="store-heading"><b>Visit store to purchase</b></div>
-        <div class="store-card">
-            <div class="store-title"><b>B.U.Bhandari Honda – Viman Nagar</b></div>
-            <div class="store-address">Lalwani Prestige, Opp. Phoenix Mall, Nagar Road, Viman Nagar, Wadgaon Sheri,
-                Pune, Maharashtra 411014</div>
-            <button class="directions-btn"><img src="/assets/phone-call-mobile-cell-dial-fill.svg" alt="Directions"
-                    style="width:18px;height:18px;vertical-align:middle;margin-right:6px;" /> Directions</button>
+    <div class="approved-card">
+      <div class="approved-offer">
+        <div class="offer-content">
+          <div class="offer-title">Approved loan offer</div>
+          <div class="offer-amount"><b>₹2,00,000*</b></div>
         </div>
+        <div class="validity-pill">*Valid for 30 days. Expires on 30 Sept 2024.</div>
+      </div>
     </div>
-    <div class="class-three">
-        <div class="whats-next">
-            <div class="whats-title"><b>What's next?</b></div>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">1</div>
-                    <div class="step-content">
-                        <div class="step-title"><b>Visit store to purchase</b></div>
-                        <div class="step-desc">Our representative will help you complete the process.</div>
+
+    <div style="height:16px;"></div>
+
+    <div class="in-principle">
+      <div class="in-principle-left">
+        <div class="icon-wrap"><img src="/assets/envelope-open-email-message-welcome-letter.svg" alt="mail" />
+        </div>
+        <div class="in-principle-text">In-principle eligibility letter</div>
+      </div>
+      <div class="in-principle-action">Download</div>
+    </div>
+  </div>
+  <div class="class-two">
+    <div class="store-heading"><b>Visit store to purchase</b></div>
+    <div class="store-card">
+      <div class="store-title"><b>B.U.Bhandari Honda – Viman Nagar</b></div>
+      <div class="store-address">Lalwani Prestige, Opp. Phoenix Mall, Nagar Road, Viman Nagar, Wadgaon Sheri,
+      Pune, Maharashtra 411014</div>
+      <button class="directions-btn"><img src="/assets/phone-call-mobile-cell-dial-fill.svg" alt="Directions"
+      style="width:18px;height:18px;vertical-align:middle;margin-right:6px;" /> Directions</button>
+    </div>
+  </div>
+  <div class="class-three">
+    <div class="whats-next">
+      <div class="whats-title"><b>What's next?</b></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">1</div>
+          <div class="step-content">
+            <div class="step-title"><b>Visit store to purchase</b></div>
+            <div class="step-desc">Our representative will help you complete the process.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon">2</div>
+          <div class="step-content">
+            <div class="step-title"><b>Document verification</b></div>
+            <div class="step-desc">
+              Our representative will visit your home/office to<br class="mobile-break" /> collect your
+              documents.<span class="step-link step-link-mobile"> See list of documents</span>
+              <br class="step-link-desktop" />
+              <span class="step-link step-link-desktop" (click)="openDocumentsModal()">See list of
+              documents</span>
+
+              <!-- Custom Modal and Backdrop -->
+              @if (showDocumentsModal) {
+                <div class="custom-modal-backdrop">
+                  <div class="custom-modal">
+                    <div class="modal-header" style="border-bottom: none;">
+                      <h2 class="modal-title w-100 text-center" style="font-weight:700;">List of
+                      documents</h2>
+                      <button type="button" class="btn-close" aria-label="Close"
+                      style="color: #FF6700;" (click)="closeDocumentsModal()"></button>
                     </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">2</div>
-                    <div class="step-content">
-                        <div class="step-title"><b>Document verification</b></div>
-                        <div class="step-desc">Our representative will visit your home/office to collect your
-                            documents.<br><span class="step-link">See list of documents</span></div>
+                    <div class="modal-body text-center">
+                      <div style="color: #888; font-size: 18px; margin-bottom: 24px;">Please keep the
+                      following documents handy</div>
+                      <ol class="text-start" style="font-size: 18px; margin-bottom: 32px;">
+                        <li>Aadhaar card/ driving licence</li>
+                        <li>PAN Card</li>
+                        <li>Passport</li>
+                        <li>MGNREGA card</li>
+                        <li>Voter ID</li>
+                      </ol>
+                      <button type="button" class="btn w-75"
+                        style="background: linear-gradient(90deg, #FF6700 0%, #FF8C3E 100%); color: #fff; font-size: 20px; font-weight: 700; border-radius: 32px;"
+                        (click)="closeDocumentsModal()">
+                        GOT IT
+                      </button>
                     </div>
+                  </div>
                 </div>
+              }
             </div>
-            <div class="cart-card">
-                <!-- Blue bar markup commented out for image replacement -->
-
-                <div class="cart-status">
-                    <img src="/assets/fi_7794658.svg" alt="success" class="cart-success-icon" /> Go to Cart to check
-                    your loan application status
-                </div>
-                <!-- <div class="lower-cart">
-                    <div class="lower-cart-bar">
-                        <div class="lower-bar-inner">
-                            <div class="lb-left">
-                                <img src="/assets/BFS_Digital_Logo_Reverse 01 1.svg" alt="logo" class="lb-logo" />
-                            </div>
-                            <div class="lb-divider" aria-hidden="true"></div>
-                            <div class="lb-search">
-                                <div class="lb-search-box">
-                                    <span class="lb-search-placeholder">Search for Loans, Investment, Insurance,
-                                        Payments</span>
-                                    <div class="search-icon"><img src="/assets/Search.svg" alt="search"
-                                            class="lb-search-action" /></div>
-                                    <svg class="lb-search-mic" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                        <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3z" stroke="#666666"
-                                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M19 11v1a7 7 0 0 1-14 0v-1" stroke="#666666" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M12 19v3" stroke="#666666" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="lb-divider-after-search" aria-hidden="true"></div>
-                            <div class="lb-right">
-                                <div class="lb-profile">
-                                    <img src="/assets/Profile.svg" alt="profile" class="lb-icon" />
-                                    <span class="lb-profile-label">Hi Priyan...</span>
-                                </div>
-                                <div class="lb-emi">
-                                    <img src="/assets/EMI_Card.svg" alt="emi" class="lb-icon" />
-                                    <span class="lb-emi-label">EMI Card</span>
-                                </div>
-                                <div class="lb-alert">
-                                    <img src="/assets/Alert.svg" alt="bell" class="lb-icon" />
-                                    <span class="lb-alert-label">Notification</span>
-                                </div>
-                                <div class="lb-trolley">
-                                    <img src="/assets/shopping-cart-check 1.svg" alt="cart" class="lb-icon-trolley" />
-
-                                    <span class="lb-trolley-label">Cart</span>
-                                </div>
-                                <div class="lb-pattern"></div>
-                                <img src="/assets/Partners.svg" alt="partners" class="lb-icon-partners" />
-                                <span class="lb-partners-label">Partners</span>
-                            </div>
-                        </div>
-                        <div class="lower-cart-footer"><b>BAJAJ FINANCE LIMITED</b></div>
-                    </div>
-                </div> -->
-
-
-                <div class="searchbar-with-arrow">
-                    <img src="assets/Header_top.svg" alt="bar replacement" class="searchbar-snap" />
-                    <img src="assets/Path 5.svg" alt="overlay" class="arrow" />
-                </div>
-            </div>
+          </div>
         </div>
-    </div>
-    <div class="class-four">
-        <div class="product-section">
-            <div class="product-title-top">Other financial products</div>
-            <div class="product-scroll">
-                <!-- Repeat 8 product cards, alternate images -->
-                <div class="product-card">
-                    <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
-                    <div class="product-title">Banking Fitness<br>Report</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹599/ Year</div>
-                    <div class="product-desc">100% Digital Process</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
-                    <div class="product-title">CPP Wallet Protect</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹699/ Year</div>
-                    <div class="product-desc">Free Zee Subscription</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
-                    <div class="product-title">Banking Fitness<br>Report</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹599/ Year</div>
-                    <div class="product-desc">100% Digital Process</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
-                    <div class="product-title">CPP Wallet Protect</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹699/ Year</div>
-                    <div class="product-desc">Free Zee Subscription</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
-                    <div class="product-title">Banking Fitness<br>Report</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹599/ Year</div>
-                    <div class="product-desc">100% Digital Process</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
-                    <div class="product-title">CPP Wallet Protect</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹699/ Year</div>
-                    <div class="product-desc">Free Zee Subscription</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
-                    <div class="product-title">Banking Fitness<br>Report</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹599/ Year</div>
-                    <div class="product-desc">100% Digital Process</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
-                    <div class="product-title">CPP Wallet Protect</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹699/ Year</div>
-                    <div class="product-desc">Free Zee Subscription</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
-                    <div class="product-title">Banking Fitness<br>Report</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹599/ Year</div>
-                    <div class="product-desc">100% Digital Process</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
-                    <div class="product-title">CPP Wallet Protect</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹699/ Year</div>
-                    <div class="product-desc">Free Zee Subscription</div>
-                </div>
-                <div class="product-card">
-                    <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
-                    <div class="product-title">Banking Fitness<br>Report</div>
-                    <div class="product-sub">EMI starting from</div>
-                    <div class="product-price">₹599/ Year</div>
-                    <div class="product-desc">100% Digital Process</div>
-                </div>
+      </div>
+      <div class="cart-card">
+        <!-- Blue bar markup commented out for image replacement -->
 
-            </div>
+        <div class="cart-status">
+          <img src="/assets/fi_7794658.svg" alt="success" class="cart-success-icon" /> Go to Cart to check
+          your loan application status
         </div>
-    </div>
-    <div class="class-five">
-        <div class="carousel-scroll">
-            <div class="carousel-card">
-                <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+        <!-- <div class="lower-cart">
+        <div class="lower-cart-bar">
+          <div class="lower-bar-inner">
+            <div class="lb-left">
+              <img src="/assets/BFS_Digital_Logo_Reverse 01 1.svg" alt="logo" class="lb-logo" />
             </div>
-            <div class="carousel-card">
-                <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+            <div class="lb-divider" aria-hidden="true"></div>
+            <div class="lb-search">
+              <div class="lb-search-box">
+                <span class="lb-search-placeholder">Search for Loans, Investment, Insurance,
+                Payments</span>
+                <div class="search-icon"><img src="/assets/Search.svg" alt="search"
+                class="lb-search-action" /></div>
+                <svg class="lb-search-mic" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3z" stroke="#666666"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M19 11v1a7 7 0 0 1-14 0v-1" stroke="#666666" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12 19v3" stroke="#666666" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
             </div>
-            <div class="carousel-card">
-                <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+            <div class="lb-divider-after-search" aria-hidden="true"></div>
+            <div class="lb-right">
+              <div class="lb-profile">
+                <img src="/assets/Profile.svg" alt="profile" class="lb-icon" />
+                <span class="lb-profile-label">Hi Priyan...</span>
+              </div>
+              <div class="lb-emi">
+                <img src="/assets/EMI_Card.svg" alt="emi" class="lb-icon" />
+                <span class="lb-emi-label">EMI Card</span>
+              </div>
+              <div class="lb-alert">
+                <img src="/assets/Alert.svg" alt="bell" class="lb-icon" />
+                <span class="lb-alert-label">Notification</span>
+              </div>
+              <div class="lb-trolley">
+                <img src="/assets/shopping-cart-check 1.svg" alt="cart" class="lb-icon-trolley" />
+
+                <span class="lb-trolley-label">Cart</span>
+              </div>
+              <div class="lb-pattern"></div>
+              <img src="/assets/Partners.svg" alt="partners" class="lb-icon-partners" />
+              <span class="lb-partners-label">Partners</span>
             </div>
-            <div class="carousel-card">
-                <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
-            </div>
-            <div class="carousel-card">
-                <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
-            </div>
+          </div>
+          <div class="lower-cart-footer"><b>BAJAJ FINANCE LIMITED</b></div>
         </div>
+      </div> -->
+
+
+      <div class="searchbar-with-arrow">
+        <img src="assets/Header_top.svg" alt="bar replacement" class="searchbar-snap" />
+        <img src="assets/Path 5.svg" alt="overlay" class="arrow" />
+      </div>
+      <!-- Conditional mobile navigation header image -->
+      <div class="mobile-nav-header">
+        <img src="assets/Path 5.svg" alt="arrow" class="mobile-nav-arrow" />
+        <img src="assets/Top_Navigation_Header_Mobile.svg" alt="Mobile Navigation Header" />
+      </div>
     </div>
+  </div>
+</div>
+<div class="class-four">
+  <div class="product-section">
+    <div class="product-title-top">Other financial products</div>
+    <div class="product-scroll">
+      <!-- Repeat 8 product cards, alternate images -->
+      <div class="product-card">
+        <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
+        <div class="product-title">Banking Fitness<br>Report</div>
+        <div class="product-sub">EMI starting from</div>
+        <div class="product-price">₹599/ Year</div>
+        <div class="product-desc">100% Digital Process</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
+        <div class="product-title">CPP Wallet Protect</div>
+        <div class="product-sub" style="margin-top: 10px;">EMI starting from</div>
+        <div class="product-price">₹699/ Year</div>
+        <div class="product-desc">Free Zee Subscription</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
+        <div class="product-title">Banking Fitness<br>Report</div>
+        <div class="product-sub">EMI starting from</div>
+        <div class="product-price">₹599/ Year</div>
+        <div class="product-desc">100% Digital Process</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
+        <div class="product-title">CPP Wallet Protect</div>
+        <div class="product-sub" style="margin-top: 10px;">EMI starting from</div>
+        <div class="product-price">₹699/ Year</div>
+        <div class="product-desc">Free Zee Subscription</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
+        <div class="product-title">Banking Fitness<br>Report</div>
+        <div class="product-sub">EMI starting from</div>
+        <div class="product-price">₹599/ Year</div>
+        <div class="product-desc">100% Digital Process</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
+        <div class="product-title">CPP Wallet Protect</div>
+        <div class="product-sub" style="margin-top: 10px;">EMI starting from</div>
+        <div class="product-price">₹699/ Year</div>
+        <div class="product-desc">Free Zee Subscription</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
+        <div class="product-title">Banking Fitness<br>Report</div>
+        <div class="product-sub">EMI starting from</div>
+        <div class="product-price">₹599/ Year</div>
+        <div class="product-desc">100% Digital Process</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
+        <div class="product-title">CPP Wallet Protect</div>
+        <div class="product-sub" style="margin-top: 10px;">EMI starting from</div>
+        <div class="product-price">₹699/ Year</div>
+        <div class="product-desc">Free Zee Subscription</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
+        <div class="product-title">Banking Fitness<br>Report</div>
+        <div class="product-sub">EMI starting from</div>
+        <div class="product-price">₹599/ Year</div>
+        <div class="product-desc">100% Digital Process</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223 (1).svg" alt="product" class="product-img" />
+        <div class="product-title">CPP Wallet Protect</div>
+        <div class="product-sub" style="margin-top: 10px;">EMI starting from</div>
+        <div class="product-price">₹699/ Year</div>
+        <div class="product-desc">Free Zee Subscription</div>
+      </div>
+      <div class="product-card">
+        <img src="assets/Image size 181X223.svg" alt="product" class="product-img" />
+        <div class="product-title">Banking Fitness<br>Report</div>
+        <div class="product-sub">EMI starting from</div>
+        <div class="product-price">₹599/ Year</div>
+        <div class="product-desc">100% Digital Process</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="class-five">
+  <div class="carousel-scroll">
+    <div class="carousel-card">
+      <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+    </div>
+    <div class="carousel-card">
+      <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+    </div>
+    <div class="carousel-card">
+      <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+    </div>
+    <div class="carousel-card">
+      <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+    </div>
+    <div class="carousel-card">
+      <img src="assets/Part_CarouselBanner (1).svg" alt="carousel" class="carousel-img" />
+    </div>
+  </div>
+</div>
 </div>

@@ -1,20 +1,27 @@
 <div class="loader-root">
-    <div class="loader-spacer" aria-hidden="true"></div>
-    <div class="loader-shell">
-        <div class="loader-main" role="status" aria-live="polite" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <ng-container *ngIf="loaderContent.length; else defaultLoader">
-                <div *ngIf="loaderContent[0] as item" style="width:100%; display:flex; flex-direction:column; align-items:center;">
-                    <h1 *ngIf="item.title" style="margin-bottom: 24px; text-align:center;">{{ item.title }}</h1>
-                    <div class="loader-ring" aria-hidden="true" style="margin: 16px 0;"></div>
-                    <p *ngIf="item.description" class="loader-note" style="margin-top: 24px; text-align:center;">{{ item.description }}</p>
-                    <img *ngIf="item.iconimageAndroid" [src]="item.iconimageAndroid" alt="Loader Icon" style="max-width:80px; margin:16px auto; display:block;" />
-                </div>
-            </ng-container>
-            <ng-template #defaultLoader>
-                <h1 style="margin-bottom: 24px; text-align:center;">Redirecting you to the next step</h1>
-                <div class="loader-ring" aria-hidden="true" style="margin: 16px 0;"></div>
-                <p class="loader-note" style="margin-top: 24px; text-align:center;">Please do not refresh or go back</p>
-            </ng-template>
-        </div>
+  <div class="loader-spacer" aria-hidden="true"></div>
+  <div class="loader-shell">
+    <div class="loader-main" role="status" aria-live="polite" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      @if (loaderContent.length) {
+        @if (loaderContent[0]; as item) {
+          <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+            @if (item.title) {
+              <h1 style="margin-bottom: 24px; text-align:center;">{{ item.title }}</h1>
+            }
+            <div class="loader-ring" aria-hidden="true" style="margin: 16px 0;"></div>
+            @if (item.description) {
+              <p class="loader-note" style="margin-top: 24px; text-align:center;">{{ item.description }}</p>
+            }
+            @if (item.iconimageAndroid) {
+              <img [src]="item.iconimageAndroid" alt="Loader Icon" style="max-width:80px; margin:16px auto; display:block;" />
+            }
+          </div>
+        }
+      } @else {
+        <h1 style="margin-bottom: 24px; text-align:center;">Redirecting you to the next step</h1>
+        <div class="loader-ring" aria-hidden="true" style="margin: 16px 0;"></div>
+        <p class="loader-note" style="margin-top: 24px; text-align:center;">Please do not refresh or go back</p>
+      }
     </div>
+  </div>
 </div>

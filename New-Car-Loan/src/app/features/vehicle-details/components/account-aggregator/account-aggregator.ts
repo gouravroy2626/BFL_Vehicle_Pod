@@ -2,12 +2,12 @@ import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoaderScreenService } from '../../../../shared/service/loader-scren-service';
-import { CommonModule, NgIf, NgForOf } from '@angular/common';
+
 
 @Component({
   selector: 'app-account-aggregator',
   standalone: true,
-  imports: [CommonModule, NgIf, NgForOf],
+  imports: [],
   templateUrl: './account-aggregator.html',
   styleUrls: ['./account-aggregator.css'],
 })

@@ -1,0 +1,22 @@
+@if (isOpen) {
+  <div class="gstin-drawer" (click)="close()">
+    <div class="pan-drawer-content" (click)="$event.stopPropagation()">
+      <div class="drawer-row-1">
+        <span class="close-button"></span>
+        <img src="/Vector copy 2.svg" alt="Close" (click)="close()" />
+
+      </div>
+      <p class="pan-heading">{{ panContent?.title }}</p>
+      <p class="pan-sub" [innerHTML]="panContent?.description"></p>
+      @if (panContent?.['image-android']; as panImage) {
+        <div class="pan-sample-wrapper">
+          <img [src]="panImage" [attr.alt]="panContent?.title" class="pan-sample-img" />
+        </div>
+      }
+      <div class="drawer-button-wrapper pan-btn-wrapper">
+        <button type="button" class="btn-primary2" (click)="close()">{{
+        panContent?.ctalabel1 }}</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,30 +1,35 @@
-import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DrawerComponent } from '../../../../shared/components/drawer/drawer';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../../shared/service/Api-service';
-import { ExitNudgeService } from '../../../../shared/service/exit-nudge.service';
 import { Subscription } from 'rxjs';
+import { SaveToCart } from '../../../../shared/components/save-to-cart/save-to-cart/save-to-cart';
+import { PanDrawerService } from '../../../../shared/components/personal-drawer/pan-drawer-service/pan-drawer-service';
+import { GstDrawerService } from '../../../../shared/components/personal-drawer/gst-drawer-service/gst-drawer-service';
 
 @Component({
   selector: 'app-personal-form',
   standalone: true,
-  imports: [CommonModule, DrawerComponent, FormsModule],
+  imports: [CommonModule, DrawerComponent, FormsModule, SaveToCart, PanDrawerService, GstDrawerService],
   templateUrl: './personal-form.html',
   styleUrl: './personal-form.css',
 })
 export class PersonalForm implements OnInit, OnDestroy {
+  @ViewChild('saveToCartRef')
+  private saveToCartComponent?: SaveToCart;
+  @ViewChild('panDrawerRef')
+  private panDrawerComponent?: PanDrawerService;
+  @ViewChild('gstDrawerRef')
+  private gstDrawerComponent?: GstDrawerService;
   // Drawer state and UI flags
   isDrawerOpen = true;
-  isGstinDrawerOpen = false;
-  isPanDrawerOpen = false;
   // Debug log for initial state
   constructor(
     private router: Router,
     private cd: ChangeDetectorRef,
-    private apiService: ApiService,
-    private exitNudgeService: ExitNudgeService
+    private apiService: ApiService
   ) {
     console.log('PersonalForm constructor: isDrawerOpen', this.isDrawerOpen);
   }
@@ -55,7 +60,7 @@ export class PersonalForm implements OnInit, OnDestroy {
   tncAccepted = false;
   creditConsent = false;
   marketingOptIn = false; // optional
-  
+
 
   // CMS data holders
   formData: any;
@@ -123,8 +128,10 @@ export class PersonalForm implements OnInit, OnDestroy {
   }
   // Reset drawer state on navigation (Angular lifecycle)
   ngOnInit() {
-    // existing initialization
-    this.AemApiCall();
+    
+    if (!this.subscription) {
+      this.AemApiCall();
+    }
     this.isDrawerOpen = true;
     console.log('PersonalForm ngOnInit: isDrawerOpen set to', this.isDrawerOpen);
   }
@@ -299,34 +306,34 @@ export class PersonalForm implements OnInit, OnDestroy {
     return candidate;
   }
 
-onDobInput(e: Event) {
-  const input = e.target as HTMLInputElement;
-  const rawDigits = input.value.replace(/\D/g, ''); // keep only numbers
+  onDobInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    const rawDigits = input.value.replace(/\D/g, ''); // keep only numbers
 
-  // Limit to 8 digits (ddmmyyyy)
-  const digits = rawDigits.slice(0, 8);
+    // Limit to 8 digits (ddmmyyyy)
+    const digits = rawDigits.slice(0, 8);
 
-  // Build formatted string with slashes at fixed positions
-  let formatted = '';
-  if (digits.length > 0) {
-    formatted += digits.substring(0, 2); // day
+    // Build formatted string with slashes at fixed positions
+    let formatted = '';
+    if (digits.length > 0) {
+      formatted += digits.substring(0, 2); // day
+    }
+    if (digits.length > 2) {
+      formatted += '/' + digits.substring(2, 4); // month
+    }
+    if (digits.length > 4) {
+      formatted += '/' + digits.substring(4); // year
+    }
+
+    input.value = formatted;
+    this.dob = formatted;
+
+    // Keep caret position stable
+    try {
+      const caretPos = input.selectionStart || formatted.length;
+      input.setSelectionRange(caretPos, caretPos);
+    } catch { }
   }
-  if (digits.length > 2) {
-    formatted += '/' + digits.substring(2, 4); // month
-  }
-  if (digits.length > 4) {
-    formatted += '/' + digits.substring(4); // year
-  }
-
-  input.value = formatted;
-  this.dob = formatted;
-
-  // Keep caret position stable
-  try {
-    const caretPos = input.selectionStart || formatted.length;
-    input.setSelectionRange(caretPos, caretPos);
-  } catch { }
-}
 
   // Input handlers to enforce constraints
   onFullNameInput(e: Event) {
@@ -409,34 +416,7 @@ onDobInput(e: Event) {
   }
 
   saveToCart() {
-    // Simple validation gate before saving
-    this.showErrors = true;
-    // Debug log to confirm click handler runs and validation state
-    console.log('saveToCart called. hasErrors=', this.hasAnyErrors(), 'tncAccepted=', this.tncAccepted, 'creditConsent=', this.creditConsent);
-    // Allow saving drafts even if there are validation errors so the user can
-    // pick up later from Cart — do not early-return here.
-    // if (this.hasAnyErrors()) return;
-    // Simulate save logic (could integrate service later)
-    console.log('Saved draft:', {
-      fullName: this.fullName,
-      gender: this.gender,
-      dob: this.dob,
-      pan: this.pan,
-      employmentType: this.employmentType,
-      pincode: this.pincode,
-      mobile: this.mobile,
-      email: this.email,
-      address: this.address,
-      consents: { tncAccepted: this.tncAccepted, creditConsent: this.creditConsent, marketingOptIn: this.marketingOptIn }
-    });
-    // don't open overlay if there are validation errors visible on screen
-    if (this.hasAnyErrors()) {
-      console.log('saveToCart aborted: validation errors present');
-      return;
-    }
-
-    // Trigger the centralized SaveToCart component (shared) via global event
-    try { window.dispatchEvent(new Event('open-save-cart')); } catch (e) { /* noop */ }
+    this.saveToCartComponent?.open();
   }
 
   onContinue() {
@@ -460,21 +440,13 @@ onDobInput(e: Event) {
     this.vehicleDetails();
   }
 
-  
+
   openDrawerForGstin() {
-    this.isGstinDrawerOpen = true;
+    this.gstDrawerComponent?.open();
   }
 
   openDrawerForPan() {
-    this.isPanDrawerOpen = true;
-  }
-
-  closeGstinDrawer() {
-    this.isGstinDrawerOpen = false;
-  }
-
-  closePanDrawer() {
-    this.isPanDrawerOpen = false;
+    this.panDrawerComponent?.open();
   }
 
   // ---- Typing highlight support ----

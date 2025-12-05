@@ -7,6 +7,7 @@
     box-shadow: none !important;
     transition: background 0.3s;
 }
+
 .vehicle-form.highlight-all-filled .dealer-controls:not(:focus-within) .dealer-input {
     background: #FFF5DA !important;
     border-color: #999999 !important;
@@ -45,6 +46,7 @@
     align-items: center;
     justify-content: center;
 }
+
 /* save-to-cart CSS removed - centralized in shared SaveToCart component */
 .page-container {
     display: flex;

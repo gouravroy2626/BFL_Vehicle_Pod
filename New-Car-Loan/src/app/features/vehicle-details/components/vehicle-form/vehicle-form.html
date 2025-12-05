@@ -1,6 +1,8 @@
-<div *ngIf="!isLoading" class="page-container">
+@if (!isLoading) {
+  <div class="page-container">
     <!-- <app-tracker></app-tracker> -->
     <div class="vehicle-details-page">
+<<<<<<< HEAD
         <div class="vehicle-details-content" aria-labelledby="vehicle-details-heading">
             <header class="vehicle-details-content__header">
                 <h2 id="vehicle-details-heading">{{ fieldMap['title']?.title || 'Vehicle details' }}</h2>
@@ -198,10 +200,235 @@
                 </div>
             </form>
         </div>
+=======
+      <div class="vehicle-details-content" aria-labelledby="vehicle-details-heading">
+        <header class="vehicle-details-content__header">
+          <h2 id="vehicle-details-heading">Vehicle details</h2>
+          <p class="vehicle-details-content__subtitle">Enter your vehicle details and proceed with your loan
+          application.</p>
+        </header>
+        <form class="vehicle-form" [class.highlight-all-filled]="highlightAllFilled" [formGroup]="form" novalidate>
+          <!-- Brand input + autocomplete -->
+          <div class="form-row brand-row">
+            <label class="allLabel" for="brand">Brand <span class="required-mark">*</span></label>
+            <div class="field-with-icon">
+              @if (showBrandSearchIcon) {
+                <span class="icon-search" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2" />
+                    <line x1="13.35" y1="13.35" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2"
+                      stroke-linecap="round" />
+                  </svg>
+                </span>
+              }
+              <input id="brand" type="text" formControlName="brand" placeholder="Enter brand name"
+                autocomplete="off" (click)="openBrandDrawer()" (input)="onBrandInput($event)"
+                [style.padding-left.px]="brandInputPaddingLeft" [class.filled-input]="isBrandFilled"
+                [placeholder]="fieldMap['brand']?.placeholder || 'Enter brand name'"
+                class="brand-input-mobile" />
+              @if (brandFieldFocused && currentBrandQuery.trim().length) {
+                <ul
+                  class="suggestions-list brand-autocomplete-list" tabindex="0"
+                  (keydown)="onBrandKeydown($event)" style="max-height:156px;overflow-y:auto;">
+                  @for (b of filteredBrands; track b; let i = $index) {
+                    <li (mousedown)="$event.preventDefault()"
+                      (mouseup)="onBrandSelect(b)" [class.focused]="i === brandHighlightIndex"
+                      [attr.tabindex]="i === brandHighlightIndex ? 0 : -1"
+                    (mouseenter)="brandHighlightIndex = i" (focus)="brandHighlightIndex = i">{{ b }}</li>
+                  }
+                  @if (filteredBrands.length === 0) {
+                    <li class="no-results-message">No record found</li>
+                  }
+                </ul>
+              }
+            </div>
+            @if (form.get('brand')?.invalid && form.get('brand')?.touched) {
+              <div class="error">
+                <span class="error-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="7" fill="#B40000" />
+                    <path
+                      d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
+                      fill="#E9F3FB" />
+                    <path
+                      d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
+                      fill="#D6E9F8" />
+                    <path
+                      d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
+                      fill="#E9F3FB" />
+                  </svg>
+                </span>
+                <span>This field is mandatory</span>
+              </div>
+            }
+          </div>
+          <!-- Model input + autocomplete -->
+          <div class="form-row model-row">
+            <label class="allLabel" for="model">Model <span class="required-mark">*</span></label>
+            <div class="field-with-icon">
+              @if (showModelSearchIcon) {
+                <span class="icon-search" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="6.5" stroke="#BDBDBD" stroke-width="2" />
+                    <line x1="13.35" y1="13.35" x2="16" y2="16" stroke="#BDBDBD" stroke-width="2"
+                      stroke-linecap="round" />
+                  </svg>
+                </span>
+              }
+              <input id="model" type="text" formControlName="model" placeholder="Enter model name"
+                autocomplete="off" (click)="openModelDrawer()" (input)="onModelInput($event)"
+                [style.padding-left.px]="modelInputPaddingLeft" [class.filled-input]="isModelFilled"
+                [placeholder]="fieldMap['model']?.placeholder || 'Enter model name'"
+                class="model-input-mobile" />
+              @if (modelFieldFocused && currentModelQuery.trim().length) {
+                <ul
+                  class="suggestions-list model-autocomplete-list" tabindex="0"
+                  (keydown)="onModelKeydown($event)" style="max-height:156px;overflow-y:auto;">
+                  @for (m of filteredModels; track m; let i = $index) {
+                    <li (mousedown)="$event.preventDefault()"
+                      (mouseup)="onModelSelect(m)" [class.focused]="i === modelHighlightIndex"
+                      [attr.tabindex]="i === modelHighlightIndex ? 0 : -1"
+                    (mouseenter)="modelHighlightIndex = i" (focus)="modelHighlightIndex = i">{{ m }}</li>
+                  }
+                  @if (filteredModels.length === 0) {
+                    <li class="no-results-message">No record found</li>
+                  }
+                </ul>
+              }
+            </div>
+            @if (form.get('model')?.invalid && form.get('model')?.touched) {
+              <div class="error">
+                <span class="error-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="7" fill="#B40000" />
+                    <path
+                      d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
+                      fill="#E9F3FB" />
+                    <path
+                      d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
+                      fill="#D6E9F8" />
+                    <path
+                      d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
+                      fill="#E9F3FB" />
+                  </svg>
+                </span>
+                <span>This field is mandatory</span>
+              </div>
+            }
+          </div>
+          <!-- Dealer selection -->
+          <div class="form-row dealer-row dealer-prompt-fixed">
+            <label class="allLabel" for="dealer">Dealer <span class="required-mark">*</span></label>
+            <div class="dealer-controls dealer-field" [class.filled]="isDealerFilled"
+              [class.is-invalid]="form.get('dealer')?.invalid && form.get('dealer')?.touched">
+              <input type="text" class="dealer-input" readonly [value]="selectedDealer || ''"
+                [class.filled-input]="isDealerFilled" placeholder="Select dealer"
+                (click)="handleDealerControlTrigger(dealerOpen, $event)"
+                (keydown.enter)="handleDealerControlTrigger(dealerOpen, $event)"
+                (keydown.space)="handleDealerControlTrigger(dealerOpen, $event)" />
+              <button #dealerOpen id="dealerOpenBtn" type="button" class="dealer-dropdown-btn"
+                (click)="onDealerModalButtonClick()" [class.filled]="isDealerFilled" data-bs-toggle="modal"
+                data-bs-target="#dealerPicker" aria-label="Open dealer selector">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 10l5 5 5-5" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+            @if (form.get('dealer')?.invalid && form.get('dealer')?.touched) {
+              <div class="error">
+                <span class="error-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="7" fill="#B40000" />
+                    <path
+                      d="M6.41018 3H7.4399C7.67855 3 7.86681 3.20295 7.8489 3.44095L7.49909 8.08938C7.48299 8.30338 7.30468 8.46875 7.09009 8.46875H6.75997C6.54537 8.46875 6.36706 8.30335 6.35096 8.08938L6.00118 3.44095C5.98329 3.20295 6.17153 3 6.41018 3Z"
+                      fill="#E9F3FB" />
+                    <path
+                      d="M7.84875 3.44105L7.49875 8.08949C7.48289 8.30332 7.30434 8.46875 7.08996 8.46875H6.9248V3H7.43969C7.6784 3 7.86652 3.20289 7.84875 3.44105Z"
+                      fill="#D6E9F8" />
+                    <path
+                      d="M6.10547 10.3814V10.3842C6.10547 10.8365 6.47212 11.2031 6.92441 11.2031C7.37671 11.2031 7.74336 10.8365 7.74336 10.3842V10.3814C7.74336 9.92915 7.37671 9.5625 6.92441 9.5625C6.47212 9.5625 6.10547 9.92915 6.10547 10.3814Z"
+                      fill="#E9F3FB" />
+                  </svg>
+                </span>
+                <span>This field is mandatory</span>
+              </div>
+            }
+            <!-- Dealer modal (searchable) -->
+            <div #dealerModal class="modal fade dealer-modal" id="dealerPicker" tabindex="-1"
+              aria-labelledby="dealerPickerLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered dealer-modal-dialog">
+                <div class="modal-content dealer-modal-content">
+                  <div class="dealer-modal-header">
+                    <h2 class="dealer-modal-title" id="dealerPickerLabel">Select dealer</h2>
+                    <button type="button" class="dealer-modal-close" data-bs-dismiss="modal"
+                      aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body dealer-modal-body">
+                    @if (filteredDealers.length) {
+                      <ul #dealerList class="dealer-list" role="listbox"
+                        tabindex="0" [attr.aria-activedescendant]="activeDealerOptionId"
+                        (focus)="onDealerListFocus()" (keydown)="onDealerListKeydown($event)"
+                        style="max-height:156px;overflow-y:auto;">
+                        @for (dealer of filteredDealers; track dealer; let i = $index) {
+                          <li
+                            class="dealer-list-item" role="option" tabindex="-1"
+                            [attr.id]="'dealer-option-' + i"
+                            [attr.aria-selected]="i === dealerHighlightIndex"
+                            [class.focused]="i === dealerHighlightIndex"
+                            (focus)="dealerHighlightIndex = i" (mouseenter)="dealerHighlightIndex = i"
+                          (click)="onDealerSelect(dealer)">{{ dealer }}</li>
+                        }
+                      </ul>
+                    }
+                    @if (!filteredDealers.length) {
+                      <div class="dealer-empty">No dealers match your
+                      selection.</div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Note -->
+          <div class="note-block note-box">
+            <table>
+              <td>
+                <img src="/assets/bulb-idea-electricity-innovation-offer.svg" alt="GST info"
+                  class="note-icon" />
+              </td>
+              <td>
+                <div class="note-text">
+                  <span>Please note:</span>
+                  <p> <span>The dealer list is populated as per the Pincode and brand you have
+                  entered.</span></p>
+                </div>
+              </td>
+            </table>
+          </div>
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" class="save-btn" (click)="onSaveToCart()">SAVE TO CART</button>
+            <button type="button" class="continue-btn" (click)="onContinue()">CONTINUE</button>
+          </div>
+        </form>
+      </div>
+>>>>>>> main
     </div>
-
-
-    <div *ngIf="isLoading" class="loader-overlay">
+    @if (isLoading) {
+      <div class="loader-overlay">
         <!-- The loader is now handled by the vehicle-loader route -->
-    </div>
-</div>
+      </div>
+    }
+  </div>
+}
+
+<app-save-to-cart #saveToCartRef></app-save-to-cart>

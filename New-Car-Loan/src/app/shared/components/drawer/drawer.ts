@@ -3,12 +3,12 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, OnDestroy, S
 
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../service/Api-service';
-import { NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-drawer',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule],
   templateUrl: './drawer.html',
   styleUrls: ['./drawer.css']
 })
