@@ -13,6 +13,7 @@ import { ApiService } from '../../service/Api-service';
   styleUrls: ['./drawer.css']
 })
 export class DrawerComponent implements OnInit, OnChanges, OnDestroy {
+  
   formData: any;
   screenMap: { [key: string]: any } = {};
 

@@ -20,6 +20,7 @@ interface ExitSlide {
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
+
 export class Navbar implements OnInit, OnDestroy {
  onBackButton=false;
   showExitFeedback = false;
@@ -41,7 +42,6 @@ export class Navbar implements OnInit, OnDestroy {
   private exitNudgeSubscription: Subscription | null = null;
   private readonly slideOrder = ['no-hidden-charges', 'hassle-free-process', 'instant-approvals'];
   private exitSlidesMap = new Map<string, ExitSlide>();
-  panContent: any = null;
   private exitNudgeMap: { [key: string]: any } = {};
 
   constructor(
@@ -50,11 +50,6 @@ export class Navbar implements OnInit, OnDestroy {
     private apiService: ApiService
   ) { }
 
-  formData: any;
-  fieldMap: { [key: string]: any } = {};
-  private subscription: Subscription | null = null;
-  private readonly url =
-    'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/personal-details';
   private readonly exitNudgeUrl =
     'https://cms-api.bajajfinserv.in/content/bajajfinserv/oneweb-api/in/en/forms/new-car-finance/v1/exit-nudge';
   ngOnInit(): void {
@@ -65,7 +60,7 @@ export class Navbar implements OnInit, OnDestroy {
         this.currentUrl = (event as NavigationEnd).urlAfterRedirects || (event as NavigationEnd).url;
       });
 
-    this.loadExitNudgeContent();
+    // this.loadExitNudgeContent();
   }
 
   showBackButton(): boolean {
@@ -79,7 +74,7 @@ export class Navbar implements OnInit, OnDestroy {
   // Vehicle details exit drawer handlers
   openVehicleExit(): void {
     if (this.currentUrl.startsWith('/vehicle-details')) {
-      this.AemApiCall();
+      this.loadExitNudgeContent();
       this.showVehicleExit = true;
     }
   }
@@ -94,7 +89,7 @@ export class Navbar implements OnInit, OnDestroy {
     this.showExitFeedback = false;
     this.showExitFeedbackForm = false;
     this.clearCarouselTimers();
-    this.AemApiCall();
+    this.loadExitNudgeContent();
     this.showPickupDrawer = true;
   }
 
@@ -111,14 +106,14 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   private openExitDrawer() {
-    this.AemApiCall();
+    this.loadExitNudgeContent();
     this.showExitFeedback = true;
-    this.carouselIndex = 0; // reset to first image each time drawer opens
-    // Start auto-scroll after 3 seconds (one cycle then every 3s)
+    this.carouselIndex = 0; 
+
     this.clearCarouselTimers();
       this.carouselStartDelay = setTimeout(() => {
         this.beginCarouselCycle();
-    }, 3000);
+    }, 2000);
   }
 
   private beginCarouselCycle() {
@@ -146,7 +141,7 @@ export class Navbar implements OnInit, OnDestroy {
     this.onBackButton = false;
     this.showExitFeedback = false;
     this.clearCarouselTimers();
-    this.AemApiCall();
+    this.loadExitNudgeContent();
     this.showExitFeedbackForm = true;
   }
 
@@ -183,7 +178,6 @@ export class Navbar implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stopCarousel();
     this.subscriptions.unsubscribe();
-    this.subscription?.unsubscribe();
     this.exitNudgeSubscription?.unsubscribe();
   }
 
@@ -196,8 +190,10 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   private loadExitNudgeContent(): void {
-    this.exitNudgeSubscription?.unsubscribe();
+
+    
     this.exitNudgeSubscription = this.apiService.getData(this.exitNudgeUrl).subscribe({
+      
       next: (data) => {
         const screenContent = data?.content?.[0]?.screenContent ?? [];
         this.exitNudgeMap = {};
@@ -255,28 +251,6 @@ export class Navbar implements OnInit, OnDestroy {
       this.carousel = slides;
       this.carouselIndex = 0;
     }
-  }
-
-  private AemApiCall(force: boolean = false) {
-    if (force) {
-      this.subscription?.unsubscribe();
-      this.subscription = null;
-      const cache = (this.apiService as any)?.cache;
-      if (cache && cache[this.url]) {
-        delete cache[this.url];
-      }
-    }
-
-    this.subscription = this.apiService.getData(this.url).subscribe({
-      next: (data) => {
-        const screenContent = data?.content?.[0]?.screenContent ?? [];
-        this.formData = screenContent;
-        this.fieldMap = {};
-        this.mapContent(screenContent, this.fieldMap);
-        this.panContent = this.fieldMap['pan-bottom-drawer'] || this.panContent;
-      },
-      error: (err) => console.error('Error fetching data', err),
-    });
   }
 
   private mapContent(items: any[], target: { [key: string]: any }): void {
